@@ -4,15 +4,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class ArcadeDriveCommand extends CommandBase {
   /** Creates a new ArcadeDriveCommand. */
 
   private final DriveTrainSubsystem driveTrainSubsystem;
-  private final XboxController driver = new XboxController(0);
 
   public ArcadeDriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
 
@@ -34,7 +33,7 @@ public class ArcadeDriveCommand extends CommandBase {
   @Override
   public void execute() {
 
-    driveTrainSubsystem.arcadeDrive(-driver.getRawAxis(1), driver.getRawAxis(4));
+    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
 
   }
 
@@ -49,4 +48,5 @@ public class ArcadeDriveCommand extends CommandBase {
     return false;
 
   }
+  
 }

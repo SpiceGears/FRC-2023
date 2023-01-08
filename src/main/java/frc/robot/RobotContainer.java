@@ -24,8 +24,8 @@ public class RobotContainer {
   public static ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
 
-  private final XboxController driver = new XboxController(0);
-  private final XboxController secondary = new XboxController(1);
+  public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
+  public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -42,6 +42,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     driveTrainSubsystem.setDefaultCommand(new ArcadeDriveCommand(driveTrainSubsystem));
+
   }
 
   /**
@@ -50,7 +51,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return autonomousCommand;
   }
+
 }
