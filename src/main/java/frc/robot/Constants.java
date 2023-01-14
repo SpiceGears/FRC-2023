@@ -23,8 +23,8 @@ public final class Constants {
 
     public class DRIVETRAIN {
 
-        public static final double SPEED_MULTIPLIER = 0.8;
-        public static final double ROTATION_MULTIPLIER = 0.8;
+        public static final double SPEED_MULTIPLIER = .65;
+        public static final double ROTATION_MULTIPLIER = .65;
 
     }
 

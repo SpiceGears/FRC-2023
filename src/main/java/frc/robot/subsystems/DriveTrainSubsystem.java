@@ -4,11 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+// import com.revrobotics.CANSparkMax;
+// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PortMap;
@@ -16,12 +17,10 @@ import frc.robot.PortMap;
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new DriveTrainSubsystem. */
 
-  public WPI_TalonSRX leftMaster;
-  public WPI_TalonSRX rightMaster;
-  public WPI_TalonSRX leftSlave1;
-  public WPI_TalonSRX leftSlave2;
-  public WPI_TalonSRX rightSlave1;
-  public WPI_TalonSRX rightSlave2;
+  public Spark leftMaster;
+  public Spark rightMaster;
+  public Spark leftSlave1;
+  public Spark rightSlave1;
 
   public MotorControllerGroup leftDrive;
   public MotorControllerGroup rightDrive;
@@ -30,15 +29,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public DriveTrainSubsystem() {
 
-    WPI_TalonSRX leftMaster = new WPI_TalonSRX(PortMap.DRIVE.DRIVE_LEFT_MASTER_PORT);
-    WPI_TalonSRX rightMaster = new WPI_TalonSRX(PortMap.DRIVE.DRIVE_RIGHT_MASTER_PORT);
-    WPI_TalonSRX leftSlave1 = new WPI_TalonSRX(PortMap.DRIVE.DRIVE_LEFT_SLAVE1_PORT);
-    WPI_TalonSRX leftSlave2 = new WPI_TalonSRX(PortMap.DRIVE.DRIVE_LEFT_SLAVE2_PORT);
-    WPI_TalonSRX rightSlave1 = new WPI_TalonSRX(PortMap.DRIVE.DRIVE_RIGHT_SLAVE1_PORT);
-    WPI_TalonSRX rightSlave2 = new WPI_TalonSRX(PortMap.DRIVE.DRIVE_RIGHT_SLAVE2_PORT);
+    Spark leftMaster = new Spark(PortMap.DRIVE.DRIVE_LEFT_MASTER_PORT);
+    Spark rightMaster = new Spark(PortMap.DRIVE.DRIVE_RIGHT_MASTER_PORT);
+    Spark leftSlave1 = new Spark(PortMap.DRIVE.DRIVE_LEFT_SLAVE1_PORT);
+    Spark rightSlave1 = new Spark(PortMap.DRIVE.DRIVE_RIGHT_SLAVE1_PORT);
 
-    leftDrive = new MotorControllerGroup(leftMaster, leftSlave1, leftSlave2);
-    rightDrive = new MotorControllerGroup(rightMaster, rightSlave1, rightSlave2);
+    leftDrive = new MotorControllerGroup(leftMaster, leftSlave1);
+    rightDrive = new MotorControllerGroup(rightMaster, rightSlave1);
 
     differentialDrive = new DifferentialDrive(leftDrive, rightDrive);
     // differentialDrive.setSafetyEnabled(false);
@@ -46,15 +43,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftMaster.setInverted(false);
     rightMaster.setInverted(true);
 
-    leftSlave1.follow(leftMaster);
-    leftSlave2.follow(leftMaster);
-    rightSlave1.follow(rightMaster);
-    rightSlave2.follow(rightMaster);
-
-    leftSlave1.setInverted(InvertType.FollowMaster);
-    leftSlave2.setInverted(InvertType.FollowMaster);
-    rightSlave1.setInverted(InvertType.FollowMaster);
-    rightSlave2.setInverted(InvertType.FollowMaster);
+    leftSlave1.setInverted(false);
+    rightSlave1.setInverted(true);
 
   }
   
