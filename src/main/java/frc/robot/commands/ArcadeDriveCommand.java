@@ -37,6 +37,7 @@ public class ArcadeDriveCommand extends CommandBase {
     driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
     SmartDashboard.putNumber("DRIVEAXIS", -RobotContainer.driver.getRawAxis(1));
     SmartDashboard.putNumber("ROTATEAXIS", RobotContainer.driver.getRawAxis(4));
+    driveTrainSubsystem.logSmartDashboard();
 
 
   }

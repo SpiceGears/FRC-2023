@@ -23,8 +23,16 @@ public final class Constants {
 
     public class DRIVETRAIN {
 
-        public static final double SPEED_MULTIPLIER = .65;
-        public static final double ROTATION_MULTIPLIER = .65;
+        public static final double SPEED_MULTIPLIER = 1;
+        public static final double ROTATION_MULTIPLIER = 1;
+
+        public static final double DISTANCE_PER_ROTATION = 150; //mm
+        public static final double ENCODER_TICK_RATE = 2048;
+        public static final double ENCODER_MIN_RATE = 10;
+        public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
+
+        public static final boolean ENCODER_RIGHT_REVERSE = false;
+        public static final boolean ENCODER_LEFT_REVERSE = true;
 
     }
 

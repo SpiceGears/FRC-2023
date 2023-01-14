@@ -4,12 +4,16 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+
 // import com.revrobotics.CANSparkMax;
 // import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PortMap;
@@ -26,6 +30,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public MotorControllerGroup rightDrive;
 
   public DifferentialDrive differentialDrive;
+
+  public Encoder leftEncoder;
+  public Encoder rightEncoder;
 
   public DriveTrainSubsystem() {
 
@@ -46,6 +53,22 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftSlave1.setInverted(false);
     rightSlave1.setInverted(true);
 
+    leftEncoder = new Encoder(PortMap.DRIVE.LEFT_ENCODER_PORT_A, PortMap.DRIVE.LEFT_ENCODER_PORT_B);
+    leftEncoder.setDistancePerPulse(
+            Constants.DRIVETRAIN.DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
+    leftEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
+    leftEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_LEFT_REVERSE);
+    leftEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
+
+    rightEncoder = new Encoder(PortMap.DRIVE.RIGHT_ENCODER_PORT_A, PortMap.DRIVE.RIGHT_ENCODER_PORT_B);
+    rightEncoder.setDistancePerPulse(
+            Constants.DRIVETRAIN.DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
+      leftEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
+      leftEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_LEFT_REVERSE);
+      leftEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
+
+    leftEncoder.reset();
+    rightEncoder.reset();
   }
   
   @Override
@@ -81,10 +104,24 @@ public class DriveTrainSubsystem extends SubsystemBase {
   
   }
 
+  public double getLeftEncoderMetersPerSecond() {
+    return -leftEncoder.getRate() * 0.0036;
+  }
+
+  public double getRightEncoderMetersPerSecond() {
+    return -rightEncoder.getRate() * 0.0036;
+  }
+
   public void stopDriving() {
 
     differentialDrive.tankDrive(0, 0);
 
   }
 
+  public void logSmartDashboard() {
+
+    SmartDashboard.putNumber("LeftEncoder", getLeftEncoderMetersPerSecond());
+    SmartDashboard.putNumber("RightEncoder", getRightEncoderMetersPerSecond());
+
+  }
 }
