@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class ArcadeDriveCommand extends CommandBase {
+public class DriveCommand extends CommandBase {
   /** Creates a new ArcadeDriveCommand. */
 
   private final DriveTrainSubsystem driveTrainSubsystem;
 
-  public ArcadeDriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
+  public DriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -34,11 +34,8 @@ public class ArcadeDriveCommand extends CommandBase {
   @Override
   public void execute() {
 
-    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
-    SmartDashboard.putNumber("DRIVEAXIS", -RobotContainer.driver.getRawAxis(1));
-    SmartDashboard.putNumber("ROTATEAXIS", RobotContainer.driver.getRawAxis(4));
+    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
     driveTrainSubsystem.logSmartDashboard();
-
 
   }
 

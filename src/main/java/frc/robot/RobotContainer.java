@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.ArcadeDriveCommand;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -21,7 +21,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
-  public static ArcadeDriveCommand arcadeDriveCommand = new ArcadeDriveCommand(driveTrainSubsystem);
+  public static DriveCommand driveCommand = new DriveCommand(driveTrainSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
@@ -41,7 +41,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveTrainSubsystem.setDefaultCommand(new ArcadeDriveCommand(driveTrainSubsystem));
+    driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem));
 
   }
 
