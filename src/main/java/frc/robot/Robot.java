@@ -4,7 +4,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,7 +24,6 @@ public class Robot extends TimedRobot {
 
   // Add subsystems
   public static DriveTrainSubsystem driveTrainSubsystem;
-  public static UsbCamera camera;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -32,9 +33,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    
+    // Creates UsbCamera and MjpegServer [1] and connects them
+    CameraServer.startAutomaticCapture();
 
-    // VISION
+    // Creates the CvSink and connects it to the UsbCamera
+    CvSink cvSink = CameraServer.getVideo();
+
+    // Creates the CvSource and MjpegServer [2] and connects them
+    CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
   }
 
   /**
