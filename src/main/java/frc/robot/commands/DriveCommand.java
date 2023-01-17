@@ -34,7 +34,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
 
-    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
     driveTrainSubsystem.logSmartDashboard();
 
   }

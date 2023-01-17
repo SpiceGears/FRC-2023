@@ -34,10 +34,10 @@ public final class Constants {
         public static final boolean ENCODER_RIGHT_REVERSE = true;
         public static final boolean ENCODER_LEFT_REVERSE = false;
 
-        public static final double PID_LEFT_KP = .3;
+        public static final double PID_LEFT_KP = 1;
         public static final double PID_LEFT_KI = 0;
         public static final double PID_LEFT_KD = 0;
-        public static final double PID_RIGHT_KP = .3;
+        public static final double PID_RIGHT_KP = 1;
         public static final double PID_RIGHT_KI = 0;
         public static final double PID_RIGHT_KD = 0;  
 

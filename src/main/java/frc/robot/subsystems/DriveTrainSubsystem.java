@@ -66,9 +66,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightEncoder = new Encoder(PortMap.DRIVE.RIGHT_ENCODER_PORT_A, PortMap.DRIVE.RIGHT_ENCODER_PORT_B);
     rightEncoder.setDistancePerPulse(
             Constants.DRIVETRAIN.DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
-    leftEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
-    leftEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_LEFT_REVERSE);
-    leftEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
+    rightEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
+    rightEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_RIGHT_REVERSE);
+    rightEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
 
     resetEncoders();
 
