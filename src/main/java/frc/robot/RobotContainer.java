@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.RollIntakeCommand;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,7 +23,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
+  public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
+
   public static DriveCommand driveCommand = new DriveCommand(driveTrainSubsystem);
+  public static RollIntakeCommand rollIntakeCommand = new RollIntakeCommand(intakeSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
@@ -42,6 +48,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem));
+    intakeSubsystem.setDefaultCommand(new RollIntakeCommand(intakeSubsystem));
 
   }
 

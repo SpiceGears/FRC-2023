@@ -55,6 +55,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/DriveTrainSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
@@ -63,7 +64,13 @@
       "/LiveWindow/Ungrouped/Talon SRX [3]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [4]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [5]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon SRX [6]": "Motor Controller"
+      "/LiveWindow/Ungrouped/Talon SRX [6]": "Motor Controller",
+      "/LiveWindow/Ungrouped/VictorSP[4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/VictorSP[5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/VictorSP[6]": "Motor Controller",
+      "/LiveWindow/Ungrouped/VictorSP[7]": "Motor Controller",
+      "/LiveWindow/Ungrouped/VictorSP[8]": "Motor Controller",
+      "/LiveWindow/Ungrouped/VictorSP[9]": "Motor Controller"
     },
     "windows": {
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": {
@@ -76,23 +83,23 @@
   },
   "NetworkTables": {
     "LiveWindow": {
-      "DriveTrainSubsystem": {
-        "open": true
-      },
       "Ungrouped": {
         "DifferentialDrive[1]": {
-          "open": true
-        },
-        "PIDController[1]": {
-          "open": true
-        },
-        "PIDController[2]": {
           "open": true
         },
         "Talon SRX [4]": {
           "open": true
         },
         "Talon SRX [5]": {
+          "open": true
+        },
+        "VictorSP[5]": {
+          "open": true
+        },
+        "VictorSP[6]": {
+          "open": true
+        },
+        "VictorSP[7]": {
           "open": true
         },
         "open": true
@@ -107,7 +114,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 446,
+          "height": 153,
           "series": [
             {
               "color": [
@@ -153,6 +160,36 @@
                 1.0
               ],
               "id": "NT:/LiveWindow/Ungrouped/DifferentialDrive[1]/Right Motor Speed"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "height": 296,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/LiveWindow/Ungrouped/VictorSP[5]/Value"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/LiveWindow/Ungrouped/VictorSP[6]/Value"
             }
           ]
         }
