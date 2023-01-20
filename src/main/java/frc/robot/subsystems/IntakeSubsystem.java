@@ -16,11 +16,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
 
-
-    // kontrolery są na:
-    // can
-    // pwm(5)
-
     motor1 = new VictorSP(4);
     motor2 = new VictorSP(5); 
 
@@ -35,11 +30,6 @@ public class IntakeSubsystem extends SubsystemBase {
     motor1.set(speed * 0.3);
     motor2.set(speed * 0.3);
 
-    System.out.println();
-
-    SmartDashboard.putNumber("motor1 speed", motor1.get());
-    SmartDashboard.putNumber("motor2 speed", motor2.get());
-
   }
 
   /** Sets intake power to 0 */
@@ -53,5 +43,15 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    logIntake();
+
   }
+
+    /** Logs important values to Smart Dashboard */
+    public void logIntake() {
+
+      SmartDashboard.putNumber("motor1 speed", motor1.get());
+      SmartDashboard.putNumber("motor2 speed", motor2.get());
+
+    }
 }

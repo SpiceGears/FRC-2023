@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    // ---------- VISION ----------
+
     // Creates UsbCamera and MjpegServer [1] and connects them
     CameraServer.startAutomaticCapture();
 
@@ -47,6 +49,10 @@ public class Robot extends TimedRobot {
 
     // Creates the CvSource and MjpegServer [2] and connects them
     CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+
+    // ---------- NETWORKTABLES ----------
+
+
   }
 
   /**
@@ -95,14 +101,14 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-      driveTrainSubsystem.resetEncoders();
     }
-    
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
 
   @Override
   public void testInit() {

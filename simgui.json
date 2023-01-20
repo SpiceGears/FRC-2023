@@ -10,9 +10,6 @@
         "header": {
           "open": true
         }
-      },
-      "window": {
-        "visible": true
       }
     },
     "Other Devices": {
@@ -70,12 +67,24 @@
       "/LiveWindow/Ungrouped/VictorSP[6]": "Motor Controller",
       "/LiveWindow/Ungrouped/VictorSP[7]": "Motor Controller",
       "/LiveWindow/Ungrouped/VictorSP[8]": "Motor Controller",
-      "/LiveWindow/Ungrouped/VictorSP[9]": "Motor Controller"
+      "/LiveWindow/Ungrouped/VictorSP[9]": "Motor Controller",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/Field": "Field2d"
     },
     "windows": {
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": {
         "window": {
           "name": "DriveTrain",
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
+        "Robot": {
+          "style": "Track"
+        },
+        "height": 16.0,
+        "width": 16.0,
+        "window": {
           "visible": true
         }
       }
@@ -107,6 +116,52 @@
       "open": true
     },
     "SmartDashboard": {
+      "open": true
+    },
+    "serverTimestamp": true,
+    "transitory": {
+      "CameraPublisher": {
+        "open": true
+      },
+      "FMSInfo": {
+        "open": true
+      },
+      "LiveWindow": {
+        "Ungrouped": {
+          "DifferentialDrive[1]": {
+            "open": true
+          },
+          "VictorSP[5]": {
+            "open": true
+          }
+        },
+        "open": true
+      },
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      },
+      "datatable": {
+        "open": true
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
       "open": true
     }
   },
@@ -171,7 +226,7 @@
     "Plot <1>": {
       "plots": [
         {
-          "height": 296,
+          "height": 330,
           "series": [
             {
               "color": [
@@ -193,7 +248,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }
