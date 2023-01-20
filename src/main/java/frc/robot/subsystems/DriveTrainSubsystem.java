@@ -203,10 +203,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   /** Logs important values to Smart Dashboard */
   public void logSmartDashboard() {
 
-    SmartDashboard.putNumber("LeftSpeed m/s", getLeftMetersPerSecond());
-    SmartDashboard.putNumber("RighSpeed m/s", getRightMetersPerSecond());
-    SmartDashboard.putNumber("Left Distance", getLeftDistance());
-    SmartDashboard.putNumber("Right Distance", getRightDistance());
+    SmartDashboard.putNumber("LeftSpeed in xxxxx", getLeftMetersPerSecond());
+    SmartDashboard.putNumber("RighSpeed in xxxxx", getRightMetersPerSecond());
+    SmartDashboard.putNumber("Left Distance in xxxxx", getLeftDistance());
+    SmartDashboard.putNumber("Right Distance in xxxxx", getRightDistance());
 
   }
 }
