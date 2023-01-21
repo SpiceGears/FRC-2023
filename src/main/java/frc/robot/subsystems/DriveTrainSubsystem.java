@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.simulation.ADXRS450_GyroSim;
 import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
@@ -129,7 +128,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     logDriveTrain();
 
-      odometry.update(gyro.getRotation2d(),
+      odometry.update(m_gyro.getRotation2d(),
       leftEncoder.getDistance(),
       rightEncoder.getDistance());
       m_field.setRobotPose(odometry.getPoseMeters());
@@ -239,7 +238,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("PDP Total Current", pdp.getTotalCurrent());
     SmartDashboard.putNumber("PDP Total Power", pdp.getTotalPower());
     SmartDashboard.putNumber("PDP Total Energy", pdp.getTotalEnergy());
-
   }
 
 
@@ -250,7 +248,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   DCMotor.getCIM(2),       // 2 NEO motors on each side of the drivetrain.
   8.45,                    // 8.45:1 gearing reduction.
   7.5,                     // MOI of 7.5 kg m^2 (from CAD model).
-  40.0,                    // The mass of the robot is 40 kg.
+  60.0,                    // The mass of the robot is 40 kg.
   Units.inchesToMeters(3), // The robot uses 3" radius wheels.
   0.7112,                  // The track width is 0.7112 meters.
 
@@ -263,19 +261,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void simulationPeriodic() {
 
-        // Update all of our sensors.
-        leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
-        leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
-        rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
-        rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
-        gyroSim.setAngle(-m_driveSim.getHeading().getDegrees());
-        
+    
     // Set the inputs to the system. Note that we need to convert
     // the [-1, 1] PWM signal to voltage by multiplying it by the
     // robot controller voltage.
     m_driveSim.setInputs(leftDrive.get() * RobotController.getInputVoltage(),
-                         rightDrive.get() * RobotController.getInputVoltage());
-  
+    rightDrive.get() * RobotController.getInputVoltage());
+    
     // Advance the model by 20 ms. Note that if you are running this
     // subsystem in a separate thread or have changed the nominal timestep
     // of TimedRobot, this value needs to match it.
@@ -286,14 +278,19 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // robot controller voltage.
     m_driveSim.setInputs(leftDrive.get() * RobotController.getInputVoltage(),
                         rightDrive.get() * RobotController.getInputVoltage());
-
+                        
     // Advance the model by 20 ms. Note that if you are running this
     // subsystem in a separate thread or have changed the nominal timestep
     // of TimedRobot, this value needs to match it.
     m_driveSim.update(0.02);
 
-
-    
+    // Update all of our sensors.
+    leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
+    leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
+    rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
+    rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
+    gyroSim.setAngle(-m_driveSim.getHeading().getDegrees());                    
+                        
   }
   
 }
