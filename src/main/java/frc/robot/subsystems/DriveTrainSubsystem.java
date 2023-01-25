@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
+// import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -51,7 +51,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private PIDController leftPIDController;
   private PIDController rightPIDController;
 
-  private AHRS gyro;
+  // private AHRS gyro;
 
   private DifferentialDriveOdometry odometry;
 
@@ -109,11 +109,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
                                           Constants.DRIVETRAIN.PID_RIGHT_KI,
                                           Constants.DRIVETRAIN.PID_RIGHT_KD);
     
-    gyro = new AHRS();
+    // gyro = new AHRS();
 
     pose = new Pose2d(5.0, 13.5, new Rotation2d());
 
-    odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), getLeftDistance(), getRightDistance(), new Pose2d(5.0, 13.5, new Rotation2d())); // must be in meters
+    // odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), getLeftDistance(), getRightDistance(), new Pose2d(5.0, 13.5, new Rotation2d())); // must be in meters
 
 
     // SIMULATION
@@ -128,10 +128,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     logDriveTrain();
 
-      odometry.update(m_gyro.getRotation2d(),
-      leftEncoder.getDistance(),
-      rightEncoder.getDistance());
-      m_field.setRobotPose(odometry.getPoseMeters());
+      // odometry.update(m_gyro.getRotation2d(),
+      // leftEncoder.getDistance(),
+      // rightEncoder.getDistance());
+      // m_field.setRobotPose(odometry.getPoseMeters());
   }
 
   /** Controls the robot based on encoders reading and pid. 
@@ -152,8 +152,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
           if(leftSpeed < -1) {leftSpeed = -1;}
 
       //                                      read speed (m/s)              setpoint (1 * x m/s)
-      tankDrive(leftPIDController.calculate(-getLeftMetersPerSecond(), leftSpeed * 5),  // blad = getencoder * setpoint  |||||||         blad*kP
-                rightPIDController.calculate(-getRightMetersPerSecond(), rightSpeed * 5));
+      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * 3),  // blad = getencoder * setpoint  |||||||         blad*kP
+                rightPIDController.calculate(getRightMetersPerSecond(), rightSpeed * 3));
 
     } else {
       stopDriving();
@@ -233,11 +233,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("LEFTSTICKAXIS", -RobotContainer.driver.getRawAxis(1));
     SmartDashboard.putNumber("RIGHTSTICKAXIS", RobotContainer.driver.getRawAxis(4));
 
-    SmartDashboard.putNumber("PDP Voltage", pdp.getVoltage());
-    SmartDashboard.putNumber("PDP Temperature", pdp.getTemperature());
-    SmartDashboard.putNumber("PDP Total Current", pdp.getTotalCurrent());
-    SmartDashboard.putNumber("PDP Total Power", pdp.getTotalPower());
-    SmartDashboard.putNumber("PDP Total Energy", pdp.getTotalEnergy());
+    // SmartDashboard.putNumber("PDP Voltage", pdp.getVoltage());
+    // SmartDashboard.putNumber("PDP Temperature", pdp.getTemperature());
+    // SmartDashboard.putNumber("PDP Total Current", pdp.getTotalCurrent());
+    // SmartDashboard.putNumber("PDP Total Power", pdp.getTotalPower());
+    // SmartDashboard.putNumber("PDP Total Energy", pdp.getTotalEnergy());
   }
 
 

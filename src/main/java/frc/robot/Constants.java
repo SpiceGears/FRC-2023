@@ -23,10 +23,10 @@ public final class Constants {
 
     public class DRIVETRAIN {
 
-        public static final double SPEED_MULTIPLIER = 1;
-        public static final double ROTATION_MULTIPLIER = 1;
+        public static final double SPEED_MULTIPLIER = .7;
+        public static final double ROTATION_MULTIPLIER = .7;
 
-        public static final double DISTANCE_PER_ROTATION = 471; //mm (diameter 150mm*pi)
+        public static final double DISTANCE_PER_ROTATION = .471; //mm (diameter 150mm*pi)
         public static final double ENCODER_TICK_RATE = 2048;
         public static final double ENCODER_MIN_RATE = 10;
         public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
@@ -34,11 +34,11 @@ public final class Constants {
         public static final boolean ENCODER_RIGHT_REVERSE = true;
         public static final boolean ENCODER_LEFT_REVERSE = false;
 
-        public static final double PID_LEFT_KP = .2;
-        public static final double PID_LEFT_KI = 0;
+        public static final double PID_LEFT_KP = .3;
+        public static final double PID_LEFT_KI = .2;
         public static final double PID_LEFT_KD = 0;
-        public static final double PID_RIGHT_KP = .2;
-        public static final double PID_RIGHT_KI = 0;
+        public static final double PID_RIGHT_KP = .3;
+        public static final double PID_RIGHT_KI = .2;
         public static final double PID_RIGHT_KD = 0;  
 
     }
