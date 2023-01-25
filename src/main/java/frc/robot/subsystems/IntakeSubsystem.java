@@ -27,8 +27,8 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Rotates intake in desired direction, positive for in, negative for out. */
   public void rollIntake(double speed) {
 
-    motor1.set(speed * 0.3);
-    motor2.set(speed * 0.3);
+    motor1.set(speed * .7);
+    motor2.set(speed * .7);
 
   }
 
