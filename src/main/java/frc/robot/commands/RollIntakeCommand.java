@@ -34,7 +34,7 @@ public class RollIntakeCommand extends CommandBase {
     if(RobotContainer.driver.getLeftTriggerAxis() > 0.05 || RobotContainer.driver.getRightTriggerAxis() > 0.05) {
       
       if((RobotContainer.driver.getLeftTriggerAxis()) > (RobotContainer.driver.getRightTriggerAxis())) {
-        intakeSubsystem.rollIntake(-RobotContainer.driver.getLeftTriggerAxis());
+        intakeSubsystem.rollIntake(-0.5 * RobotContainer.driver.getLeftTriggerAxis());
       } else {
         intakeSubsystem.rollIntake(RobotContainer.driver.getRightTriggerAxis());
       }
