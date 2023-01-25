@@ -39,11 +39,11 @@ public class RollIntakeCommand extends CommandBase {
         intakeSubsystem.rollIntake(RobotContainer.driver.getRightTriggerAxis());
       }
 
-    }// else {
+    } else {
 
-    //   intakeSubsystem.stopIntake();
+      intakeSubsystem.stopIntake();
 
-    // }
+    }
 
   }
 

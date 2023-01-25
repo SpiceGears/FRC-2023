@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -34,8 +33,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
 
-    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
-    driveTrainSubsystem.logSmartDashboard();
+    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
 
   }
 

@@ -25,7 +25,6 @@ public class RobotContainer {
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-
   public static DriveCommand driveCommand = new DriveCommand(driveTrainSubsystem);
   public static RollIntakeCommand rollIntakeCommand = new RollIntakeCommand(intakeSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
@@ -37,6 +36,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    driveTrainSubsystem.resetEncoders();
   }
 
   /**
