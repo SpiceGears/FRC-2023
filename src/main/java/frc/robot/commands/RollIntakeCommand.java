@@ -6,18 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class DriveCommand extends CommandBase {
-  /** Creates a new ArcadeDriveCommand. */
+public class RollIntakeCommand extends CommandBase {
+  /** Creates a new RollIntakeCommand. */
 
-  private final DriveTrainSubsystem driveTrainSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
 
-  public DriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
+  public RollIntakeCommand(IntakeSubsystem intakeSubsystem) {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    this.driveTrainSubsystem = driveTrainSubsystem;
-    addRequirements(this.driveTrainSubsystem);
+    this.intakeSubsystem = intakeSubsystem;
+    addRequirements(this.intakeSubsystem);
 
   }
 
@@ -25,15 +25,25 @@ public class DriveCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    driveTrainSubsystem.stopDriving();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+    if(RobotContainer.driver.getLeftTriggerAxis() > 0.05 || RobotContainer.driver.getRightTriggerAxis() > 0.05) {
+      
+      if((RobotContainer.driver.getLeftTriggerAxis()) > (RobotContainer.driver.getRightTriggerAxis())) {
+        intakeSubsystem.rollIntake(-0.5 * RobotContainer.driver.getLeftTriggerAxis());
+      } else {
+        intakeSubsystem.rollIntake(RobotContainer.driver.getRightTriggerAxis());
+      }
+
+    } else {
+
+      intakeSubsystem.stopIntake();
+
+    }
 
   }
 
@@ -44,9 +54,6 @@ public class DriveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
     return false;
-
   }
-  
 }
