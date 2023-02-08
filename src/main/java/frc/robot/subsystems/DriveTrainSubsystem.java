@@ -15,7 +15,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -32,8 +31,6 @@ import frc.robot.RobotContainer;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new DriveTrainSubsystem. */
-
-  public PowerDistribution pdp;
 
   public Spark leftMaster;
   public Spark rightMaster;
@@ -67,7 +64,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public DriveTrainSubsystem() {
 
-    pdp = new PowerDistribution();
 
     leftMaster = new Spark(PortMap.DRIVE.DRIVE_LEFT_MASTER_PORT);
     rightMaster = new Spark(PortMap.DRIVE.DRIVE_RIGHT_MASTER_PORT);
@@ -128,10 +124,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     logDriveTrain();
 
-      // odometry.update(m_gyro.getRotation2d(),
-      // leftEncoder.getDistance(),
-      // rightEncoder.getDistance());
-      // m_field.setRobotPose(odometry.getPoseMeters());
+    // odometry.update(m_gyro.getRotation2d(),
+    // leftEncoder.getDistance(),
+    // rightEncoder.getDistance());
+    // m_field.setRobotPose(odometry.getPoseMeters());
   }
 
   /** Controls the robot based on encoders reading and pid. 
@@ -170,7 +166,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     if(Math.abs(xSpeed) >= Constants.JOYSTICK.DEADBAND || Math.abs(zRotation) >= Constants.JOYSTICK.DEADBAND) {
 
-      differentialDrive.arcadeDrive(Constants.DRIVETRAIN.SPEED_MULTIPLIER * xSpeed, Constants.DRIVETRAIN.ROTATION_MULTIPLIER * zRotation);
+      differentialDrive.arcadeDrive(Constants.DRIVETRAIN.SPEED_MULTIPLIER * xSpeed, Constants.DRIVETRAIN.ROTATION_MULTIPLIER * -zRotation);
 
     } else {
 
@@ -226,19 +222,18 @@ public class DriveTrainSubsystem extends SubsystemBase {
   /** Logs important values to Smart Dashboard */
   public void logDriveTrain() {
 
-    SmartDashboard.putNumber("LeftSpeed in xxxxx", getLeftMetersPerSecond());
-    SmartDashboard.putNumber("RighSpeed in xxxxx", getRightMetersPerSecond());
-    SmartDashboard.putNumber("Left Distance in xxxxx", getLeftDistance());
-    SmartDashboard.putNumber("Right Distance in xxxxx", getRightDistance());
-    SmartDashboard.putNumber("LEFTSTICKAXIS", -RobotContainer.driver.getRawAxis(1));
-    SmartDashboard.putNumber("RIGHTSTICKAXIS", RobotContainer.driver.getRawAxis(4));
+    SmartDashboard.putNumber("leftSpeed in m/s", getLeftMetersPerSecond());
+    SmartDashboard.putNumber("rightSpeed in m/s", getRightMetersPerSecond());
+    SmartDashboard.putNumber("leftDistance in m", getLeftDistance());
+    SmartDashboard.putNumber("rightDistance in m", getRightDistance());
 
-    // SmartDashboard.putNumber("PDP Voltage", pdp.getVoltage());
-    // SmartDashboard.putNumber("PDP Temperature", pdp.getTemperature());
-    // SmartDashboard.putNumber("PDP Total Current", pdp.getTotalCurrent());
-    // SmartDashboard.putNumber("PDP Total Power", pdp.getTotalPower());
-    // SmartDashboard.putNumber("PDP Total Energy", pdp.getTotalEnergy());
   }
+
+
+
+
+
+
 
 
   // SIMULATION
@@ -293,4 +288,5 @@ public class DriveTrainSubsystem extends SubsystemBase {
                         
   }
   
+
 }

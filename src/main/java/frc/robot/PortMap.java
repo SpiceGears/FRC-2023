@@ -15,16 +15,33 @@ public final class PortMap {
     
     public class DRIVE {
 
-        public static final int DRIVE_LEFT_MASTER_PORT = 3; // lewy przod
-        public static final int DRIVE_RIGHT_MASTER_PORT = 1; // prawy przod
-        public static final int DRIVE_LEFT_SLAVE1_PORT = 2; // lewy tyl 
-        public static final int DRIVE_RIGHT_SLAVE1_PORT = 0; // prawy tyl
+        // TODO: MAKE SURE THIS IS CORRECT
+
+        public static final int DRIVE_LEFT_MASTER_PORT = 2; // left front
+        public static final int DRIVE_RIGHT_MASTER_PORT = 1; // right front
+        public static final int DRIVE_LEFT_SLAVE1_PORT = 3; // left rear
+        public static final int DRIVE_RIGHT_SLAVE1_PORT = 0; // right rear
 
         public static final int LEFT_ENCODER_PORT_A = 0;
         public static final int LEFT_ENCODER_PORT_B = 1;
         public static final int RIGHT_ENCODER_PORT_A = 2;
         public static final int RIGHT_ENCODER_PORT_B = 3;
 
+    }
+
+    public class PDP_CHANNEL {
+
+        // TODO: MAKE SURE THIS IS CORRECT
+
+        public static final int PDP_CAN = 0;
+
+        public static final int DRIVE_LEFT_MASTER = 15;
+        public static final int DRIVE_RIGHT_MASTER = 14;
+        public static final int DRIVE_LEFT_SLAVE = 13;
+        public static final int DRIVE_RIGHT_SLAVE = 12;
+        // public static final int INTAKE_TOP = 0;
+        // public static final int INTAKE_BOTTOM = 0;
+        
     }
     
 }

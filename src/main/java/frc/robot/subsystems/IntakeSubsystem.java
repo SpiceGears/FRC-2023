@@ -47,11 +47,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
-    /** Logs important values to Smart Dashboard */
-    public void logIntake() {
+  /** Logs important values to Smart Dashboard */
+  public void logIntake() {
 
-      SmartDashboard.putNumber("motor1 speed", motor1.get());
-      SmartDashboard.putNumber("motor2 speed", motor2.get());
+    SmartDashboard.putNumber("motor1 speed", motor1.get());
+    SmartDashboard.putNumber("motor2 speed", motor2.get());
 
-    }
+  }
 }

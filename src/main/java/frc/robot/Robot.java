@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   public static DriveTrainSubsystem driveTrainSubsystem;
   public static IntakeSubsystem intakeSubsystem;
   public static UsbCamera camera;
+  public static OtherLogs otherLogs;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -69,6 +70,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    otherLogs.logOther(); // Logs other values to SmartDashboard like PDP or Joysticks
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -127,4 +130,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+
+
 }
