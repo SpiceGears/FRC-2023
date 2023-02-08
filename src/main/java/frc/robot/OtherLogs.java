@@ -6,13 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.DriveTrainSubsystem;
 
 
 public class OtherLogs {
 
     public static PowerDistribution pdp = new PowerDistribution();
-    public static DriveTrainSubsystem drive = new DriveTrainSubsystem();
 
     static double pdpVoltage;
     static double pdpTemperature;

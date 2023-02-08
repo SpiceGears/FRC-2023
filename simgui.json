@@ -142,7 +142,13 @@
         "open": true
       },
       "SmartDashboard": {
-        "open": true
+        "leftSpeed in m": {
+          "open": true
+        },
+        "open": true,
+        "rightSpeed in m": {
+          "open": true
+        }
       },
       "datatable": {
         "open": true

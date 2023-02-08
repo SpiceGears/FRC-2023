@@ -24,6 +24,7 @@ public class RobotContainer {
 
   public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem();
   public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public static OtherLogs otherLogs = new OtherLogs();
 
   public static DriveCommand driveCommand = new DriveCommand(driveTrainSubsystem);
   public static RollIntakeCommand rollIntakeCommand = new RollIntakeCommand(intakeSubsystem);

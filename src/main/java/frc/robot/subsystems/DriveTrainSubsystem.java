@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-// import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -27,7 +27,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PortMap;
-import frc.robot.RobotContainer;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new DriveTrainSubsystem. */
@@ -48,7 +47,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private PIDController leftPIDController;
   private PIDController rightPIDController;
 
-  // private AHRS gyro;
+  private AHRS gyro;
 
   private DifferentialDriveOdometry odometry;
 
@@ -56,14 +55,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 
   // SIMULATION
-  private AnalogGyro m_gyro = new AnalogGyro(1);
+  // private AnalogGyro m_gyro = new AnalogGyro(1);
   private EncoderSim leftEncoderSim;
   private EncoderSim rightEncoderSim;
-  private AnalogGyroSim gyroSim;
+  private AHRS gyro_sim;
   private Field2d m_field = new Field2d();
 
   public DriveTrainSubsystem() {
-
 
     leftMaster = new Spark(PortMap.DRIVE.DRIVE_LEFT_MASTER_PORT);
     rightMaster = new Spark(PortMap.DRIVE.DRIVE_RIGHT_MASTER_PORT);
@@ -105,17 +103,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
                                           Constants.DRIVETRAIN.PID_RIGHT_KI,
                                           Constants.DRIVETRAIN.PID_RIGHT_KD);
     
-    // gyro = new AHRS();
+    gyro = new AHRS();
 
     pose = new Pose2d(5.0, 13.5, new Rotation2d());
 
-    // odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), getLeftDistance(), getRightDistance(), new Pose2d(5.0, 13.5, new Rotation2d())); // must be in meters
+    odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), getLeftDistance(), getRightDistance(), new Pose2d(5.0, 13.5, new Rotation2d())); // must be in meters
 
 
     // SIMULATION
     leftEncoderSim = new EncoderSim(leftEncoder);
     rightEncoderSim = new EncoderSim(rightEncoder);
-    gyroSim = new AnalogGyroSim(m_gyro);
+    gyro_sim = gyro;
     SmartDashboard.putData("Field", m_field);
   }
   
@@ -124,10 +122,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     logDriveTrain();
 
-    // odometry.update(m_gyro.getRotation2d(),
-    // leftEncoder.getDistance(),
-    // rightEncoder.getDistance());
-    // m_field.setRobotPose(odometry.getPoseMeters());
+    odometry.update(gyro.getRotation2d(),
+    leftEncoder.getDistance(),
+    rightEncoder.getDistance());
+    m_field.setRobotPose(odometry.getPoseMeters());
   }
 
   /** Controls the robot based on encoders reading and pid. 
