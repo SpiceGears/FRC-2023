@@ -26,7 +26,7 @@ public final class Constants {
         public static final double SPEED_MULTIPLIER = .7;
         public static final double ROTATION_MULTIPLIER = .7;
 
-        public static final double DISTANCE_PER_ROTATION = .471; //mm (diameter 150mm*pi)
+        public static final double ENCODER_DISTANCE_PER_ROTATION = .471; //mm (diameter 150mm*pi)
         public static final double ENCODER_TICK_RATE = 2048;
         public static final double ENCODER_MIN_RATE = 10;
         public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
@@ -41,6 +41,27 @@ public final class Constants {
         public static final double PID_RIGHT_KI = .2;
         public static final double PID_RIGHT_KD = 0;  
 
+    }
+
+    public class ARM {
+
+        public static final double DEADZONE_LOW = 0;
+        public static final double DEADZONE_HIGH = 90;
+
+        public static final double SPEED_MULTIPLIER = 0.2;
+
+        public static final double ENCODER_DISTANCE_PER_ROTATION = 360; // 1 rotation = 360 degrees
+        public static final double ENCODER_TICK_RATE = 2048;
+        public static final double ENCODER_MIN_RATE = 10;
+        public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
+        public static final boolean ENCODER_REVERSE = true;
+
+        public static final double REDUCTION_CHAIN = 2.3125; // 32t:74t        2.3125:1
+        
+    }
+
+    public class INTAKE {
+        public static final double SPEED_MULTIPLIER = 0.5;
     }
 
 }

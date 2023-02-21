@@ -13,13 +13,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -63,10 +61,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public DriveTrainSubsystem() {
 
-    leftMaster = new Spark(PortMap.DRIVE.DRIVE_LEFT_MASTER_PORT);
-    rightMaster = new Spark(PortMap.DRIVE.DRIVE_RIGHT_MASTER_PORT);
-    leftSlave1 = new Spark(PortMap.DRIVE.DRIVE_LEFT_SLAVE1_PORT);
-    rightSlave1 = new Spark(PortMap.DRIVE.DRIVE_RIGHT_SLAVE1_PORT);
+    leftMaster = new Spark(PortMap.DRIVE.LEFT_MASTER_PORT);
+    rightMaster = new Spark(PortMap.DRIVE.RIGHT_MASTER_PORT);
+    leftSlave1 = new Spark(PortMap.DRIVE.LEFT_SLAVE1_PORT);
+    rightSlave1 = new Spark(PortMap.DRIVE.RIGHT_SLAVE1_PORT);
 
     leftDrive = new MotorControllerGroup(leftMaster, leftSlave1);
     rightDrive = new MotorControllerGroup(rightMaster, rightSlave1);
@@ -82,14 +80,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     leftEncoder = new Encoder(PortMap.DRIVE.LEFT_ENCODER_PORT_A, PortMap.DRIVE.LEFT_ENCODER_PORT_B);
     leftEncoder.setDistancePerPulse(
-            Constants.DRIVETRAIN.DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
+            Constants.DRIVETRAIN.ENCODER_DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
     leftEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
     leftEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_LEFT_REVERSE);
     leftEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
 
     rightEncoder = new Encoder(PortMap.DRIVE.RIGHT_ENCODER_PORT_A, PortMap.DRIVE.RIGHT_ENCODER_PORT_B);
     rightEncoder.setDistancePerPulse(
-            Constants.DRIVETRAIN.DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
+            Constants.DRIVETRAIN.ENCODER_DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
     rightEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
     rightEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_RIGHT_REVERSE);
     rightEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
@@ -138,16 +136,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
       double leftSpeed = 0;
       double rightSpeed = 0;
 
-          leftSpeed = speed + turn;
-          rightSpeed = speed - turn;
-          if(rightSpeed < -1) {rightSpeed = -1;}
-          if(leftSpeed > 1) {leftSpeed = 1;}
-          if(rightSpeed > 1) {rightSpeed = 1;}
-          if(leftSpeed < -1) {leftSpeed = -1;}
+      leftSpeed = speed + turn;
+      rightSpeed = speed - turn;
+      if(rightSpeed < -1) {rightSpeed = -1;}
+      if(leftSpeed > 1) {leftSpeed = 1;}
+      if(rightSpeed > 1) {rightSpeed = 1;}
+      if(leftSpeed < -1) {leftSpeed = -1;}
 
       //                                      read speed (m/s)              setpoint (1 * x m/s)
-      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * 3),  // blad = getencoder * setpoint  |||||||         blad*kP
-                rightPIDController.calculate(getRightMetersPerSecond(), rightSpeed * 3));
+      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * 5),
+                rightPIDController.calculate(getRightMetersPerSecond(), rightSpeed * 5));
 
     } else {
       stopDriving();
@@ -220,10 +218,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
   /** Logs important values to Smart Dashboard */
   public void logDriveTrain() {
 
-    SmartDashboard.putNumber("leftSpeed in m/s", getLeftMetersPerSecond());
-    SmartDashboard.putNumber("rightSpeed in m/s", getRightMetersPerSecond());
+    SmartDashboard.putNumber("leftSpeed in m per s", getLeftMetersPerSecond());
+    SmartDashboard.putNumber("rightSpeed in m per s", getRightMetersPerSecond());
     SmartDashboard.putNumber("leftDistance in m", getLeftDistance());
     SmartDashboard.putNumber("rightDistance in m", getRightDistance());
+
+    SmartDashboard.putNumber("gyro getAngle()", gyro.getAngle());
+    SmartDashboard.putNumber("gyro getPitch()", gyro.getPitch());
+    SmartDashboard.putNumber("gyro getRawGyroX()", gyro.getRawGyroX());
 
   }
 
@@ -282,7 +284,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
     rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
     rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
-    gyroSim.setAngle(-m_driveSim.getHeading().getDegrees());                    
+    // gyro_sim.setAngle(-m_driveSim.getHeading().getDegrees());                    
                         
   }
   

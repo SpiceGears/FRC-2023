@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -31,10 +32,10 @@ public class RollIntakeCommand extends CommandBase {
   @Override
   public void execute() {
 
-    if(RobotContainer.driver.getLeftTriggerAxis() > 0.05 || RobotContainer.driver.getRightTriggerAxis() > 0.05) {
+    if(RobotContainer.driver.getLeftTriggerAxis() > Constants.JOYSTICK.DEADBAND || RobotContainer.driver.getRightTriggerAxis() > Constants.JOYSTICK.DEADBAND) {
       
       if((RobotContainer.driver.getLeftTriggerAxis()) > (RobotContainer.driver.getRightTriggerAxis())) {
-        intakeSubsystem.rollIntake(-0.5 * RobotContainer.driver.getLeftTriggerAxis());
+        intakeSubsystem.rollIntake(-Constants.INTAKE.SPEED_MULTIPLIER * RobotContainer.driver.getLeftTriggerAxis());
       } else {
         intakeSubsystem.rollIntake(RobotContainer.driver.getRightTriggerAxis());
       }

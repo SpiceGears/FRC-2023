@@ -7,36 +7,37 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.PortMap;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new Intake. */
 
-  public VictorSP motor1;
-  public VictorSP motor2;
+  public VictorSP intakeMotor1;
+  public VictorSP intakeMotor2;
 
   public IntakeSubsystem() {
 
-    motor1 = new VictorSP(4);
-    motor2 = new VictorSP(5); 
+    intakeMotor1 = new VictorSP(PortMap.INTAKE.MOTOR_1_PORT);
+    intakeMotor2 = new VictorSP(PortMap.INTAKE.MOTOR_2_PORT); 
 
-    motor1.setInverted(false);
-    motor2.setInverted(true);
+    intakeMotor1.setInverted(false);
+    intakeMotor2.setInverted(true);
 
   }
 
   /** Rotates intake in desired direction, positive for in, negative for out. */
   public void rollIntake(double speed) {
 
-    motor1.set(speed);
-    motor2.set(speed);
+    intakeMotor1.set(speed);
+    intakeMotor2.set(speed);
 
   }
 
   /** Sets intake power to 0 */
   public void stopIntake() {
 
-    motor1.set(0);
-    motor2.set(0);
+    intakeMotor1.set(0);
+    intakeMotor2.set(0);
 
   }
 
@@ -50,8 +51,8 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Logs important values to Smart Dashboard */
   public void logIntake() {
 
-    SmartDashboard.putNumber("motor1 speed", motor1.get());
-    SmartDashboard.putNumber("motor2 speed", motor2.get());
+    SmartDashboard.putNumber("motor1 speed", intakeMotor1.get());
+    SmartDashboard.putNumber("motor2 speed", intakeMotor2.get());
 
   }
 }
