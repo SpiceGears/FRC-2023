@@ -5,16 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class MoveArmCommand extends CommandBase {
-  /** Creates a new MoveArmCommand. */
-
+public class ResetArmEncoderCommand extends CommandBase {
+  /** Creates a new ResetEncoderCommand. */
+  
   private final ArmSubsystem armSubsystem;
 
-  public MoveArmCommand(ArmSubsystem armSubsystem) {
+  public ResetArmEncoderCommand(ArmSubsystem armSubsystem) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     this.armSubsystem = armSubsystem;
@@ -26,30 +24,13 @@ public class MoveArmCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    armSubsystem.stopArm();
-
+    armSubsystem.resetEncoder();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    double speed = Constants.ARM.SPEED_MULTIPLIER;
-    int pov;
-
-    pov = RobotContainer.driver.getPOV();
-    if(pov == 0) {
-      armSubsystem.rotateArmBySpeed(speed); // if dpad is up -> rotate arm up
-
-    } else if(pov == 180) {
-      armSubsystem.rotateArmBySpeed(-speed); // if dpas is down -> rotate arm down
-
-    } else {
-      armSubsystem.rotateArmBySpeed(0);; // else stop arm
-
-    }
-
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -58,7 +39,7 @@ public class MoveArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
+
     return false;
 
   }

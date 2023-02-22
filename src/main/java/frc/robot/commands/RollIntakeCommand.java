@@ -26,6 +26,8 @@ public class RollIntakeCommand extends CommandBase {
   @Override
   public void initialize() {
 
+    intakeSubsystem.stopIntake();
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -55,6 +57,9 @@ public class RollIntakeCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+
     return false;
+
   }
+
 }

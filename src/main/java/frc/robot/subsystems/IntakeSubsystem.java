@@ -44,6 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
     logIntake();
 
   }
@@ -55,4 +56,6 @@ public class IntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("motor2 speed", intakeMotor2.get());
 
   }
+
+  
 }

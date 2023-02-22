@@ -213,6 +213,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void resetEncoders() {
     leftEncoder.reset();
     rightEncoder.reset();
+    System.out.println("> Drive encoders reset");
   }
 
   /** Logs important values to Smart Dashboard */
@@ -228,9 +229,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("gyro getRawGyroX()", gyro.getRawGyroX());
 
   }
-
-
-
 
 
 

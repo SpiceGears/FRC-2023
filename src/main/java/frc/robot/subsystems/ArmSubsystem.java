@@ -72,8 +72,11 @@ public PIDController armPidController;
     SmartDashboard.putNumber("arm input speed", speed);
   }
   
-
+  //* Rotate arm to specific angle */
   public void rotateArmByAngle(double angle) {
+
+    //TODO: todo
+
   }
 
   public void stopArm() {
@@ -88,8 +91,15 @@ public PIDController armPidController;
       return false;
   }
 
+  public void resetEncoder() {
+    armEncoder.reset();
+    System.out.println("> Arm encoder reset");
+  }
+
   public void logArm() {
     SmartDashboard.putNumber("arm angle", armEncoder.getDistance());
     SmartDashboard.putNumber("arm speed degrees per second", armEncoder.getRate());
   }
+
+
 }
