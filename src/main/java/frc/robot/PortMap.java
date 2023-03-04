@@ -37,8 +37,8 @@ public final class PortMap {
         // TODO: MAKE SURE THIS IS CORRECT
 
         public static final int LEFT_MASTER_PORT = 4;
-        public static final int RIGHT_MASTER_PORT = 6;
-        public static final int LEFT_SLAVE_PORT = 5;
+        public static final int RIGHT_MASTER_PORT = 5;
+        public static final int LEFT_SLAVE_PORT = 6;
         public static final int RIGHT_SLAVE_PORT = 7;
 
         public static final int ENCODER_PORT_A = 4;	

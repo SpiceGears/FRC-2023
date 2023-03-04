@@ -42,7 +42,7 @@ public PIDController armPidController;
 
     // leftArmMaster.
     
-    armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmMaster, rightArmMaster);
+    armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmSlave, rightArmSlave);
 
     armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
     // armEncoder.setDistancePerPulse();
@@ -61,13 +61,14 @@ public PIDController armPidController;
 
   //* Rotate arm by speed, prevents rotating into deadzone. */
   public void rotateArmBySpeed(double speed) {
-    if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { // lower than max deadzone -> move up
-      armGroup.set(speed);
-    } if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { // higher than min deadzone -> move down
-      armGroup.set(speed);
-    } else {
-      armGroup.set(0); // don't move in deadzone direction
-    }
+    // if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { // lower than max deadzone -> move up
+    //   armGroup.set(speed);
+    // } if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { // higher than min deadzone -> move down
+    //   armGroup.set(speed);
+    // } else {
+    //   armGroup.set(0); // don't move in deadzone direction
+    // }
+    armGroup.set(speed);
 
     SmartDashboard.putNumber("arm input speed", speed);
   }

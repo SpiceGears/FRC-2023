@@ -48,7 +48,7 @@ public final class Constants {
         public static final double DEADZONE_LOW = 0;
         public static final double DEADZONE_HIGH = 90;
 
-        public static final double SPEED_MULTIPLIER = 0.2;
+        public static final double SPEED_MULTIPLIER = 0.4;
 
         public static final double ENCODER_DISTANCE_PER_ROTATION = 360; // 1 rotation = 360 degrees
         public static final double ENCODER_TICK_RATE = 2048;
