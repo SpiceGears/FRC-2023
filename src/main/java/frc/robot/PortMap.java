@@ -18,8 +18,6 @@ public final class PortMap {
     
     public class DRIVE {
 
-        // TODO: MAKE SURE THIS IS CORRECT
-
         public static final int LEFT_MASTER_PORT = 2; // left front
         public static final int RIGHT_MASTER_PORT = 1; // right front
         public static final int LEFT_SLAVE1_PORT = 3; // left rear
@@ -34,15 +32,17 @@ public final class PortMap {
 
     public class ARM {
 
-        // TODO: MAKE SURE THIS IS CORRECT
-
         public static final int LEFT_MASTER_PORT = 4;
         public static final int RIGHT_MASTER_PORT = 5;
         public static final int LEFT_SLAVE_PORT = 6;
         public static final int RIGHT_SLAVE_PORT = 7;
-
+        
         public static final int ENCODER_PORT_A = 4;	
         public static final int ENCODER_PORT_B = 5;
+        
+        // TODO: MAKE SURE THIS IS CORRECT
+        public static final int FRONT_LIMIT_SWITCH = 6;
+        public static final int BACK_LIMIT_SWITCH = 7;
     }
 
     public class INTAKE {

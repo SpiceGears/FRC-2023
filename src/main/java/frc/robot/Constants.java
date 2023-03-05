@@ -45,18 +45,23 @@ public final class Constants {
 
     public class ARM {
 
+        public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1
+
         public static final double DEADZONE_LOW = 0;
         public static final double DEADZONE_HIGH = 90;
 
         public static final double SPEED_MULTIPLIER = 0.4;
 
-        public static final double ENCODER_DISTANCE_PER_ROTATION = 360; // 1 rotation = 360 degrees
+        public static final double ENCODER_ANGLES_PER_ROTATION = 360 / REDUCTION_CHAIN;
         public static final double ENCODER_TICK_RATE = 2048;
         public static final double ENCODER_MIN_RATE = 10;
         public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
         public static final boolean ENCODER_REVERSE = true;
 
-        public static final double REDUCTION_CHAIN = 2.3125; // 32t:74t        2.3125:1
+        public static final double PID_ARM_KP = .2;
+        public static final double PID_ARM_KI = .2;
+        public static final double PID_ARM_KD = 0;
+
         
     }
 

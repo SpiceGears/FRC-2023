@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -24,31 +25,35 @@ public VictorSP rightArmSlave;
 public MotorControllerGroup armGroup;
 
 public Encoder armEncoder;
-// public Encoder leftEncoder;
-// public Encoder rightEncoder;
 
-public PIDController armPidController;
-// private PIDController leftPIDController;
-// private PIDController rightPIDController;
+public PIDController armPIDController;
+
+public DigitalInput backLimitSwitch;
+public DigitalInput frontLimitSwitch;
 
   public ArmSubsystem() {
-
-    // TODO: SET THEESE CONTROLLERS TO BRAKE (PRESS B/C BUTTON TO STATE WHEN SOLID RED LED IS DISPLAYED) DONT HOLD, JUST PUSH ONCE
 
     leftArmMaster = new VictorSP(PortMap.ARM.LEFT_MASTER_PORT);
     rightArmMaster = new VictorSP(PortMap.ARM.RIGHT_MASTER_PORT);
     leftArmSlave = new VictorSP(PortMap.ARM.LEFT_SLAVE_PORT);
     rightArmSlave = new VictorSP(PortMap.ARM.RIGHT_SLAVE_PORT);
 
-    // leftArmMaster.
-    
     armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmSlave, rightArmSlave);
 
     armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
-    // armEncoder.setDistancePerPulse();
+    armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);  // 2048 ticks = 360 of arm
     armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
-    armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
+    armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE); // TODO: check if arm going up -> armAngle ++
     armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
+
+    armPIDController = new PIDController(Constants.ARM.PID_ARM_KP, 
+                                        Constants.ARM.PID_ARM_KI,
+                                        Constants.ARM.PID_ARM_KD);
+
+
+    backLimitSwitch = new DigitalInput(PortMap.ARM.BACK_LIMIT_SWITCH);
+    frontLimitSwitch = new DigitalInput(PortMap.ARM.FRONT_LIMIT_SWITCH);
+
   }
 
   @Override
@@ -68,20 +73,45 @@ public PIDController armPidController;
     // } else {
     //   armGroup.set(0); // don't move in deadzone direction
     // }
-    armGroup.set(speed);
+
+    if(speed>0) {
+
+      if(backLimitSwitch.get()) {
+        armGroup.set(0);
+      } else {
+        armGroup.set(speed);
+      }
+
+    } else if(speed<0) {
+
+      if (frontLimitSwitch.get()) {
+        armGroup.set(0);
+        armEncoder.reset();
+      } else {
+        armGroup.set(speed);
+      }
+
+    } else {
+      armGroup.set(0);
+    }
 
     SmartDashboard.putNumber("arm input speed", speed);
   }
   
   //* Rotate arm to specific angle */
-  public void rotateArmByAngle(double angle) {
+  public void setArmSetpoint(double angle, boolean working) {
 
-    //TODO: todo
+    if (working) {
+      armGroup.set(armPIDController.calculate(armEncoder.getDistance(), angle));
+    } else {
+      armGroup.set(0);
+    }
 
   }
 
   public void stopArm() {
     armGroup.set(0);
+    SmartDashboard.putNumber("arm input speed", 0);
   }
 
   /** Return true when is beyond arm's limit deadzones, false when in normal arm position. */

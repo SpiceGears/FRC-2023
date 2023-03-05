@@ -10,9 +10,13 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.MoveArmCommand;
-import frc.robot.commands.ResetArmEncoderCommand;
 import frc.robot.commands.RollIntakeCommand;
+import frc.robot.commands.ArmCommands.MoveArmCommand;
+import frc.robot.commands.ArmCommands.MoveArmTo15;
+import frc.robot.commands.ArmCommands.MoveArmTo45;
+import frc.robot.commands.ArmCommands.MoveArmTo90;
+import frc.robot.commands.ArmCommands.SetArmTo0Power;
+import frc.robot.commands.ArmCommands.ResetArmEncoderCommand;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -58,10 +62,22 @@ public class RobotContainer {
 
     driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem));
     intakeSubsystem.setDefaultCommand(new RollIntakeCommand(intakeSubsystem));
-    armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
+    // armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
 
     new JoystickButton(driver, Button.kLeftBumper.value)
       .whileTrue(new ResetArmEncoderCommand(armSubsystem));
+    
+    new JoystickButton(driver, Button.kA.value)
+      .whileTrue(new MoveArmTo15(armSubsystem));
+    
+    new JoystickButton(driver, Button.kB.value)
+    .whileTrue(new MoveArmTo45(armSubsystem));
+
+    new JoystickButton(driver, Button.kY.value)
+    .whileTrue(new MoveArmTo90(armSubsystem));
+
+    new JoystickButton(driver, Button.kX.value)
+    .whileTrue(new SetArmTo0Power(armSubsystem));
 
   }
 
