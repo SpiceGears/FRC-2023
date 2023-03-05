@@ -36,7 +36,7 @@ public class RobotContainer {
   public static RollIntakeCommand rollIntakeCommand = new RollIntakeCommand(intakeSubsystem);
   public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
   public static ResetArmEncoderCommand resetArmCommand = new ResetArmEncoderCommand(armSubsystem);
-  public static AutonomousCommand autonomousCommand = new AutonomousCommand();
+  public static AutonomousCommand autonomousCommand = new AutonomousCommand(driveTrainSubsystem);
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
