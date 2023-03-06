@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import javax.tools.Diagnostic;
+
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -31,6 +34,10 @@ public PIDController armPidController;
 // private PIDController leftPIDController;
 // private PIDController rightPIDController;
 
+public DigitalInput frontLimitSwitch;
+public DigitalInput backLimitSwitch;
+
+
   public ArmSubsystem() {
 
     // TODO: SET THEESE CONTROLLERS TO BRAKE (PRESS B/C BUTTON TO STATE WHEN SOLID RED LED IS DISPLAYED) DONT HOLD, JUST PUSH ONCE
@@ -49,6 +56,10 @@ public PIDController armPidController;
     armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
     armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
     armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
+
+    frontLimitSwitch = new DigitalInput(6);
+    backLimitSwitch = new DigitalInput(7);
+
   }
 
   @Override
@@ -61,14 +72,21 @@ public PIDController armPidController;
 
   //* Rotate arm by speed, prevents rotating into deadzone. */
   public void rotateArmBySpeed(double speed) {
-    if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { // lower than max deadzone -> move up
+    if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { 
       armGroup.set(speed);
-    } if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { // higher than min deadzone -> move down
+    } else if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { 
       armGroup.set(speed);
     } else {
       armGroup.set(0); // don't move in deadzone direction
     }
-    // armGroup.set(speed);
+
+    if(frontLimitSwitch.get()) {
+      resetEncoder();
+    }
+    if(backLimitSwitch.get()) {
+      stopArm();
+      
+    }
 
     SmartDashboard.putNumber("arm input speed", speed);
   }

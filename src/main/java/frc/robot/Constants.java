@@ -48,7 +48,7 @@ public final class Constants {
         public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1
 
         public static final double DEADZONE_LOW = 0;
-        public static final double DEADZONE_HIGH = 70;
+        public static final double DEADZONE_HIGH = 100;
 
         public static final double SPEED_MULTIPLIER = 0.3;
 

@@ -24,13 +24,15 @@ public class ResetArmEncoderCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    armSubsystem.resetEncoder();
     
   }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    armSubsystem.resetEncoder();
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
