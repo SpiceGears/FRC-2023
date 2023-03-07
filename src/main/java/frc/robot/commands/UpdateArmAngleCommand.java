@@ -5,19 +5,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class MoveArmCommand extends CommandBase {
+public class UpdateArmAngleCommand extends CommandBase {
   /** Creates a new MoveArmCommand. */
 
   private final ArmSubsystem armSubsystem;
+  private double angle;
 
-  public MoveArmCommand(ArmSubsystem armSubsystem) {
+  public UpdateArmAngleCommand(ArmSubsystem armSubsystem, double angle) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     this.armSubsystem = armSubsystem;
+    this.angle = angle;
     addRequirements(this.armSubsystem);
 
   }
@@ -34,20 +34,8 @@ public class MoveArmCommand extends CommandBase {
   @Override
   public void execute() {
 
-    double speed = Constants.ARM.SPEED_MULTIPLIER;
-    int pov;
+    armSubsystem.setArmAngle(angle);
 
-    pov = RobotContainer.driver.getPOV();
-    if(pov == 0) {
-      armSubsystem.rotateArmBySpeed(speed); // if dpad is up -> rotate arm up
-
-    } else if(pov == 180) {
-      armSubsystem.rotateArmBySpeed(-speed); // if dpas is down -> rotate arm down
-
-    } else {
-      armSubsystem.rotateArmBySpeed(0);; // else stop arm
-
-    }
 
   }
 

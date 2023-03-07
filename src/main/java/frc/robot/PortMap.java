@@ -34,7 +34,6 @@ public final class PortMap {
 
     public class ARM {
 
-        // TODO: MAKE SURE THIS IS CORRECT
 
         public static final int LEFT_MASTER_PORT = 4;
         public static final int RIGHT_MASTER_PORT = 5;

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
-import frc.robot.commands.MoveArmCommand;
+import frc.robot.commands.UpdateArmAngleCommand;
 import frc.robot.commands.ResetArmEncoderCommand;
 import frc.robot.commands.TeleOpIntakeCommand;
 import frc.robot.commands.AutonomousCommand;
@@ -34,7 +34,7 @@ public class RobotContainer {
 
   public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand(driveTrainSubsystem);
   public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand(intakeSubsystem);
-  public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
+  // public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
   public static ResetArmEncoderCommand resetArmCommand = new ResetArmEncoderCommand(armSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
 
@@ -58,10 +58,19 @@ public class RobotContainer {
 
     driveTrainSubsystem.setDefaultCommand(new TeleOpDriveCommand(driveTrainSubsystem));
     intakeSubsystem.setDefaultCommand(new TeleOpIntakeCommand(intakeSubsystem));
-    armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
+    // armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
 
     new JoystickButton(driver, Button.kLeftBumper.value)
       .whileTrue(new ResetArmEncoderCommand(armSubsystem));
+
+    new JoystickButton(driver, Button.kA.value)
+    .whileTrue(new UpdateArmAngleCommand(armSubsystem, 0));
+
+    new JoystickButton(driver, Button.kB.value)
+    .whileTrue(new UpdateArmAngleCommand(armSubsystem, 15));
+
+    new JoystickButton(driver, Button.kY.value)
+    .whileTrue(new UpdateArmAngleCommand(armSubsystem, 30));
 
   }
 

@@ -47,6 +47,18 @@ public final class Constants {
 
     public class ARM {
 
+        // ARM PID
+        public static final double kP = 0.2;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        
+        // ARM FEEDFORWARD
+        public static final double kSVolts = 0.1; // static friction
+        public static final double kGVolts = 1; // gravity gain <- change this first imo
+        public static final double kVoltSecondPerRad = 0.53; // hold in place
+        public static final double kAVoltSecondSquaredPerRad = 0.05; // accelerate
+
+
         public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1
 
         public static final double DEADZONE_LOW = 0;
@@ -59,6 +71,7 @@ public final class Constants {
         public static final double ENCODER_MIN_RATE = 10;
         public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
         public static final boolean ENCODER_REVERSE = true;
+
 
         
     }
