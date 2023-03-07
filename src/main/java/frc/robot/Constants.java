@@ -59,7 +59,7 @@ public final class Constants {
         public static final boolean ENCODER_REVERSE = true;
 
         public static final double PID_ARM_KP = .2;
-        public static final double PID_ARM_KI = .2;
+        public static final double PID_ARM_KI = 0;
         public static final double PID_ARM_KD = 0;
 
         

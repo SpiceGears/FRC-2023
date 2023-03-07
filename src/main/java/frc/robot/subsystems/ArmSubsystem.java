@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -42,7 +43,7 @@ public DigitalInput frontLimitSwitch;
 
     armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
     armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);  // 2048 ticks = 360 of arm
-    armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
+    // armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
     armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE); // TODO: check if arm going up -> armAngle ++
     armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
 
@@ -61,20 +62,15 @@ public DigitalInput frontLimitSwitch;
     // This method will be called once per scheduler run
 
     logArm();
+    limitSwitchResetEncoder(); // reset encoder after hitting front limit switch
 
   }
 
+
   //* Rotate arm by speed, prevents rotating into deadzone. */
   public void rotateArmBySpeed(double speed) {
-    // if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { // lower than max deadzone -> move up
-    //   armGroup.set(speed);
-    // } if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { // higher than min deadzone -> move down
-    //   armGroup.set(speed);
-    // } else {
-    //   armGroup.set(0); // don't move in deadzone direction
-    // }
 
-    if(speed>0) {
+    if(speed > 0) {
 
       if(backLimitSwitch.get()) {
         armGroup.set(0);
@@ -82,11 +78,10 @@ public DigitalInput frontLimitSwitch;
         armGroup.set(speed);
       }
 
-    } else if(speed<0) {
+    } else if(speed < 0) {
 
       if (frontLimitSwitch.get()) {
         armGroup.set(0);
-        armEncoder.reset();
       } else {
         armGroup.set(speed);
       }
@@ -102,7 +97,10 @@ public DigitalInput frontLimitSwitch;
   public void setArmSetpoint(double angle, boolean working) {
 
     if (working) {
-      armGroup.set(armPIDController.calculate(armEncoder.getDistance(), angle));
+
+      // set max Volts for arm motors in case of failure
+      double maxVolts = 3;
+      armGroup.setVoltage(MathUtil.clamp(12*armPIDController.calculate(armEncoder.getDistance(), angle), -maxVolts, maxVolts));
     } else {
       armGroup.set(0);
     }
@@ -110,18 +108,31 @@ public DigitalInput frontLimitSwitch;
   }
 
   public void stopArm() {
-    armGroup.set(0);
+    armGroup.setVoltage(0);
     SmartDashboard.putNumber("arm input speed", 0);
   }
 
   /** Return true when is beyond arm's limit deadzones, false when in normal arm position. */
   public boolean isInDeadZone() {
-    if(armEncoder.getDistance() <= 0 || armEncoder.getDistance() >= 100) {
+    if(armEncoder.getDistance() >= 0 || armEncoder.getDistance() <= 180) {
+      SmartDashboard.putBoolean("is arm in dead zone", isInDeadZone());
       return true;
-    } else
+    } else {
+      SmartDashboard.putBoolean("is arm in dead zone", isInDeadZone());
       return false;
+    }
+
   }
 
+  /** Reset arm encoder after hitting front limit switch */
+  public void limitSwitchResetEncoder() {
+    if (frontLimitSwitch.get()) {
+      armEncoder.reset();
+    }
+    System.out.println("> Arm encoder reset after front limit switch hit");
+  }
+
+  /** Reset arm encoder */
   public void resetEncoder() {
     armEncoder.reset();
     System.out.println("> Arm encoder reset");
