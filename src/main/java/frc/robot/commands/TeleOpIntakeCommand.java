@@ -9,12 +9,12 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class RollIntakeCommand extends CommandBase {
+public class TeleOpIntakeCommand extends CommandBase {
   /** Creates a new RollIntakeCommand. */
 
   private final IntakeSubsystem intakeSubsystem;
 
-  public RollIntakeCommand(IntakeSubsystem intakeSubsystem) {
+  public TeleOpIntakeCommand(IntakeSubsystem intakeSubsystem) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     this.intakeSubsystem = intakeSubsystem;
@@ -37,9 +37,9 @@ public class RollIntakeCommand extends CommandBase {
     if(RobotContainer.driver.getLeftTriggerAxis() > Constants.JOYSTICK.DEADBAND || RobotContainer.driver.getRightTriggerAxis() > Constants.JOYSTICK.DEADBAND) {
       
       if((RobotContainer.driver.getLeftTriggerAxis()) > (RobotContainer.driver.getRightTriggerAxis())) {
-        intakeSubsystem.rollIntake(-Constants.INTAKE.SPEED_MULTIPLIER * RobotContainer.driver.getLeftTriggerAxis());
+        intakeSubsystem.setIntake(-Constants.INTAKE.SPEED_IN * RobotContainer.driver.getLeftTriggerAxis());
       } else {
-        intakeSubsystem.rollIntake(RobotContainer.driver.getRightTriggerAxis());
+        intakeSubsystem.setIntake(Constants.INTAKE.SPEED_OUT * RobotContainer.driver.getRightTriggerAxis());
       }
 
     } else {

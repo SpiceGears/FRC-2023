@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import javax.tools.Diagnostic;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -46,19 +44,18 @@ public DigitalInput backLimitSwitch;
     rightArmMaster = new VictorSP(PortMap.ARM.RIGHT_MASTER_PORT);
     leftArmSlave = new VictorSP(PortMap.ARM.LEFT_SLAVE_PORT);
     rightArmSlave = new VictorSP(PortMap.ARM.RIGHT_SLAVE_PORT);
-
-    // leftArmMaster.
     
     armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmSlave, rightArmSlave);
 
     armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
     armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);
-    armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
+    // armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
     armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
     armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
 
     frontLimitSwitch = new DigitalInput(6);
     backLimitSwitch = new DigitalInput(7);
+
 
   }
 
@@ -94,7 +91,7 @@ public DigitalInput backLimitSwitch;
   //* Rotate arm to specific angle */
   public void rotateArmByAngle(double angle) {
 
-    //TODO: todo
+    //TODO
 
   }
 

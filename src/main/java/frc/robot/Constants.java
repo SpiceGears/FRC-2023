@@ -23,6 +23,8 @@ public final class Constants {
 
     public class DRIVETRAIN {
 
+        public static final double MAX_SPEED = 5; // m/s, used for PID setpoint in teleop
+
         public static final double SPEED_MULTIPLIER = .7;
         public static final double ROTATION_MULTIPLIER = .7;
 
@@ -62,7 +64,8 @@ public final class Constants {
     }
 
     public class INTAKE {
-        public static final double SPEED_MULTIPLIER = 0.5;
+        public static final double SPEED_IN = 0.5;
+        public static final double SPEED_OUT = 1;
     }
 
 }

@@ -26,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   /** Rotates intake in desired direction, positive for in, negative for out. */
-  public void rollIntake(double speed) {
+  public void setIntake(double speed) {
 
     intakeMotor1.set(speed);
     intakeMotor2.set(speed);
@@ -52,8 +52,8 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Logs important values to Smart Dashboard */
   public void logIntake() {
 
-    SmartDashboard.putNumber("motor1 speed", intakeMotor1.get());
-    SmartDashboard.putNumber("motor2 speed", intakeMotor2.get());
+    SmartDashboard.putNumber("intake motor1 speed", intakeMotor1.get());
+    SmartDashboard.putNumber("intake motor2 speed", intakeMotor2.get());
 
   }
 

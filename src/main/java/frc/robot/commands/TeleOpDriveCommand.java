@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class DriveCommand extends CommandBase {
+public class TeleOpDriveCommand extends CommandBase {
   /** Creates a new ArcadeDriveCommand. */
 
   private final DriveTrainSubsystem driveTrainSubsystem;
 
-  public DriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
+  public TeleOpDriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrainSubsystem = driveTrainSubsystem;
@@ -33,7 +33,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
 
-    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
 
   }
 

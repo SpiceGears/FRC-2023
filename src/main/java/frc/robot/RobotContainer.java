@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.MoveArmCommand;
 import frc.robot.commands.ResetArmEncoderCommand;
-import frc.robot.commands.RollIntakeCommand;
+import frc.robot.commands.TeleOpIntakeCommand;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -32,8 +32,8 @@ public class RobotContainer {
   public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static OtherLogs otherLogs = new OtherLogs();
 
-  public static DriveCommand driveCommand = new DriveCommand(driveTrainSubsystem);
-  public static RollIntakeCommand rollIntakeCommand = new RollIntakeCommand(intakeSubsystem);
+  public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand(driveTrainSubsystem);
+  public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand(intakeSubsystem);
   public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
   public static ResetArmEncoderCommand resetArmCommand = new ResetArmEncoderCommand(armSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
@@ -56,8 +56,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveTrainSubsystem.setDefaultCommand(new DriveCommand(driveTrainSubsystem));
-    intakeSubsystem.setDefaultCommand(new RollIntakeCommand(intakeSubsystem));
+    driveTrainSubsystem.setDefaultCommand(new TeleOpDriveCommand(driveTrainSubsystem));
+    intakeSubsystem.setDefaultCommand(new TeleOpIntakeCommand(intakeSubsystem));
     armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
 
     new JoystickButton(driver, Button.kLeftBumper.value)

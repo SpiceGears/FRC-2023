@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -81,14 +82,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftEncoder = new Encoder(PortMap.DRIVE.LEFT_ENCODER_PORT_A, PortMap.DRIVE.LEFT_ENCODER_PORT_B);
     leftEncoder.setDistancePerPulse(
             Constants.DRIVETRAIN.ENCODER_DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
-    leftEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
+    // leftEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
     leftEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_LEFT_REVERSE);
     leftEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
 
     rightEncoder = new Encoder(PortMap.DRIVE.RIGHT_ENCODER_PORT_A, PortMap.DRIVE.RIGHT_ENCODER_PORT_B);
     rightEncoder.setDistancePerPulse(
             Constants.DRIVETRAIN.ENCODER_DISTANCE_PER_ROTATION / Constants.DRIVETRAIN.ENCODER_TICK_RATE);
-    rightEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
+    // rightEncoder.setMaxPeriod(Constants.DRIVETRAIN.ENCODER_MIN_RATE);
     rightEncoder.setReverseDirection(Constants.DRIVETRAIN.ENCODER_RIGHT_REVERSE);
     rightEncoder.setSamplesToAverage(Constants.DRIVETRAIN.ENCODER_SAMPLES_TO_AVERAGE);
 
@@ -131,30 +132,61 @@ public class DriveTrainSubsystem extends SubsystemBase {
    * */
   public void pidDrive(double speed, double turn) {
 
-    if (Math.abs(speed) >= Constants.JOYSTICK.DEADBAND || Math.abs(turn) >= Constants.JOYSTICK.DEADBAND) {
+    double leftSpeed;
+    double rightSpeed;
 
-      double leftSpeed = 0;
-      double rightSpeed = 0;
+    // SPEED != 0 and TURN != 0
+    if (Math.abs(speed) >= Constants.JOYSTICK.DEADBAND && Math.abs(turn) >= Constants.JOYSTICK.DEADBAND) {
 
-      leftSpeed = speed + turn;
-      rightSpeed = speed - turn;
-      if(rightSpeed < -1) {rightSpeed = -1;}
-      if(leftSpeed > 1) {leftSpeed = 1;}
-      if(rightSpeed > 1) {rightSpeed = 1;}
-      if(leftSpeed < -1) {leftSpeed = -1;}
+      // reduce turn when going forwards/backwards
+      speed *= 1;
+      turn *= 0.5;
+
+      leftSpeed = MathUtil.clamp(speed + turn, -1, 1);
+      rightSpeed = MathUtil.clamp(speed - turn, -1, 1);
 
       //                                      read speed (m/s)              setpoint (1 * x m/s)
-      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * 5),
-                rightPIDController.calculate(getRightMetersPerSecond(), rightSpeed * 5));
+      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * Constants.DRIVETRAIN.MAX_SPEED),
+                rightPIDController.calculate(getRightMetersPerSecond(), rightSpeed * Constants.DRIVETRAIN.MAX_SPEED));
 
-    } else {
+    }
+    // SPEED != 0 and TURN = 0
+    else if(Math.abs(speed) >= Constants.JOYSTICK.DEADBAND && Math.abs(turn) <= Constants.JOYSTICK.DEADBAND) {
+
+      // drive both wheels the same speed based on one encoder when not turning
+      // compensates for drift between wheels when driving forwards
+
+      //                                      read speed (m/s)              setpoint (1 * x m/s)
+      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), speed * Constants.DRIVETRAIN.MAX_SPEED),
+                rightPIDController.calculate(getLeftMetersPerSecond(), speed * Constants.DRIVETRAIN.MAX_SPEED));
+    }
+    // SPEED = 0 and TURN != 0
+    else if(Math.abs(speed) <= Constants.JOYSTICK.DEADBAND && Math.abs(turn) >= Constants.JOYSTICK.DEADBAND) {
+
+      leftSpeed = MathUtil.clamp(speed + turn, -1, 1);
+      rightSpeed = MathUtil.clamp(speed - turn, -1, 1);
+
+      //                                      read speed (m/s)              setpoint (1 * x m/s)
+      tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * Constants.DRIVETRAIN.MAX_SPEED),
+                rightPIDController.calculate(getRightMetersPerSecond(), rightSpeed * Constants.DRIVETRAIN.MAX_SPEED));
+    } 
+    // SPEED = 0 and TURN = 0
+    else {
+    
+      //set motors to 0 and PID setpoint to 0
       stopDriving();
       leftPIDController.setSetpoint(0);
       rightPIDController.setSetpoint(0);
     }
+    
 
   }
 
+  //* Drive for given distance then stop. */
+  public void driveForDistance(double distance) {
+    //TODO
+  }
+  
   /** Controls the robot with simple speed and rotation values.
    * Removes unintentional deadband.
    * */  
@@ -163,50 +195,57 @@ public class DriveTrainSubsystem extends SubsystemBase {
     if(Math.abs(xSpeed) >= Constants.JOYSTICK.DEADBAND || Math.abs(zRotation) >= Constants.JOYSTICK.DEADBAND) {
 
       differentialDrive.arcadeDrive(Constants.DRIVETRAIN.SPEED_MULTIPLIER * xSpeed, Constants.DRIVETRAIN.ROTATION_MULTIPLIER * -zRotation);
-
+      
     } else {
-
+      
       differentialDrive.arcadeDrive(0, 0);
-
+      
     }
-
+    
   }
-
+  
   /** Sends raw speeds directly to motors.
    */
   public void tankDrive(double leftSpeed, double rightSpeed) {
-
+    
     // Bounds speeds in range -1 to 1
-    leftSpeed = Math.min(1, Math.max(-1, leftSpeed));
-    rightSpeed = Math.min(1, Math.max(-1, rightSpeed));
-
+    leftSpeed = MathUtil.clamp(leftSpeed, -1, 1);
+    rightSpeed = MathUtil.clamp(rightSpeed, -1, 1);
+    
     differentialDrive.tankDrive(leftSpeed, rightSpeed);
-
+    
   }
-
+  
   /** Returns left distance in xxxxxxxxxx */
   public double getLeftDistance(){
     return leftEncoder.getDistance();
   }
-
+  
   /** Returns right distance in xxxxxxxxxx */
   public double getRightDistance(){
     return rightEncoder.getDistance();
   }
-
+  
   /** Returns left encoder speed in xxxxxxxxxx */
   public double getLeftMetersPerSecond() {
     return leftEncoder.getRate();
   }
-
+  
   /** Returns right encoder speed in xxxxxxxxxx */
   public double getRightMetersPerSecond() {
     return rightEncoder.getRate();
   }
-
+  
   /** Stops drive motors */
   public void stopDriving() {
     tankDrive(0, 0);
+  }
+  
+  /** Reduces double to field from -1 to 1 */
+  public static double bound(double x) {
+    if(x < -1) {x = -1;};
+    if(x > 1) {x = 1;};
+    return x;
   }
 
   /** Resets endoders */
@@ -218,34 +257,34 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   /** Logs important values to Smart Dashboard */
   public void logDriveTrain() {
-
+    
     SmartDashboard.putNumber("leftSpeed in m per s", getLeftMetersPerSecond());
     SmartDashboard.putNumber("rightSpeed in m per s", getRightMetersPerSecond());
     SmartDashboard.putNumber("leftDistance in m", getLeftDistance());
     SmartDashboard.putNumber("rightDistance in m", getRightDistance());
-
+    
     SmartDashboard.putNumber("gyro getAngle()", gyro.getAngle());
     SmartDashboard.putNumber("gyro getPitch()", gyro.getPitch());
     SmartDashboard.putNumber("gyro getRawGyroX()", gyro.getRawGyroX());
-
+    
   }
-
-
-
-
-
+  
+  
+  
+  
+  
   // SIMULATION
-
+  
   // Create the simulation model of our drivetrain.
   DifferentialDrivetrainSim m_driveSim = new DifferentialDrivetrainSim(
-  DCMotor.getCIM(2),       // 2 NEO motors on each side of the drivetrain.
-  8.45,                    // 8.45:1 gearing reduction.
-  7.5,                     // MOI of 7.5 kg m^2 (from CAD model).
-  60.0,                    // The mass of the robot is 40 kg.
-  Units.inchesToMeters(3), // The robot uses 3" radius wheels.
-  0.7112,                  // The track width is 0.7112 meters.
-
-  // The standard deviations for measurement noise:
+    DCMotor.getCIM(2),       // 2 NEO motors on each side of the drivetrain.
+    8.45,                    // 8.45:1 gearing reduction.
+    7.5,                     // MOI of 7.5 kg m^2 (from CAD model).
+    60.0,                    // The mass of the robot is 40 kg.
+    Units.inchesToMeters(3), // The robot uses 3" radius wheels.
+    0.7112,                  // The track width is 0.7112 meters.
+    
+    // The standard deviations for measurement noise:
   // x and y:          0.001 m
   // heading:          0.001 rad
   // l and r velocity: 0.1   m/s
