@@ -12,8 +12,8 @@ import frc.robot.RobotContainer;
 
 public class OtherLogs extends SubsystemBase {
   /** Creates a new OtherLogs. */
-  
-  public static final PowerDistribution pdp = new PowerDistribution();
+
+  public static PowerDistribution pdp = new PowerDistribution();
 
   @Override
   public void periodic() {

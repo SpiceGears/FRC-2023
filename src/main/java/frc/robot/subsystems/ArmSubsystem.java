@@ -4,11 +4,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -21,30 +17,28 @@ import frc.robot.PortMap;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-  public VictorSP leftArmMaster;
-  public VictorSP rightArmMaster;
-  public VictorSP leftArmSlave;
-  public VictorSP rightArmSlave;
+public VictorSP leftArmMaster;
+public VictorSP rightArmMaster;
+public VictorSP leftArmSlave;
+public VictorSP rightArmSlave;
 
-  public MotorControllerGroup armGroup;
+public MotorControllerGroup armGroup;
 
-  public Encoder armEncoder;
-  // public Encoder leftEncoder;
-  // public Encoder rightEncoder;
+public Encoder armEncoder;
+// public Encoder leftEncoder;
+// public Encoder rightEncoder;
 
-  public PIDController armPidController;
-  // private PIDController leftPIDController;
-  // private PIDController rightPIDController;
+public PIDController armPidController;
+// private PIDController leftPIDController;
+// private PIDController rightPIDController;
 
-  public DigitalInput frontLimitSwitch;
-  public DigitalInput backLimitSwitch;
-  
-  private final ArmFeedforward feedforward =
-    new ArmFeedforward(
-      Constants.ARM.kSVolts, Constants.ARM.kGVolts, Constants.ARM.kVoltSecondPerRad, Constants.ARM.kAVoltSecondSquaredPerRad);
+public DigitalInput frontLimitSwitch;
+public DigitalInput backLimitSwitch;
 
 
   public ArmSubsystem() {
+
+    // TODO: SET THEESE CONTROLLERS TO BRAKE (PRESS B/C BUTTON TO STATE WHEN SOLID RED LED IS DISPLAYED) DONT HOLD, JUST PUSH ONCE
 
     leftArmMaster = new VictorSP(PortMap.ARM.LEFT_MASTER_PORT);
     rightArmMaster = new VictorSP(PortMap.ARM.RIGHT_MASTER_PORT);
@@ -63,21 +57,6 @@ public class ArmSubsystem extends SubsystemBase {
     backLimitSwitch = new DigitalInput(7);
 
 
-    ProfiledPIDController profiledController = new ProfiledPIDController(
-      Constants.ARM.kP,
-      Constants.ARM.kI,
-      Constants.ARM.kD,
-      new TrapezoidProfile.Constraints(
-        0.35, // in radians 0.35 == 20deg
-        0.35)); // in radians 0.35 == 20deg
-
-  }
-
-  //* Rotate arm to specific angle */
-  public void setArmAngle(double angle) {
-    double maxVolts = 3; // double protection 0_0
-    armGroup.setVoltage(MathUtil.clamp((maxVolts* feedforward.calculate(angle, 0.35, 0.35)), -maxVolts, maxVolts));
-
   }
 
   @Override
@@ -87,7 +66,35 @@ public class ArmSubsystem extends SubsystemBase {
     logArm();
 
   }
+
+  //* Rotate arm by speed, prevents rotating into deadzone. */
+  public void rotateArmBySpeed(double speed) {
+    if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { 
+      armGroup.set(speed);
+    } else if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { 
+      armGroup.set(speed);
+    } else {
+      armGroup.set(0); // don't move in deadzone direction
+    }
+
+    if(frontLimitSwitch.get()) {
+      resetEncoder();
+    }
+    if(backLimitSwitch.get()) {
+      stopArm();
+      
+    }
+
+    SmartDashboard.putNumber("arm input speed", speed);
+  }
   
+  //* Rotate arm to specific angle */
+  public void rotateArmByAngle(double angle) {
+
+    //TODO
+
+  }
+
   public void stopArm() {
     armGroup.set(0);
   }

@@ -24,7 +24,7 @@ public class OtherLogs {
     static double driveRightSlaveCurrent;
 
     /** Logs values from PDP and others (joysticks) to SmartDashboard */
-    public static void logOther() {
+    public void logOther() {
 
         SmartDashboard.putNumber("pdpVoltage", pdp.getVoltage());
         SmartDashboard.putNumber("pdpTemperature", pdp.getTemperature());
