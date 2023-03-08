@@ -8,12 +8,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.MoveArmCommand;
-import frc.robot.commands.ResetArmEncoderCommand;
+import frc.robot.commands.SetArmCommand;
 import frc.robot.commands.TeleOpIntakeCommand;
 import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.DisableArmFFCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -35,7 +37,6 @@ public class RobotContainer {
   public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand(driveTrainSubsystem);
   public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand(intakeSubsystem);
   public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
-  public static ResetArmEncoderCommand resetArmCommand = new ResetArmEncoderCommand(armSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
@@ -58,11 +59,23 @@ public class RobotContainer {
 
     driveTrainSubsystem.setDefaultCommand(new TeleOpDriveCommand(driveTrainSubsystem));
     intakeSubsystem.setDefaultCommand(new TeleOpIntakeCommand(intakeSubsystem));
-    armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
+    // armSubsystem.setDefaultCommand(new MoveArmCommand(armSubsystem));
 
-    new JoystickButton(driver, Button.kLeftBumper.value)
-      .whileTrue(new ResetArmEncoderCommand(armSubsystem));
 
+    // SET POSITION IN RADIANS FROM HORIZONTAL
+    // 2pi = 360 degrees of rotation
+
+    new JoystickButton(driver, Button.kA.value)
+      .onTrue(new SetArmCommand(armSubsystem, -0.2));
+
+    new JoystickButton(driver, Button.kB.value)
+      .onTrue(new SetArmCommand(armSubsystem, 0));
+      
+      new JoystickButton(driver, Button.kY.value)
+      .onTrue(new SetArmCommand(armSubsystem, 0.35));
+
+      new JoystickButton(driver, Button.kX.value)
+      .onTrue(new DisableArmFFCommand(armSubsystem));
   }
 
   /**

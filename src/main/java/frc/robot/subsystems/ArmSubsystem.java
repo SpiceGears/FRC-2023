@@ -4,59 +4,82 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Constants;
 import frc.robot.PortMap;
 
-public class ArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends ProfiledPIDSubsystem {
   /** Creates a new ArmSubsystem. */
 
-public VictorSP leftArmMaster;
-public VictorSP rightArmMaster;
-public VictorSP leftArmSlave;
-public VictorSP rightArmSlave;
+  // private final PWMSparkMax m_motor = new PWMSparkMax(ArmConstants.kMotorPort);
+  // private final Encoder m_encoder =
+  //     new Encoder(ArmConstants.kEncoderPorts[0], ArmConstants.kEncoderPorts[1]);
+  private final ArmFeedforward m_feedforward =
+      new ArmFeedforward(
+        Constants.ARM.kSVolts, Constants.ARM.kGVolts,
+        Constants.ARM.kVVoltSecondPerRad, Constants.ARM.kAVoltSecondSquaredPerRad);
+  
+  private final VictorSP leftArmMaster = new VictorSP(PortMap.ARM.LEFT_MASTER_PORT);
+  private final VictorSP rightArmMaster = new VictorSP(PortMap.ARM.RIGHT_MASTER_PORT);
+  private final VictorSP leftArmSlave = new VictorSP(PortMap.ARM.LEFT_SLAVE_PORT);
+  private final VictorSP rightArmSlave = new VictorSP(PortMap.ARM.RIGHT_SLAVE_PORT);
 
-public MotorControllerGroup armGroup;
+  public MotorControllerGroup armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmSlave, rightArmSlave);
 
-public Encoder armEncoder;
-// public Encoder leftEncoder;
-// public Encoder rightEncoder;
+  public Encoder armEncoder;
 
-public PIDController armPidController;
-// private PIDController leftPIDController;
-// private PIDController rightPIDController;
+  public DigitalInput frontLimitSwitch = new DigitalInput(6);
+  public DigitalInput backLimitSwitch = new DigitalInput(7);
 
-public DigitalInput frontLimitSwitch;
-public DigitalInput backLimitSwitch;
+    public ArmSubsystem() {
+      super(
+        new ProfiledPIDController(
+        Constants.ARM.KP,
+        0,
+        0,
+        new TrapezoidProfile.Constraints(
+          Constants.ARM.kMaxVelocityRadPerSecond,
+          Constants.ARM.kMaxAccelerationRadPerSecSquared)),
+          0);
+          armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);
 
+          // Start arm at rest in neutral position
+          // setGoal(Constants.ARM.kArmOffsetRads);
+          
+          armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
+          // armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);
+          armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
+          armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
+          armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
 
-  public ArmSubsystem() {
+        }
+        
+  @Override
+  public void useOutput(double output, TrapezoidProfile.State setpoint) {
 
-    // TODO: SET THEESE CONTROLLERS TO BRAKE (PRESS B/C BUTTON TO STATE WHEN SOLID RED LED IS DISPLAYED) DONT HOLD, JUST PUSH ONCE
+    // Calculate the feedforward from the sepoint
+    double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
-    leftArmMaster = new VictorSP(PortMap.ARM.LEFT_MASTER_PORT);
-    rightArmMaster = new VictorSP(PortMap.ARM.RIGHT_MASTER_PORT);
-    leftArmSlave = new VictorSP(PortMap.ARM.LEFT_SLAVE_PORT);
-    rightArmSlave = new VictorSP(PortMap.ARM.RIGHT_SLAVE_PORT);
-    
-    armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmSlave, rightArmSlave);
+    // Limit output voltage to this X/12V
+    double maxVoltage = 3;
 
-    armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
-    armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);
-    // armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE);
-    armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
-    armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
+    // Add the feedforward to the PID output to get the motor output
+    armGroup.setVoltage(MathUtil.clamp(output + feedforward, maxVoltage, -maxVoltage));
 
-    frontLimitSwitch = new DigitalInput(6);
-    backLimitSwitch = new DigitalInput(7);
+  }
 
-
+  @Override
+  public double getMeasurement() {
+    return armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
   }
 
   @Override
@@ -64,6 +87,10 @@ public DigitalInput backLimitSwitch;
     // This method will be called once per scheduler run
 
     logArm();
+
+    if(frontLimitSwitch.get()) {
+      armEncoder.reset();
+    }
 
   }
 
@@ -87,34 +114,19 @@ public DigitalInput backLimitSwitch;
 
     SmartDashboard.putNumber("arm input speed", speed);
   }
-  
-  //* Rotate arm to specific angle */
-  public void rotateArmByAngle(double angle) {
 
-    //TODO
-
-  }
 
   public void stopArm() {
     armGroup.set(0);
   }
 
-  /** Return true when is beyond arm's limit deadzones, false when in normal arm position. */
-  public boolean isInDeadZone() {
-    if(armEncoder.getDistance() <= 0 || armEncoder.getDistance() >= 100) {
-      return true;
-    } else
-      return false;
-  }
-
   public void resetEncoder() {
     armEncoder.reset();
-    System.out.println("> Arm encoder reset");
+    System.out.println("> Arm encoder reset [ resetEncoder() ]");
   }
 
   public void logArm() {
-    SmartDashboard.putNumber("arm angle", armEncoder.getDistance());
-    SmartDashboard.putNumber("arm speed degrees per second", armEncoder.getRate());
+    SmartDashboard.putNumber("armEncoder.getDistance()", armEncoder.getDistance());
   }
 
 

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -47,6 +49,8 @@ public final class Constants {
 
     public class ARM {
 
+        public static final double KP = .2;
+
         public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1
 
         public static final double DEADZONE_LOW = 0;
@@ -60,6 +64,15 @@ public final class Constants {
         public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
         public static final boolean ENCODER_REVERSE = true;
 
+        public static final double kMaxVelocityRadPerSecond = 20 * Math.PI/180; //20 degrees
+        public static final double kMaxAccelerationRadPerSecSquared = 20 * Math.PI/180;
+        public static final double kEncoderDistancePerPulse = 2 * Math.PI / REDUCTION_CHAIN / ENCODER_TICK_RATE; // 2rad per full rotation
+        public static final double kArmOffsetRads = -20 * Math.PI/180; // arm rest position counting from horizontal
+
+        public static final double kSVolts = 0;
+        public static final double kGVolts = 1.5;
+        public static final double kVVoltSecondPerRad = 0.5;
+        public static final double kAVoltSecondSquaredPerRad = 0.05;
         
     }
 

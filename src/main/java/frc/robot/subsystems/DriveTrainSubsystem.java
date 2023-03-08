@@ -240,13 +240,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void stopDriving() {
     tankDrive(0, 0);
   }
-  
-  /** Reduces double to field from -1 to 1 */
-  public static double bound(double x) {
-    if(x < -1) {x = -1;};
-    if(x > 1) {x = 1;};
-    return x;
-  }
 
   /** Resets endoders */
   public void resetEncoders() {

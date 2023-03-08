@@ -7,31 +7,31 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ResetArmEncoderCommand extends CommandBase {
-  /** Creates a new ResetEncoderCommand. */
-  
+
+public class SetArmCommand extends CommandBase {
+
   private final ArmSubsystem armSubsystem;
+  private final double position;
 
-  public ResetArmEncoderCommand(ArmSubsystem armSubsystem) {
-
+  /** Creates a new SetArmCommand. */
+  public SetArmCommand(ArmSubsystem armSubsystem, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armSubsystem = armSubsystem;
+    this.position = position;
     addRequirements(this.armSubsystem);
-
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
 
-    
-  }
-  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.resetEncoder();
 
+    // Move the arm to [position] radians above horizontal when the button is pressed.
+    armSubsystem.setGoal(position);
+    armSubsystem.enable();
   }
 
   // Called once the command ends or is interrupted.
@@ -41,9 +41,6 @@ public class ResetArmEncoderCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return false;
-
   }
-
 }
