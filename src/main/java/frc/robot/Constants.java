@@ -70,9 +70,9 @@ public final class Constants {
         public static final double kArmOffsetRads = -20 * Math.PI/180; // arm rest position counting from horizontal
 
         public static final double kSVolts = 0.5;
-        public static final double kGVolts = 2.5;
+        public static final double kGVolts = 2;
         // 2.5v utrzymuje w horizontal, wyzej 2.5v to za duzo
-        public static final double kVVoltSecondPerRad = 1;
+        public static final double kVVoltSecondPerRad = 1.2;
         public static final double kAVoltSecondSquaredPerRad = 0.05;
         
     }

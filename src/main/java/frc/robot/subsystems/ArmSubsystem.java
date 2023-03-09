@@ -84,20 +84,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   @Override
   public double getMeasurement() {
+    logArm();
+    SmartDashboard.putNumber("getmeasurement", armEncoder.getDistance() + Constants.ARM.kArmOffsetRads);
     return armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-
-    logArm();
-
-    // if(frontLimitSwitch.get()) {
-    //   armEncoder.reset();
-    // }
-
-  }
 
   //* Rotate arm by speed, prevents rotating into deadzone. */
   public void rotateArmBySpeed(double speed) {
@@ -132,8 +123,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public void logArm() {
     SmartDashboard.putNumber("armEncoder.getDistance()!!!!!!!", armEncoder.getDistance());
-    SmartDashboard.putNumber("getMeasurement()", getMeasurement());
-;
+    // SmartDashboard.putNumber("getMeasurement()", getMeasurement());
+
 
   }
 

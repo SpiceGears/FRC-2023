@@ -75,7 +75,25 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(1);
+            armSubsystem.setGoal(-0.3);
+            armSubsystem.enable();
+          }
+        )
+      );
+      new JoystickButton(driver, Button.kB.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(0);
+            armSubsystem.enable();
+          }
+        )
+      );
+      new JoystickButton(driver, Button.kY.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(0.8);
             armSubsystem.enable();
           }
         )
@@ -85,7 +103,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.disable();;
+            armSubsystem.disable();
           }
         )
       );
