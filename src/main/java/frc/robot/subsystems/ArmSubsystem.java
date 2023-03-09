@@ -18,11 +18,9 @@ import frc.robot.Constants;
 import frc.robot.PortMap;
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
-  /** Creates a new ArmSubsystem. */
+  /** Creates a new ProfiledPIDSubsystem. */
 
-  // private final PWMSparkMax m_motor = new PWMSparkMax(ArmConstants.kMotorPort);
-  // private final Encoder m_encoder =
-  //     new Encoder(ArmConstants.kEncoderPorts[0], ArmConstants.kEncoderPorts[1]);
+
   private final ArmFeedforward m_feedforward =
       new ArmFeedforward(
         Constants.ARM.kSVolts, Constants.ARM.kGVolts,
@@ -37,8 +35,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public Encoder armEncoder;
 
-  public DigitalInput frontLimitSwitch = new DigitalInput(6);
-  public DigitalInput backLimitSwitch = new DigitalInput(7);
+  public DigitalInput frontLimitSwitch = new DigitalInput(PortMap.ARM.FRONT_LIMIT);
+  public DigitalInput backLimitSwitch = new DigitalInput(PortMap.ARM.BACK_LIMIT);
 
     public ArmSubsystem() {
       super(
@@ -51,7 +49,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           Constants.ARM.kMaxAccelerationRadPerSecSquared)),
           0);
           armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
-          // armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);
           armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
           armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
           armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
@@ -59,8 +56,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
           // Start arm at rest in neutral position
           setGoal(Constants.ARM.kArmOffsetRads);
-          
- System.out.println("KONIEC ARMSUBSYSTEM()");
+
+          System.out.println("> ArmSubsystem()");
         }
         
   @Override
@@ -69,48 +66,29 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     // Calculate the feedforward from the sepoint
     double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
-    // Limit output voltage to this X/12V
+    // Limit output voltage
     double maxVoltage = 4;
 
     // Add the feedforward to the PID output to get the motor output
     double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
-    SmartDashboard.putNumber("finalOutput", finalOutput);
-    SmartDashboard.putNumber("feedforward: ", feedforward);
-    SmartDashboard.putNumber("output: ", output);
+    SmartDashboard.putNumber("ARM/finalOutput", finalOutput);
+    SmartDashboard.putNumber("ARM/feedforward: ", feedforward);
+    SmartDashboard.putNumber("ARM/output: ", output);
     
     armGroup.setVoltage(finalOutput);
 
   }
 
   @Override
+  // Executes periodically, use instead of periodic() because of @Override problems
   public double getMeasurement() {
+
     logArm();
-    SmartDashboard.putNumber("getmeasurement", armEncoder.getDistance() + Constants.ARM.kArmOffsetRads);
-    return armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
+    double measurement = armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
+    SmartDashboard.putNumber("ARM/getMeasurement()", measurement);
+
+    return measurement;
   }
-
-
-  //* Rotate arm by speed, prevents rotating into deadzone. */
-  public void rotateArmBySpeed(double speed) {
-    if(armEncoder.getDistance() >= Constants.ARM.DEADZONE_LOW && speed < 0) { 
-      armGroup.set(speed);
-    } else if(armEncoder.getDistance() <= Constants.ARM.DEADZONE_HIGH && speed > 0) { 
-      armGroup.set(speed);
-    } else {
-      armGroup.set(0); // don't move in deadzone direction
-    }
-
-    if(frontLimitSwitch.get()) {
-      resetEncoder();
-    }
-    if(backLimitSwitch.get()) {
-      stopArm();
-      
-    }
-
-    SmartDashboard.putNumber("arm input speed", speed);
-  }
-
 
   public void stopArm() {
     armGroup.set(0);
@@ -118,14 +96,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public void resetEncoder() {
     armEncoder.reset();
-    System.out.println("> Arm encoder reset [ resetEncoder() ]");
+    System.out.println("> resetEncoder() [arm]");
   }
 
   public void logArm() {
-    SmartDashboard.putNumber("armEncoder.getDistance()!!!!!!!", armEncoder.getDistance());
-    // SmartDashboard.putNumber("getMeasurement()", getMeasurement());
-
-
+    SmartDashboard.putNumber("ARM/armEncoder.getDistance()", armEncoder.getDistance());
   }
 
 

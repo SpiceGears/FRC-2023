@@ -12,6 +12,7 @@ import frc.robot.PortMap;
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new Intake. */
 
+  //TODO change this to top/bottom names
   public VictorSP intakeMotor1;
   public VictorSP intakeMotor2;
 
@@ -52,8 +53,8 @@ public class IntakeSubsystem extends SubsystemBase {
   /** Logs important values to Smart Dashboard */
   public void logIntake() {
 
-    SmartDashboard.putNumber("intake motor1 speed", intakeMotor1.get());
-    SmartDashboard.putNumber("intake motor2 speed", intakeMotor2.get());
+    SmartDashboard.putNumber("INTAKE/motor1 speed", intakeMotor1.get());
+    SmartDashboard.putNumber("INTAKE/motor2 speed", intakeMotor2.get());
 
   }
 

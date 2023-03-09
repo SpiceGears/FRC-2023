@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  // Add subsystems
+  //TODO check if this is needed v
   public static DriveTrainSubsystem driveTrainSubsystem;
   public static IntakeSubsystem intakeSubsystem;
   public static ArmSubsystem armSubsystem;
@@ -108,7 +108,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    // RobotContainer.driveTrainSubsystem.resetEncoders();
   }
   
   /** This function is called periodically during operator control. */

@@ -35,6 +35,7 @@ public class SetArmCommand extends CommandBase {
     // Move the arm to [position] radians above horizontal when the button is pressed.
     armSubsystem.setGoal(position);
     armSubsystem.enable();
+    System.out.println("> Arm position set to " + position + "radians");
   }
 
   // Called once the command ends or is interrupted.

@@ -245,20 +245,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void resetEncoders() {
     leftEncoder.reset();
     rightEncoder.reset();
-    System.out.println("> Drive encoders reset");
+    System.out.println("> resetEncoders() [drivetrain]");
   }
 
   /** Logs important values to Smart Dashboard */
   public void logDriveTrain() {
     
-    SmartDashboard.putNumber("leftSpeed in m per s", getLeftMetersPerSecond());
-    SmartDashboard.putNumber("rightSpeed in m per s", getRightMetersPerSecond());
-    SmartDashboard.putNumber("leftDistance in m", getLeftDistance());
-    SmartDashboard.putNumber("rightDistance in m", getRightDistance());
+    SmartDashboard.putNumber("DRIVE/leftSpeed in m per s", getLeftMetersPerSecond());
+    SmartDashboard.putNumber("DRIVE/rightSpeed in m per s", getRightMetersPerSecond());
+    SmartDashboard.putNumber("DRIVE/leftDistance in m", getLeftDistance());
+    SmartDashboard.putNumber("DRIVE/rightDistance in m", getRightDistance());
     
-    SmartDashboard.putNumber("gyro getAngle()", gyro.getAngle());
-    SmartDashboard.putNumber("gyro getPitch()", gyro.getPitch());
-    SmartDashboard.putNumber("gyro getRawGyroX()", gyro.getRawGyroX());
+    SmartDashboard.putNumber("GYRO/getAngle()", gyro.getAngle());
+    SmartDashboard.putNumber("GYRO/getPitch()", gyro.getPitch());
+    SmartDashboard.putNumber("GYRO/getRawGyroX()", gyro.getRawGyroX());
     
   }
   
