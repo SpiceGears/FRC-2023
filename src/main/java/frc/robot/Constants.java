@@ -69,9 +69,10 @@ public final class Constants {
         public static final double kEncoderDistancePerPulse = 2 * Math.PI / REDUCTION_CHAIN / ENCODER_TICK_RATE; // 2rad per full rotation
         public static final double kArmOffsetRads = -20 * Math.PI/180; // arm rest position counting from horizontal
 
-        public static final double kSVolts = 0;
-        public static final double kGVolts = 1.5;
-        public static final double kVVoltSecondPerRad = 0.5;
+        public static final double kSVolts = 0.5;
+        public static final double kGVolts = 2.5;
+        // 2.5v utrzymuje w horizontal, wyzej 2.5v to za duzo
+        public static final double kVVoltSecondPerRad = 1;
         public static final double kAVoltSecondSquaredPerRad = 0.05;
         
     }

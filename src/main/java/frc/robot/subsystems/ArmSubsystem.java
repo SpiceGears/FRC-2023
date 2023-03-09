@@ -50,17 +50,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           Constants.ARM.kMaxVelocityRadPerSecond,
           Constants.ARM.kMaxAccelerationRadPerSecSquared)),
           0);
-          armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);
-
-          // Start arm at rest in neutral position
-          // setGoal(Constants.ARM.kArmOffsetRads);
-          
           armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
           // armEncoder.setDistancePerPulse(Constants.ARM.ENCODER_ANGLES_PER_ROTATION / Constants.ARM.ENCODER_TICK_RATE);
           armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
           armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
           armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
+          armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);
 
+          // Start arm at rest in neutral position
+          setGoal(Constants.ARM.kArmOffsetRads);
+          
+ System.out.println("KONIEC ARMSUBSYSTEM()");
         }
         
   @Override
@@ -70,10 +70,16 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
     // Limit output voltage to this X/12V
-    double maxVoltage = 3;
+    double maxVoltage = 4;
 
     // Add the feedforward to the PID output to get the motor output
-    armGroup.setVoltage(MathUtil.clamp(output + feedforward, maxVoltage, -maxVoltage));
+    double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
+    System.out.println("finalOutput: " + finalOutput);
+    System.out.println("feedforward: " + feedforward);
+    System.out.println("output: " + output);
+    SmartDashboard.putNumber("finalOutput", finalOutput);
+    
+    armGroup.setVoltage(finalOutput);
 
   }
 
@@ -88,9 +94,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     logArm();
 
-    if(frontLimitSwitch.get()) {
-      armEncoder.reset();
-    }
+    // if(frontLimitSwitch.get()) {
+    //   armEncoder.reset();
+    // }
 
   }
 
@@ -126,7 +132,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   }
 
   public void logArm() {
-    SmartDashboard.putNumber("armEncoder.getDistance()", armEncoder.getDistance());
+    SmartDashboard.putNumber("armEncoder.getDistance()!!!!!!!", armEncoder.getDistance());
+    SmartDashboard.putNumber("getMeasurement()", getMeasurement());
+;
+
   }
 
 

@@ -36,7 +36,7 @@ public class RobotContainer {
 
   public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand(driveTrainSubsystem);
   public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand(intakeSubsystem);
-  public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
+  // public static MoveArmCommand moveArmCommand = new MoveArmCommand(armSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
@@ -65,17 +65,41 @@ public class RobotContainer {
     // SET POSITION IN RADIANS FROM HORIZONTAL
     // 2pi = 360 degrees of rotation
 
-    new JoystickButton(driver, Button.kA.value)
-      .onTrue(new SetArmCommand(armSubsystem, -0.2));
 
-    new JoystickButton(driver, Button.kB.value)
-      .onTrue(new SetArmCommand(armSubsystem, 0));
+    // if(driver.getAButton()) {new SetArmCommand(armSubsystem, -0.2);}
+
+    // new JoystickButton(driver, Button.kB.value)
+    //   .onTrue(new SetArmCommand(armSubsystem, 0));
       
-      new JoystickButton(driver, Button.kY.value)
-      .onTrue(new SetArmCommand(armSubsystem, 0.35));
+      new JoystickButton(driver, Button.kA.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(0.3);
+            armSubsystem.enable();
+          }
+        )
+      );
 
       new JoystickButton(driver, Button.kX.value)
-      .onTrue(new DisableArmFFCommand(armSubsystem));
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.disable();;
+          }
+        )
+      );
+
+      // new JoystickButton(driver, Button.kX.value)
+      // .onTrue(armSubsystem.disable());
+
+    // if(driver.getAButtonPressed()) {
+    //   armSubsystem.setGoal(0.2);
+    //   armSubsystem.enable();
+    // }
+
+      
+      // if(driver.getXButton()) {new DisableArmFFCommand(armSubsystem);}
   }
 
   /**
@@ -85,6 +109,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autonomousCommand;
+  }
+
+  public void disablePIDSubsystems() {
+    armSubsystem.disable();
   }
 
 }
