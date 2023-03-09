@@ -74,10 +74,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     // Add the feedforward to the PID output to get the motor output
     double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
-    System.out.println("finalOutput: " + finalOutput);
-    System.out.println("feedforward: " + feedforward);
-    System.out.println("output: " + output);
     SmartDashboard.putNumber("finalOutput", finalOutput);
+    SmartDashboard.putNumber("feedforward: ", feedforward);
+    SmartDashboard.putNumber("output: ", output);
     
     armGroup.setVoltage(finalOutput);
 

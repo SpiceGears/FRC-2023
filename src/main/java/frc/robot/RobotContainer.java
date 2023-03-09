@@ -75,7 +75,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(0.3);
+            armSubsystem.setGoal(1);
             armSubsystem.enable();
           }
         )
