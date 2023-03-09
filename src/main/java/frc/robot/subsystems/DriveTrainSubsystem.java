@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PortMap;
+import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrainSubsystem extends SubsystemBase {
   /** Creates a new DriveTrainSubsystem. */
@@ -101,11 +102,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
                                           Constants.DRIVETRAIN.PID_RIGHT_KI,
                                           Constants.DRIVETRAIN.PID_RIGHT_KD);
     
-    gyro = new AHRS();
+    gyro = new AHRS(SPI.Port.kMXP);
 
     pose = new Pose2d(5.0, 13.5, new Rotation2d());
 
     odometry = new DifferentialDriveOdometry(gyro.getRotation2d(), getLeftDistance(), getRightDistance(), new Pose2d(5.0, 13.5, new Rotation2d())); // must be in meters
+
 
 
     // SIMULATION
@@ -208,6 +210,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void stopDriving() {
     tankDrive(0, 0);
   }
+
+  //get gyro heading
+  public double getHeading() {
+    return gyro.getAngle();
+  }
+  //get gyro pitch
+  public double getPitch() {
+    return gyro.getPitch();
+  }
+
 
   /** Resets endoders */
   public void resetEncoders() {
