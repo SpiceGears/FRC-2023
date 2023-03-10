@@ -258,7 +258,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     
     SmartDashboard.putNumber("GYRO/getAngle()", gyro.getAngle());
     SmartDashboard.putNumber("GYRO/getPitch()", gyro.getPitch());
+    SmartDashboard.putNumber("GYRO/getYaw()", gyro.getYaw());
+    SmartDashboard.putNumber("GYRO/getRoll()", gyro.getRoll());
     SmartDashboard.putNumber("GYRO/getRawGyroX()", gyro.getRawGyroX());
+    SmartDashboard.putNumber("GYRO/getRawGyroY()", gyro.getRawGyroY());
+    SmartDashboard.putNumber("GYRO/getRawGyroZ()", gyro.getRawGyroZ());
     
   }
   

@@ -98,6 +98,22 @@ public class RobotContainer {
           }
         )
       );
+      new JoystickButton(driver, Button.kLeftBumper.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.resetEncoder();
+          }
+        )
+      );
+      new JoystickButton(driver, Button.kRightBumper.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(1.5);
+          }
+        )
+      );
 
   }
 

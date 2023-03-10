@@ -71,10 +71,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     // Add the feedforward to the PID output to get the motor output
     double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
+
     SmartDashboard.putNumber("ARM/finalOutput", finalOutput);
     SmartDashboard.putNumber("ARM/feedforward: ", feedforward);
     SmartDashboard.putNumber("ARM/output: ", output);
     
+
     armGroup.setVoltage(finalOutput);
 
   }
@@ -86,6 +88,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     logArm();
     double measurement = armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
     SmartDashboard.putNumber("ARM/getMeasurement()", measurement);
+
+    if(frontLimitSwitch.get()) {
+      resetEncoder();
+    }
 
     return measurement;
   }
