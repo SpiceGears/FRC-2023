@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.SetArmCommand;
@@ -123,7 +125,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autonomousCommand;
+
+    return new SequentialCommandGroup(
+        new SetArmCommand(armSubsystem, 0),
+        new WaitCommand(2),
+        new SetArmCommand(armSubsystem, 0.5)
+    );
+
   }
 
   public void disablePIDSubsystems() {
