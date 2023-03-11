@@ -117,6 +117,12 @@
       },
       "open": true
     },
+    "Persistent Values": {
+      "open": false
+    },
+    "Retained Values": {
+      "open": false
+    },
     "SmartDashboard": {
       "open": true
     },
@@ -143,6 +149,9 @@
         "open": true
       },
       "SmartDashboard": {
+        "ARM": {
+          "open": true
+        },
         "leftSpeed in m": {
           "open": true
         },

@@ -5,20 +5,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class MoveArmCommand extends CommandBase {
-  /** Creates a new MoveArmCommand. */
+public class TeleOpDriveCommand extends CommandBase {
+  /** Creates a new ArcadeDriveCommand. */
 
-  private final ArmSubsystem armSubsystem;
+  private final DriveTrainSubsystem driveTrainSubsystem;
 
-  public MoveArmCommand(ArmSubsystem armSubsystem) {
+  public TeleOpDriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armSubsystem = armSubsystem;
-    addRequirements(this.armSubsystem);
+    this.driveTrainSubsystem = driveTrainSubsystem;
+    addRequirements(this.driveTrainSubsystem);
 
   }
 
@@ -26,7 +25,7 @@ public class MoveArmCommand extends CommandBase {
   @Override
   public void initialize() {
 
-    armSubsystem.stopArm();
+    driveTrainSubsystem.stopDriving();
 
   }
 
@@ -34,20 +33,7 @@ public class MoveArmCommand extends CommandBase {
   @Override
   public void execute() {
 
-    double speed = Constants.ARM.SPEED_MULTIPLIER;
-    int pov;
-
-    pov = RobotContainer.driver.getPOV();
-    if(pov == 0) {
-      armSubsystem.rotateArmBySpeed(speed); // if dpad is up -> rotate arm up
-
-    } else if(pov == 180) {
-      armSubsystem.rotateArmBySpeed(-speed); // if dpas is down -> rotate arm down
-
-    } else {
-      armSubsystem.rotateArmBySpeed(0);; // else stop arm
-
-    }
+    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
 
   }
 
@@ -62,5 +48,5 @@ public class MoveArmCommand extends CommandBase {
     return false;
 
   }
-
+  
 }

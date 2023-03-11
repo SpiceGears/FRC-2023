@@ -5,36 +5,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
-public class DriveCommand extends CommandBase {
-  /** Creates a new ArcadeDriveCommand. */
 
-  private final DriveTrainSubsystem driveTrainSubsystem;
+public class DisableArmCommand extends CommandBase {
 
-  public DriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
+  private final ArmSubsystem armSubsystem;
 
+  /** Creates a new SetArmCommand. */
+  public DisableArmCommand(ArmSubsystem armSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.driveTrainSubsystem = driveTrainSubsystem;
-    addRequirements(this.driveTrainSubsystem);
-
+    this.armSubsystem = armSubsystem;
+    addRequirements(this.armSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-    driveTrainSubsystem.stopDriving();
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
-
+    // Disables the PID control. Sets output to zero.
+    armSubsystem.disable();
+    System.out.println("> Arm disabled");
   }
 
   // Called once the command ends or is interrupted.
@@ -44,9 +39,6 @@ public class DriveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
     return false;
-
   }
-  
 }

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -22,6 +24,8 @@ public final class Constants {
     }
 
     public class DRIVETRAIN {
+
+        public static final double MAX_SPEED = 5; // m/s, used for PID setpoint in teleop
 
         public static final double SPEED_MULTIPLIER = .7;
         public static final double ROTATION_MULTIPLIER = .7;
@@ -45,23 +49,37 @@ public final class Constants {
 
     public class ARM {
 
+        public static final double KP = 5;
+
+        public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1
+
         public static final double DEADZONE_LOW = 0;
-        public static final double DEADZONE_HIGH = 90;
+        public static final double DEADZONE_HIGH = 100;
 
-        public static final double SPEED_MULTIPLIER = 0.4;
+        public static final double SPEED_MULTIPLIER = 0.3;
 
-        public static final double ENCODER_DISTANCE_PER_ROTATION = 360; // 1 rotation = 360 degrees
+        public static final double ENCODER_ANGLES_PER_ROTATION = 360 / REDUCTION_CHAIN; // 1 rotation = 360 degrees
         public static final double ENCODER_TICK_RATE = 2048;
         public static final double ENCODER_MIN_RATE = 10;
         public static final int ENCODER_SAMPLES_TO_AVERAGE = 5; // Can be between 1 and 127
         public static final boolean ENCODER_REVERSE = true;
 
-        public static final double REDUCTION_CHAIN = 2.3125; // 32t:74t        2.3125:1
+        public static final double kMaxVelocityRadPerSecond = 80 * Math.PI/180; //20 degrees
+        public static final double kMaxAccelerationRadPerSecSquared = 80 * Math.PI/180;
+        public static final double kEncoderDistancePerPulse = 2 * Math.PI / REDUCTION_CHAIN / ENCODER_TICK_RATE; // 2rad per full rotation
+        public static final double kArmOffsetRads = -0.3; // arm rest position counting from horizontal
+
+        public static final double kSVolts = 0.1;
+        public static final double kGVolts = 2;
+        // 2.5v utrzymuje w horizontal, wyzej 2.5v to za duzo
+        public static final double kVVoltSecondPerRad = 2;
+        public static final double kAVoltSecondSquaredPerRad = 0.05;
         
     }
 
     public class INTAKE {
-        public static final double SPEED_MULTIPLIER = 0.5;
+        public static final double SPEED_IN = 0.5;
+        public static final double SPEED_OUT = 1;
     }
 
 }

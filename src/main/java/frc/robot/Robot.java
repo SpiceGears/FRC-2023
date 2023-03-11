@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  // Add subsystems
+  //TODO check if this is needed v
   public static DriveTrainSubsystem driveTrainSubsystem;
   public static IntakeSubsystem intakeSubsystem;
   public static ArmSubsystem armSubsystem;
@@ -72,11 +72,14 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    // OtherLogs.logOther();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -105,9 +108,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    // RobotContainer.driveTrainSubsystem.resetEncoders();
   }
-
+  
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
