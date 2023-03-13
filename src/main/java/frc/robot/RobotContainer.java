@@ -11,16 +11,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
-import frc.robot.commands.SetArmCommand;
 import frc.robot.commands.TeleOpIntakeCommand;
 import frc.robot.commands.Auto.TestArmAndDriveAuto;
 import frc.robot.commands.AutonomousCommand;
-import frc.robot.commands.DriveBackwardCommand;
-import frc.robot.commands.DriveForwardCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -46,14 +41,13 @@ public class RobotContainer {
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
-
-  //AUTONOMOUS
-  private final Command command1 = new DriveForwardCommand(driveTrainSubsystem, 0.5, 0.3);
+  
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+
     m_chooser.setDefaultOption("do nothing", autonomousCommand);
     m_chooser.addOption("set arm and move forward then backward", testArmAndDriveAuto);
 
