@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.TeleOpIntakeCommand;
 import frc.robot.commands.Auto.TestArm;
+import frc.robot.commands.Auto.TestArmAndDrive;
 import frc.robot.commands.Auto.TestDriveOnly;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -41,6 +42,7 @@ public class RobotContainer {
 
   public static TestArm testArm = new TestArm();
   public static TestDriveOnly testDriveOnly = new TestDriveOnly();
+  public static TestArmAndDrive testArmAndDrive = new TestArmAndDrive();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -55,10 +57,7 @@ public class RobotContainer {
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.tankDrive(0, 0);
 
-    m_chooser.setDefaultOption("do nothing", autonomousCommand);
-    m_chooser.addOption("test arm and drive", testArm);
-    m_chooser.addOption("test drive only", testDriveOnly);
-    SmartDashboard.putData(m_chooser);
+    configureAutoChooser(); // adds chooser to dashboard and adds auto options
   }
 
   /**
@@ -141,6 +140,17 @@ public class RobotContainer {
 
     System.out.println("> getAutonomous() ran");
     return m_chooser.getSelected();
+
+  }
+
+  /** Add chooser to dashboard and add auto options. */
+  public void configureAutoChooser() {
+
+    m_chooser.setDefaultOption("do nothing", autonomousCommand);
+    m_chooser.addOption("test arm then drive", testDriveOnly);
+    m_chooser.addOption("test arm only", testArm);
+    m_chooser.addOption("test drive only", testDriveOnly);
+    SmartDashboard.putData(m_chooser);
 
   }
 
