@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
 import frc.robot.commands.TeleOpIntakeCommand;
-import frc.robot.commands.Auto.TestArmAndDriveAuto;
+import frc.robot.commands.Auto.TestArm;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -37,7 +37,7 @@ public class RobotContainer {
   public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand(driveTrainSubsystem);
   public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand(intakeSubsystem);
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
-  public static TestArmAndDriveAuto testArmAndDriveAuto = new TestArmAndDriveAuto();
+  public static TestArm testArm = new TestArm();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -47,14 +47,15 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-
-    m_chooser.setDefaultOption("do nothing", autonomousCommand);
-    m_chooser.addOption("set arm and move forward then backward", testArmAndDriveAuto);
-
-    SmartDashboard.putData(m_chooser);
-
+    
+    
+    
     configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
+
+    m_chooser.setDefaultOption("do nothing", autonomousCommand);
+    m_chooser.addOption("test arm", testArm);
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -135,6 +136,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
+    System.out.println("> getAutonomous() ran");
     return m_chooser.getSelected();
 
   }

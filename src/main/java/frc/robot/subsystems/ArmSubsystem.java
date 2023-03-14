@@ -49,7 +49,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           Constants.ARM.kMaxAccelerationRadPerSecSquared)),
           0);
           armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
-          armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
+          // armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
           armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
           armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
           armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);

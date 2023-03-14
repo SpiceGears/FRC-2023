@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveForwardCommand extends CommandBase {
@@ -16,13 +17,14 @@ public class DriveForwardCommand extends CommandBase {
   private double encoderSetpoint;
 
   /** Drives to given distance forward (in meters) with given speed (always speed > 0) */
-  public DriveForwardCommand(DriveTrainSubsystem driveTrainSubsystem, double distance, double speed) {
+  public DriveForwardCommand(double distance, double speed) {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    this.driveTrainSubsystem = driveTrainSubsystem;
+    // this.driveTrainSubsystem = driveTrainSubsystem;
     this.distance = distance;
     this.speed = speed;
-    addRequirements(this.driveTrainSubsystem);
+    driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
+    addRequirements(driveTrainSubsystem);
 
   }
 
