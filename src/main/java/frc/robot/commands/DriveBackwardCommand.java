@@ -20,7 +20,6 @@ public class DriveBackwardCommand extends CommandBase {
   public DriveBackwardCommand(double distance, double speed) {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    // this.driveTrainSubsystem = driveTrainSubsystem;
     this.distance = distance;
     this.speed = speed;
     driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
@@ -42,7 +41,7 @@ public class DriveBackwardCommand extends CommandBase {
   public void execute() {
 
     driveTrainSubsystem.tankDrive(-speed, -speed);
-
+    System.out.println("> Drivebackward setpoint = " + encoderSetpoint + "getleftdistance() = " + driveTrainSubsystem.getLeftDistance());
   }
 
   // Called once the command ends or is interrupted.

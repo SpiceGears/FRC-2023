@@ -11,7 +11,7 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class DriveForwardCommand extends CommandBase {
   /** Creates a new DriveToDistanceCommand. */
 
-  private final DriveTrainSubsystem driveTrainSubsystem;
+  private DriveTrainSubsystem driveTrainSubsystem;
   private final double distance;
   private final double speed;
   private double encoderSetpoint;
@@ -20,7 +20,6 @@ public class DriveForwardCommand extends CommandBase {
   public DriveForwardCommand(double distance, double speed) {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    // this.driveTrainSubsystem = driveTrainSubsystem;
     this.distance = distance;
     this.speed = speed;
     driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
@@ -42,6 +41,7 @@ public class DriveForwardCommand extends CommandBase {
   public void execute() {
 
     driveTrainSubsystem.tankDrive(speed, speed);
+    System.out.println("> Driveforward setpoint = " + encoderSetpoint + "getleftdistance() = " + driveTrainSubsystem.getLeftDistance());
 
   }
 

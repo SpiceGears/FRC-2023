@@ -76,8 +76,8 @@ public final class Constants {
     }
 
     public class INTAKE {
-        public static final double SPEED_IN = 0.5;
-        public static final double SPEED_OUT = 1;
+        public static final double SPEED_IN = .3;
+        public static final double SPEED_OUT = .3;
     }
 
 }

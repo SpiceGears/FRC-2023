@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 
@@ -13,10 +14,12 @@ public class DisableArmCommand extends CommandBase {
   private final ArmSubsystem armSubsystem;
 
   /** Creates a new SetArmCommand. */
-  public DisableArmCommand(ArmSubsystem armSubsystem) {
+  public DisableArmCommand() {
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armSubsystem = armSubsystem;
-    addRequirements(this.armSubsystem);
+    armSubsystem = RobotContainer.armSubsystem;
+    addRequirements(armSubsystem);
+
   }
 
   // Called when the command is initially scheduled.
