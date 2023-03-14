@@ -225,7 +225,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public double getRightDistance(){
     return rightEncoder.getDistance();
   }
-  
+
+  /** Returns right distance in xxxxxxxxxx */
+  public double getAverageDistance(){
+    return getLeftDistance() + getRightDistance() / 2;
+  }
+
   /** Returns left encoder speed in xxxxxxxxxx */
   public double getLeftMetersPerSecond() {
     return leftEncoder.getRate();

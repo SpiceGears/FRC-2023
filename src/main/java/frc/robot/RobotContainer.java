@@ -7,14 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.TeleOpDriveCommand;
-import frc.robot.commands.SetArmCommand;
 import frc.robot.commands.TeleOpIntakeCommand;
+import frc.robot.commands.Auto.TestArm;
+import frc.robot.commands.Auto.TestDriveOnly;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -34,18 +35,30 @@ public class RobotContainer {
   public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static OtherLogs otherLogs = new OtherLogs();
 
-  public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand(driveTrainSubsystem);
-  public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand(intakeSubsystem);
+  public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand();
+  public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand();
   public static AutonomousCommand autonomousCommand = new AutonomousCommand();
+
+  public static TestArm testArm = new TestArm();
+  public static TestDriveOnly testDriveOnly = new TestDriveOnly();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
+  
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    
     configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
+    driveTrainSubsystem.tankDrive(0, 0);
+
+    m_chooser.setDefaultOption("do nothing", autonomousCommand);
+    m_chooser.addOption("test arm and drive", testArm);
+    m_chooser.addOption("test drive only", testDriveOnly);
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -56,8 +69,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveTrainSubsystem.setDefaultCommand(new TeleOpDriveCommand(driveTrainSubsystem));
-    intakeSubsystem.setDefaultCommand(new TeleOpIntakeCommand(intakeSubsystem));
+    driveTrainSubsystem.setDefaultCommand(new TeleOpDriveCommand());
+    intakeSubsystem.setDefaultCommand(new TeleOpIntakeCommand());
 
 
     // SET POSITION IN RADIANS FROM HORIZONTAL
@@ -126,11 +139,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return new SequentialCommandGroup(
-        new SetArmCommand(armSubsystem, 0),
-        new WaitCommand(2),
-        new SetArmCommand(armSubsystem, 0.5)
-    );
+    System.out.println("> getAutonomous() ran");
+    return m_chooser.getSelected();
 
   }
 

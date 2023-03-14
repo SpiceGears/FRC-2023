@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -78,8 +76,8 @@ public final class Constants {
     }
 
     public class INTAKE {
-        public static final double SPEED_IN = 0.5;
-        public static final double SPEED_OUT = 1;
+        public static final double SPEED_IN = .3;
+        public static final double SPEED_OUT = .3;
     }
 
 }

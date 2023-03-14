@@ -4,20 +4,26 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class TeleOpIntakeCommand extends CommandBase {
-  /** Creates a new RollIntakeCommand. */
+public class RollIntakeForCommand extends CommandBase {
 
   private final IntakeSubsystem intakeSubsystem;
+  private final double speed;
+  private final double seconds;
+  private double initTime;
 
-  public TeleOpIntakeCommand() {
+  /** Creates a new RollIntakeForCommand. */
+  public RollIntakeForCommand(double speed, double seconds) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     intakeSubsystem = RobotContainer.intakeSubsystem;
+    this.speed = speed;
+    this.seconds = seconds;
+    initTime = Timer.getFPGATimestamp();
     addRequirements(intakeSubsystem);
 
   }
@@ -25,41 +31,28 @@ public class TeleOpIntakeCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
     intakeSubsystem.stopIntake();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    if(RobotContainer.driver.getLeftTriggerAxis() > Constants.JOYSTICK.DEADBAND || RobotContainer.driver.getRightTriggerAxis() > Constants.JOYSTICK.DEADBAND) {
-      
-      if((RobotContainer.driver.getLeftTriggerAxis()) > (RobotContainer.driver.getRightTriggerAxis())) {
-        intakeSubsystem.setIntake(-Constants.INTAKE.SPEED_IN * RobotContainer.driver.getLeftTriggerAxis());
-      } else {
-        intakeSubsystem.setIntake(Constants.INTAKE.SPEED_OUT * RobotContainer.driver.getRightTriggerAxis());
-      }
-
-    } else {
-
-      intakeSubsystem.stopIntake();
-
-    }
-
+    intakeSubsystem.setIntake(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("> RollIntakeFor ended!");
+    intakeSubsystem.setIntake(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
+    if(Timer.getFPGATimestamp() - initTime >= seconds) { // end command when it runs for more than seconds
+      return true;
+    }
     return false;
-
   }
-
 }

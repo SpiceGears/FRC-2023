@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 
@@ -14,11 +15,13 @@ public class SetArmCommand extends CommandBase {
   private final double position;
 
   /** Creates a new SetArmCommand. */
-  public SetArmCommand(ArmSubsystem armSubsystem, double position) {
+  public SetArmCommand(double position) {
+
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armSubsystem = armSubsystem;
     this.position = position;
-    addRequirements(this.armSubsystem);
+    armSubsystem = RobotContainer.armSubsystem;
+    addRequirements(armSubsystem);
+    
   }
 
   // Called when the command is initially scheduled.
@@ -45,6 +48,6 @@ public class SetArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

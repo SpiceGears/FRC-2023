@@ -13,11 +13,11 @@ public class TeleOpDriveCommand extends CommandBase {
 
   private final DriveTrainSubsystem driveTrainSubsystem;
 
-  public TeleOpDriveCommand(DriveTrainSubsystem driveTrainSubsystem) {
+  public TeleOpDriveCommand() {
 
     // Use addRequirements() here to declare subsystem dependencies.
-    this.driveTrainSubsystem = driveTrainSubsystem;
-    addRequirements(this.driveTrainSubsystem);
+    driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
+    addRequirements(driveTrainSubsystem);
 
   }
 

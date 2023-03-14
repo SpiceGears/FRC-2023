@@ -6,14 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,13 +19,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-
-  //TODO check if this is needed v
-  public static DriveTrainSubsystem driveTrainSubsystem;
-  public static IntakeSubsystem intakeSubsystem;
-  public static ArmSubsystem armSubsystem;
-  public static UsbCamera camera;
-  public static OtherLogs otherLogs;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -51,7 +39,7 @@ public class Robot extends TimedRobot {
     CvSink cvSink = CameraServer.getVideo();
 
     // Creates the CvSource and MjpegServer [2] and connects them
-    CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+    // CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
 
     // ---------- NETWORKTABLES ----------
     
