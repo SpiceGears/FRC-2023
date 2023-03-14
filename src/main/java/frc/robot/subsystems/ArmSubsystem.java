@@ -128,20 +128,16 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return measurement;
   }
 
-  public void setArmVolts(double volts) {
-    armGroup.setVoltage(volts);
+  public void setArmToZeroOutput() {
+    armGroup.set(0);
   }
-
+  
   public boolean isFrontLimitSwitchHit() {
     return frontLimitSwitch.get();
   }
 
   public boolean isBackLimitSwitchHit() {
     return backLimitSwitch.get();
-  }
-
-  public void stopArm() {
-    armGroup.set(0);
   }
 
   public void resetEncoder() {

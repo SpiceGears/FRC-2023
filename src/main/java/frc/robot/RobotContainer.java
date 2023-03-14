@@ -79,7 +79,8 @@ public class RobotContainer {
     configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.tankDrive(0, 0);
-    
+    armSubsystem.setArmToZeroOutput();
+
     configureAutoChooser(); // adds chooser to dashboard and adds auto options
   }
   
@@ -226,14 +227,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    System.out.println("> getAutonomous() ran");
+    System.out.println("> getAutonomousCommand()");
     return m_chooser.getSelected();
 
   }
 
-
-  public void disablePIDSubsystems() {
-    armSubsystem.disable();
-  }
 
 }
