@@ -46,7 +46,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private PIDController leftPIDController;
   private PIDController rightPIDController;
 
-  private AHRS gyro;
+  public AHRS gyro;
 
   private DifferentialDriveOdometry odometry;
 
@@ -182,9 +182,39 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   }
 
-  //* Drive for given distance then stop. */
-  public void driveForDistance(double distance) {
-    //TODO
+   /** Drive to direction that is gyro.getHeading() == 0 ,
+   * to drive straight, execute gyro.reset() before this method. 
+   * Can be used to drive backward. */
+  public void driveStraightAtZeroHeading(double speed) {
+
+    // if angle < maxerror1 => drive normally minus error
+    if(Math.abs(gyro.getAngle()) <= Constants.GYRO.MAX_ERROR_1) {
+
+      //                 v this part adjusts motor powers to go straight
+      tankDrive(speed - (gyro.getAngle() / 30),
+                speed + (gyro.getAngle() / 30)); 
+    }
+    // if angle < maxerror2 => boost wrong motor by 1.1
+    else if (Math.abs(gyro.getAngle()) < Constants.GYRO.MAX_ERROR_2) {
+      if(gyro.getAngle() > 0) {
+        tankDrive(speed,
+                  speed * 1.1);
+      } else if(gyro.getAngle() < 0) {
+        tankDrive(speed * 1.1,
+                  speed);
+      }
+    }
+    // if angle > maxerror2 => rotate robot in place
+    else {
+      if(gyro.getAngle() > 0) {
+        tankDrive(-speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+                  speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+      } else if(gyro.getAngle() < 0) {
+        tankDrive(speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+                  -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+      }
+    }
+
   }
   
   /** Controls the robot with simple speed and rotation values.
@@ -215,45 +245,51 @@ public class DriveTrainSubsystem extends SubsystemBase {
     differentialDrive.tankDrive(leftSpeed, rightSpeed);
     
   }
-  
-  /** Returns left distance in xxxxxxxxxx */
+
+  /** Return left distance in meters */
   public double getLeftDistance(){
     return leftEncoder.getDistance();
   }
   
-  /** Returns right distance in xxxxxxxxxx */
+  /** Return right distance in meters */
   public double getRightDistance(){
     return rightEncoder.getDistance();
   }
-
-  /** Returns right distance in xxxxxxxxxx */
+  
+  /** Return right distance in meters */
   public double getAverageDistance(){
     return getLeftDistance() + getRightDistance() / 2;
   }
 
-  /** Returns left encoder speed in xxxxxxxxxx */
+  /** Return left encoder speed in meters per second */
   public double getLeftMetersPerSecond() {
     return leftEncoder.getRate();
   }
   
-  /** Returns right encoder speed in xxxxxxxxxx */
+  /** Return right encoder speed in meters per second */
   public double getRightMetersPerSecond() {
     return rightEncoder.getRate();
   }
   
-  /** Stops drive motors */
+  /** Stop drive motors */
   public void stopDriving() {
     tankDrive(0, 0);
   }
 
-  /** Resets endoders */
+  /** Reset gyro Yaw, make gyro.getAngle() == 0  */
+  public void resetGyro() {
+    gyro.reset();
+    System.out.println("> Gyro heading reset!");
+  }
+
+  /** Reset encoders */
   public void resetEncoders() {
     leftEncoder.reset();
     rightEncoder.reset();
     System.out.println("> resetEncoders() [drivetrain]");
   }
 
-  /** Logs important values to Smart Dashboard */
+  /** Log important values to Smart Dashboard */
   public void logDriveTrain() {
     
     SmartDashboard.putNumber("DRIVE/leftSpeed in m per s", getLeftMetersPerSecond());
@@ -274,6 +310,26 @@ public class DriveTrainSubsystem extends SubsystemBase {
   
   
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   // SIMULATION
   

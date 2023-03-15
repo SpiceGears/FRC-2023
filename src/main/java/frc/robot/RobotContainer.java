@@ -11,13 +11,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.TeleOpDriveCommand;
-import frc.robot.commands.TeleOpIntakeCommand;
-import frc.robot.commands.Auto.TestArm;
-import frc.robot.commands.Auto.TestArmAndDrive;
-import frc.robot.commands.Auto.TestDriveOnly;
-import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.Drive.TeleOpDrive;
+import frc.robot.commands.Intake.TeleOpIntake;
+import frc.robot.commands.TestAutoPaths.TestArm;
+import frc.robot.commands.TestAutoPaths.TestArmAndDrive;
+import frc.robot.commands.TestAutoPaths.TestArmAndDriveByGyro;
+import frc.robot.commands.TestAutoPaths.TestDriveByGyro;
+import frc.robot.commands.TestAutoPaths.TestDriveOnly;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -36,13 +38,14 @@ public class RobotContainer {
   public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static OtherLogs otherLogs = new OtherLogs();
 
-  public static TeleOpDriveCommand driveCommand = new TeleOpDriveCommand();
-  public static TeleOpIntakeCommand rollIntakeCommand = new TeleOpIntakeCommand();
-  public static AutonomousCommand autonomousCommand = new AutonomousCommand();
+  public static TeleOpDrive driveCommand = new TeleOpDrive();
+  public static TeleOpIntake rollIntakeCommand = new TeleOpIntake();
 
   public static TestArm testArm = new TestArm();
   public static TestDriveOnly testDriveOnly = new TestDriveOnly();
   public static TestArmAndDrive testArmAndDrive = new TestArmAndDrive();
+  public static TestDriveByGyro testDriveByGyro = new TestDriveByGyro();
+  public static TestArmAndDriveByGyro testArmAndDriveByGyro = new TestArmAndDriveByGyro();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -68,8 +71,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveTrainSubsystem.setDefaultCommand(new TeleOpDriveCommand());
-    intakeSubsystem.setDefaultCommand(new TeleOpIntakeCommand());
+    driveTrainSubsystem.setDefaultCommand(new TeleOpDrive());
+    intakeSubsystem.setDefaultCommand(new TeleOpIntake());
 
 
     // SET POSITION IN RADIANS FROM HORIZONTAL
@@ -146,10 +149,13 @@ public class RobotContainer {
   /** Add chooser to dashboard and add auto options. */
   public void configureAutoChooser() {
 
-    m_chooser.setDefaultOption("do nothing", autonomousCommand);
+    m_chooser.setDefaultOption("do nothing", new WaitCommand(1));
     m_chooser.addOption("test arm then drive", testDriveOnly);
     m_chooser.addOption("test arm only", testArm);
     m_chooser.addOption("test drive only", testDriveOnly);
+    m_chooser.addOption("TEST DRIVE BY GYRO", testDriveByGyro);
+    m_chooser.addOption("TEST ARM AND DRIVE BY GYRO", testArmAndDriveByGyro);
+
     SmartDashboard.putData(m_chooser);
 
   }

@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class DriveBackwardCommand extends CommandBase {
+public class DriveBackward extends CommandBase {
   /** Creates a new DriveToDistanceCommand. */
 
   private final DriveTrainSubsystem driveTrainSubsystem;
@@ -16,8 +16,8 @@ public class DriveBackwardCommand extends CommandBase {
   private final double speed;
   private double encoderSetpoint;
 
-  /** Drives to given distance bacward (in meters) with given speed (always speed > 0) */
-  public DriveBackwardCommand(double distance, double speed) {
+  /** Drive to given distance bacward (in meters) with given speed (always speed > 0) */
+  public DriveBackward(double distance, double speed) {
 
     // Use addRequirements() here to declare subsystem dependencies.
     this.distance = distance;
@@ -32,7 +32,7 @@ public class DriveBackwardCommand extends CommandBase {
   public void initialize() {
 
     encoderSetpoint = driveTrainSubsystem.getLeftDistance() - distance;
-    System.out.println("> DriveBackwardCommand( distance: [" + distance + "] , speed: [" + speed + "] ) started!");
+    System.out.println("> DriveBackward( distance: [" + distance + "] , speed: [" + speed + "] ) started!");
 
   }
 
@@ -41,7 +41,7 @@ public class DriveBackwardCommand extends CommandBase {
   public void execute() {
 
     driveTrainSubsystem.tankDrive(-speed, -speed);
-    System.out.println("> Drivebackward setpoint = " + encoderSetpoint + "getleftdistance() = " + driveTrainSubsystem.getLeftDistance());
+
   }
 
   // Called once the command ends or is interrupted.
@@ -49,7 +49,7 @@ public class DriveBackwardCommand extends CommandBase {
   public void end(boolean interrupted) {
 
     driveTrainSubsystem.tankDrive(0, 0);
-    System.out.println(" > DriveBackwardCommand() ended!");
+    System.out.println(" > DriveBackward() ended!");
 
   }
 

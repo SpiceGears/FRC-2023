@@ -2,37 +2,43 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
 
-public class DisableArmCommand extends CommandBase {
+public class SetArm extends CommandBase {
 
   private final ArmSubsystem armSubsystem;
+  private final double position;
 
   /** Creates a new SetArmCommand. */
-  public DisableArmCommand() {
-    
+  public SetArm(double position) {
+
     // Use addRequirements() here to declare subsystem dependencies.
+    this.position = position;
     armSubsystem = RobotContainer.armSubsystem;
     addRequirements(armSubsystem);
-
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.enable();
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    // Disables the PID control. Sets output to zero.
-    armSubsystem.disable();
-    System.out.println("> Arm disabled");
+    // Move the arm to [position] radians above horizontal when the button is pressed.
+    armSubsystem.setGoal(position);
+    armSubsystem.enable();
+    System.out.println("> SetArm(" + position + ") radians");
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +48,6 @@ public class DisableArmCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
