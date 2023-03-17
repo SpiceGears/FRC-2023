@@ -48,7 +48,7 @@ public final class Constants {
     public class GYRO {
         public static final double MAX_ERROR_1 = 3;
         public static final double MAX_ERROR_2 = 10;
-        public static final double ROTATION_SPEED_MULTIPLIER = .5;
+        public static final double ROTATION_SPEED_MULTIPLIER = 1;
     }
 
     public class ARM {

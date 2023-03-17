@@ -205,13 +205,28 @@ public class DriveTrainSubsystem extends SubsystemBase {
       }
     }
     // if angle > maxerror2 => rotate robot in place
-    else {
+    else if(speed > 0){
+      System.out.println("above maxerror2");
       if(gyro.getAngle() > 0) {
-        tankDrive(-speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+        System.out.println("above maxerr2 and >0");
+        differentialDrive.tankDrive(-speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
                   speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
       } else if(gyro.getAngle() < 0) {
-        tankDrive(speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+        System.out.println("above maxerr2 and <0");
+        differentialDrive.tankDrive(speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
                   -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+      }
+    }
+    else if(speed < 0) {
+      System.out.println("above maxerror2");
+      if(gyro.getAngle() > 0) {
+        System.out.println("above maxerr2 and >0");
+        differentialDrive.tankDrive(speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+                  -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+      } else if(gyro.getAngle() < 0) {
+        System.out.println("above maxerr2 and <0");
+        differentialDrive.tankDrive(-speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+                  speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
       }
     }
 
