@@ -73,8 +73,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
 
     SmartDashboard.putNumber("ARM/finalOutput", finalOutput);
-    SmartDashboard.putNumber("ARM/feedforward: ", feedforward);
-    SmartDashboard.putNumber("ARM/output: ", output);
+    SmartDashboard.putNumber("ARM/feedforward", feedforward);
+    SmartDashboard.putNumber("ARM/output", output);
     
 
     armGroup.setVoltage(finalOutput);
