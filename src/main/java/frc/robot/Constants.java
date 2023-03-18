@@ -46,9 +46,13 @@ public final class Constants {
     }
 
     public class GYRO {
-        public static final double MAX_ERROR_1 = 3;
+
+        // DRIVEBYGYRO CONSTANTS v
+        public static final double MAX_ERROR_1 = 1.5;
         public static final double MAX_ERROR_2 = 10;
+        public static final double MOTOR_SLOWDOWN_ON_ERROR2 = .9;
         public static final double ROTATION_SPEED_MULTIPLIER = 1;
+        
     }
 
     public class ARM {
