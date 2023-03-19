@@ -20,6 +20,7 @@ import frc.robot.commands.TestAutoPaths.TestArmAndDrive;
 import frc.robot.commands.TestAutoPaths.TestArmAndDriveByGyro;
 import frc.robot.commands.TestAutoPaths.TestDriveByGyro;
 import frc.robot.commands.TestAutoPaths.TestDriveOnly;
+import frc.robot.commands.TestAutoPaths.TestStartFromTop;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -46,6 +47,7 @@ public class RobotContainer {
   public static TestArmAndDrive testArmAndDrive = new TestArmAndDrive();
   public static TestDriveByGyro testDriveByGyro = new TestDriveByGyro();
   public static TestArmAndDriveByGyro testArmAndDriveByGyro = new TestArmAndDriveByGyro();
+  public static TestStartFromTop testStartFromTop = new TestStartFromTop();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -155,6 +157,7 @@ public class RobotContainer {
     m_chooser.addOption("test drive only", testDriveOnly);
     m_chooser.addOption("TEST DRIVE BY GYRO", testDriveByGyro);
     m_chooser.addOption("TEST ARM AND DRIVE BY GYRO", testArmAndDriveByGyro);
+    m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", driveCommand);
 
     SmartDashboard.putData(m_chooser);
 
