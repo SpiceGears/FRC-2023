@@ -71,7 +71,8 @@
       "/LiveWindow/Ungrouped/VictorSP[8]": "Motor Controller",
       "/LiveWindow/Ungrouped/VictorSP[9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
-      "/SmartDashboard/Field": "Field2d"
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": {
@@ -128,12 +129,6 @@
     },
     "serverTimestamp": true,
     "transitory": {
-      "CameraPublisher": {
-        "open": true
-      },
-      "FMSInfo": {
-        "open": true
-      },
       "LiveWindow": {
         "Ungrouped": {
           "DifferentialDrive[1]": {
@@ -142,14 +137,22 @@
           "VictorSP[5]": {
             "open": true
           }
-        },
-        "open": true
-      },
-      "Shuffleboard": {
-        "open": true
+        }
       },
       "SmartDashboard": {
         "ARM": {
+          "open": true
+        },
+        "DRIVE": {
+          "open": true
+        },
+        "GYRO": {
+          "open": true
+        },
+        "INTAKE": {
+          "open": true
+        },
+        "SendableChooser[0]": {
           "open": true
         },
         "leftSpeed in m": {

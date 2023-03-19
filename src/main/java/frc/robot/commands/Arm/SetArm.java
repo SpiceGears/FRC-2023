@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
 
-
 public class SetArm extends CommandBase {
 
   private final ArmSubsystem armSubsystem;
@@ -27,6 +26,8 @@ public class SetArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
+    System.out.println("> SetArm(" + position + ") radians");
     armSubsystem.enable();
 
   }
@@ -38,7 +39,6 @@ public class SetArm extends CommandBase {
     // Move the arm to [position] radians above horizontal when the button is pressed.
     armSubsystem.setGoal(position);
     armSubsystem.enable();
-    System.out.println("> SetArm(" + position + ") radians");
   }
 
   // Called once the command ends or is interrupted.

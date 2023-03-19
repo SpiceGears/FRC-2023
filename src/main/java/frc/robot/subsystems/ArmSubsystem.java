@@ -55,9 +55,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);
 
           // Start arm at rest in neutral position
-          setGoal(Constants.ARM.kArmOffsetRads);
+          // setGoal(Constants.ARM.kArmOffsetRads);
 
           System.out.println("> ArmSubsystem()");
+          SmartDashboard.putNumber("ARM/finalOutput", 0);
+          SmartDashboard.putNumber("ARM/feedforward", 0);
+          SmartDashboard.putNumber("ARM/output", 0);
         }
         
   @Override
@@ -94,6 +97,18 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     return measurement;
+  }
+
+  public void setArmVolts(double volts) {
+    armGroup.setVoltage(volts);
+  }
+
+  public boolean isFrontLimitSwitchHit() {
+    return frontLimitSwitch.get();
+  }
+
+  public boolean isBackLimitSwitchHit() {
+    return backLimitSwitch.get();
   }
 
   public void stopArm() {
