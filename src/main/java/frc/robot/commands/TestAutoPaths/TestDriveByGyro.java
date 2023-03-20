@@ -21,9 +21,9 @@ public class TestDriveByGyro extends SequentialCommandGroup {
     System.out.println("> Starting TestDriveByGyro AutoPath");
     
     addCommands(
-      new DriveForwardByGyro(2, .5),
+      new DriveForwardByGyro(2, .6),
       new WaitCommand(2),
-      new DriveBackwardByGyro(2, .5)
+      new DriveBackwardByGyro(2, .6)
     );
 
     System.out.println("> Ended TestDriveByGyro AutoPath");

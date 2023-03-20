@@ -23,14 +23,14 @@ public class RollIntakeFor extends CommandBase {
     intakeSubsystem = RobotContainer.intakeSubsystem;
     this.speed = speed;
     this.seconds = seconds;
-    initTime = Timer.getFPGATimestamp();
     addRequirements(intakeSubsystem);
-
+    
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    initTime = Timer.getFPGATimestamp();
     intakeSubsystem.stopIntake();
   }
 

@@ -226,29 +226,34 @@ public class DriveTrainSubsystem extends SubsystemBase {
       if(Math.abs(gyro.getAngle()) <= Constants.GYRO.MAX_ERROR_1) {
 
         //                 v this part adjusts motor powers to go straight
-        tankDrive(speed + (gyro.getAngle() / 30),
-                  speed - (gyro.getAngle() / 30)); 
+        tankDrive(speed - (gyro.getAngle() / 30),
+                  speed + (gyro.getAngle() / 30)); 
+                  System.out.println("under maxerror1");
       }
       // if angle < maxerror2 => slow down motor near center of heading
       else if (Math.abs(gyro.getAngle()) <= Constants.GYRO.MAX_ERROR_2) {
-        if(gyro.getAngle() > 0) {
-          tankDrive(speed,
-                    speed * Constants.GYRO.MOTOR_SLOWDOWN_ON_ERROR2);
-        } else if(gyro.getAngle() < 0) {
+        if(gyro.getAngle() < 0) {
           tankDrive(speed * Constants.GYRO.MOTOR_SLOWDOWN_ON_ERROR2,
                     speed);
+        } else if(gyro.getAngle() > 0) {
+          tankDrive(speed,
+                    speed * Constants.GYRO.MOTOR_SLOWDOWN_ON_ERROR2);
         }
+        System.out.println("under maxerror2");
       }
       // if angle > maxerror2 => rotate robot in place
-      if(gyro.getAngle() > 0) {
-        differentialDrive.tankDrive(  speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
-                                      -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
-      } else if(gyro.getAngle() < 0) {
-        differentialDrive.tankDrive(  -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
-                                      speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+      else {
+        if(gyro.getAngle() > 0) {
+          differentialDrive.tankDrive(  speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+                                        -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+        } else if(gyro.getAngle() < 0) {
+          differentialDrive.tankDrive(  -speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER,
+                                        speed * Constants.GYRO.ROTATION_SPEED_MULTIPLIER);
+        }
+        System.out.println("over maxerr2");
       }
     }
-
+    System.out.println("error = " + gyro.getAngle());
   }
   
   /** Controls the robot with simple speed and rotation values.

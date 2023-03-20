@@ -13,20 +13,21 @@ public class ResetArmAtStart extends CommandBase {
   
   private final ArmSubsystem armSubsystem;
   private double initTime;
+  private double timeDelta = 0;
   
   /** Creates a new ResetArmAtStart. */
   public ResetArmAtStart() {
 
     // Use addRequirements() here to declare subsystem dependencies.
     armSubsystem = RobotContainer.armSubsystem;
-    initTime = Timer.getFPGATimestamp();
     addRequirements(armSubsystem);
-
+    
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    initTime = Timer.getFPGATimestamp();
     System.out.println("> ResetArmAtStart() started!");
   }
 
@@ -36,9 +37,10 @@ public class ResetArmAtStart extends CommandBase {
     // if <.2s then set(-2V)
     // if >.2s then set( 0V)
     // if frontlimit then end
-
-    if (Timer.getFPGATimestamp() - initTime <= .2) { // if runs for less than .2s
-      armSubsystem.setArmVolts(-2);
+    double output = -2;
+    timeDelta = Timer.getFPGATimestamp() - initTime;
+    if (timeDelta <= .2) { // if runs for less than .2s
+      armSubsystem.setArmVolts(output);
     } else {
       armSubsystem.setArmVolts(0); // if runs for more than .2s
     }
@@ -50,17 +52,17 @@ public class ResetArmAtStart extends CommandBase {
   public void end(boolean interrupted) {
 
     System.out.println("> ResetArmAtStart() ended!");
+    armSubsystem.resetEncoder();
     armSubsystem.setArmVolts(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    if(armSubsystem.isFrontLimitSwitchHit()) { // end command when arm hits front limit switch
+    if(armSubsystem.isFrontLimitSwitchHit()) {
       return true;
+    } else {
+      return false;
     }
-    return false;
-
   }
 }

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Arm.ResetArmAtStart;
 import frc.robot.commands.Arm.SetArm;
+import frc.robot.commands.Drive.DriveBackwardByGyro;
+import frc.robot.commands.Drive.DriveForwardByGyro;
 import frc.robot.commands.Intake.RollIntakeFor;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -27,15 +29,22 @@ public class TestStartFromTop extends SequentialCommandGroup {
       new SetArm(0),
       new WaitCommand(1),
 
-      new SetArm(1),
+      new SetArm(.8),
+      new WaitCommand(1),
+
+      new DriveForwardByGyro(.3, .5),
       new WaitCommand(.5),
-      new RollIntakeFor(.3, 1),
+
+      new RollIntakeFor(-.5, 1),
+      new WaitCommand(.7),
+
+      new DriveBackwardByGyro(.3, .5),
+      new WaitCommand(.5),
+
+      new SetArm(-0.2),
       new WaitCommand(1),
 
-      new SetArm(2.5),
-      new WaitCommand(1),
-
-      new SetArm(0)
+      new DriveBackwardByGyro(1, .6)
       
     );
   }

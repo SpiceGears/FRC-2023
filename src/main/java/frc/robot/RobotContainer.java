@@ -167,7 +167,7 @@ public class RobotContainer {
     m_chooser.addOption("test drive only", testDriveOnly);
     m_chooser.addOption("TEST DRIVE BY GYRO", testDriveByGyro);
     m_chooser.addOption("TEST ARM AND DRIVE BY GYRO", testArmAndDriveByGyro);
-    m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", driveCommand);
+    m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", testStartFromTop);
 
     SmartDashboard.putData(m_chooser);
 
