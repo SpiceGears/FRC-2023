@@ -92,9 +92,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double measurement = armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
     SmartDashboard.putNumber("ARM/getMeasurement()", measurement);
 
-    if(frontLimitSwitch.get()) {
-      resetEncoder();
-    }
+    // if(frontLimitSwitch.get()) {
+    //   resetEncoder();
+    // }
 
     return measurement;
   }

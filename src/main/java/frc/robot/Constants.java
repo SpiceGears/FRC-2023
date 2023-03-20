@@ -78,16 +78,16 @@ public final class Constants {
         public static final double kArmOffsetRads = -0.3; // arm rest position counting from horizontal
 
         public static final double kSVolts = 0.1;
-        public static final double kGVolts = 2;
+        public static final double kGVolts = 2.5;
         // 2.5v utrzymuje w horizontal, wyzej 2.5v to za duzo
-        public static final double kVVoltSecondPerRad = 2;
+        public static final double kVVoltSecondPerRad = 2.5;
         public static final double kAVoltSecondSquaredPerRad = 0.05;
         
     }
 
     public class INTAKE {
-        public static final double SPEED_IN = .3;
-        public static final double SPEED_OUT = .3;
+        public static final double SPEED_IN = .8;
+        public static final double SPEED_OUT = .8;
     }
 
 }
