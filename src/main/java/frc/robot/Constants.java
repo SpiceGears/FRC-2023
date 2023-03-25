@@ -57,7 +57,10 @@ public final class Constants {
 
     public class ARM {
 
-        public static final double KP = 5;
+        public static final double KP = 8;
+        public static final double kD = 0;
+        public static final double kI = 0.6;
+
 
         public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1
 
@@ -77,11 +80,21 @@ public final class Constants {
         public static final double kEncoderDistancePerPulse = 2 * Math.PI / REDUCTION_CHAIN / ENCODER_TICK_RATE; // 2rad per full rotation
         public static final double kArmOffsetRads = -0.3; // arm rest position counting from horizontal
 
+        public static final double MAX_VOLTAGE_OUTPUT_UP = 5.5;
+        // public static final double MAX_VOLTAGE_OUTPUT_DOWN = 4.0;
+
+
         public static final double kSVolts = 0.1;
-        public static final double kGVolts = 2.5;
+        public static final double kGVolts = 2.9;
         // 2.5v utrzymuje w horizontal, wyzej 2.5v to za duzo
         public static final double kVVoltSecondPerRad = 2.5;
         public static final double kAVoltSecondSquaredPerRad = 0.05;
+
+        public class POSITION{
+            public static final double INTAKE = -0.3;
+            public static final double HORIZONTAL = 0.0;
+
+        }
         
     }
 

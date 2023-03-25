@@ -85,7 +85,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(-0.3);
+            armSubsystem.setGoal(Constants.ARM.POSITION.INTAKE);
             armSubsystem.enable();
           }
         )
@@ -94,7 +94,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(.01);
+            armSubsystem.setGoal(Constants.ARM.POSITION.HORIZONTAL);
             armSubsystem.enable();
           }
         )

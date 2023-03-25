@@ -31,7 +31,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private final VictorSP leftArmSlave = new VictorSP(PortMap.ARM.LEFT_SLAVE_PORT);
   private final VictorSP rightArmSlave = new VictorSP(PortMap.ARM.RIGHT_SLAVE_PORT);
 
-  public MotorControllerGroup armGroup = new MotorControllerGroup(leftArmMaster, rightArmMaster, leftArmSlave, rightArmSlave);
+  public MotorControllerGroup armGroup = new MotorControllerGroup(
+    leftArmMaster, rightArmMaster,
+    leftArmSlave, rightArmSlave
+  );
 
   public Encoder armEncoder;
 
@@ -42,8 +45,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       super(
         new ProfiledPIDController(
         Constants.ARM.KP,
-        0,
-        0,
+        Constants.ARM.kI,
+        Constants.ARM.kD,
         new TrapezoidProfile.Constraints(
           Constants.ARM.kMaxVelocityRadPerSecond,
           Constants.ARM.kMaxAccelerationRadPerSecSquared)),
@@ -70,17 +73,32 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
     // Limit output voltage
-    double maxVoltage = 4;
+    double maxVoltage = Constants.ARM.MAX_VOLTAGE_OUTPUT_UP;
 
     // Add the feedforward to the PID output to get the motor output
     double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
-
     SmartDashboard.putNumber("ARM/finalOutput", finalOutput);
     SmartDashboard.putNumber("ARM/feedforward", feedforward);
     SmartDashboard.putNumber("ARM/output", output);
     
+    if(setpoint.position == Constants.ARM.POSITION.INTAKE)
+    { 
+      if(isFrontLimitSwitchHit()){
+        armGroup.set(0);
+      } else {
+        armGroup.setVoltage(-0.1);
 
-    armGroup.setVoltage(finalOutput);
+      }
+    } else {
+      // if(isFrontLimitSwitchHit() && finalOutput <= 0){
+      //   stopArm();
+      // } else{
+        armGroup.setVoltage(finalOutput);
+  
+      // }
+
+    }
+
 
   }
 
@@ -88,13 +106,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   // Executes periodically, use instead of periodic() because of @Override problems
   public double getMeasurement() {
 
-    logArm();
+
+    if(frontLimitSwitch.get()) {
+      resetEncoder();
+    }
     double measurement = armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
     SmartDashboard.putNumber("ARM/getMeasurement()", measurement);
-
-    // if(frontLimitSwitch.get()) {
-    //   resetEncoder();
-    // }
+    logArm();
 
     return measurement;
   }
@@ -117,11 +135,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public void resetEncoder() {
     armEncoder.reset();
-    System.out.println("> resetEncoder() [arm]");
+    // System.out.println("> resetEncoder() [arm]");
   }
 
   public void logArm() {
+
     SmartDashboard.putNumber("ARM/armEncoder.getDistance()", armEncoder.getDistance());
+    SmartDashboard.putBoolean("isFrontLimitSwitchHit", isFrontLimitSwitchHit());
+    // SmartDashboard.putNumber("ARM/set_position");
+
   }
 
 
