@@ -99,8 +99,8 @@ public final class Constants {
     }
 
     public class INTAKE {
-        public static final double SPEED_IN = .8;
-        public static final double SPEED_OUT = .8;
+        public static final double SPEED_IN = .99;
+        public static final double SPEED_OUT = .4;
     }
 
 }

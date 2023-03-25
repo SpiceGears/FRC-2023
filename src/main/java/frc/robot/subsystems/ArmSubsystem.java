@@ -84,22 +84,21 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     if(setpoint.position == Constants.ARM.POSITION.INTAKE)
     { 
       if(isFrontLimitSwitchHit()){
-        armGroup.set(0);
+        finalOutput = 0;
+      } else if (setpoint.position > Constants.ARM.POSITION.HORIZONTAL) {
+        finalOutput = finalOutput;
       } else {
-        armGroup.setVoltage(-0.1);
-
+        // TODO - Add start time and if sensor isnt change to true after 4s set value to 0
+        finalOutput = -0.20;
       }
     } else {
       // if(isFrontLimitSwitchHit() && finalOutput <= 0){
       //   stopArm();
       // } else{
         armGroup.setVoltage(finalOutput);
-  
       // }
-
     }
-
-
+    armGroup.setVoltage(finalOutput);
   }
 
   @Override
