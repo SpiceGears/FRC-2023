@@ -78,8 +78,8 @@
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
               "Controls/Rotation": "NONE",
-              "compression": -1.0,
-              "fps": -1,
+              "compression": 9.762295081967219,
+              "fps": 10,
               "imageWidth": -1,
               "imageHeight": -1
             }
@@ -96,6 +96,21 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/isFrontLimitSwitchHit",
+              "_title": "SmartDashboard/isFrontLimitSwitchHit",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
           }
         }
       }
@@ -105,6 +120,6 @@
     "x": -8.0,
     "y": -8.0,
     "width": 1936.0,
-    "height": 1176.0
+    "height": 1100.0
   }
 }

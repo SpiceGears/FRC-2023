@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Drive.TeleOpDrive;
+import frc.robot.commands.Intake.ShootCube;
 import frc.robot.commands.Intake.TeleOpIntake;
 import frc.robot.commands.TestAutoPaths.TestArm;
 import frc.robot.commands.TestAutoPaths.TestArmAndDrive;
@@ -106,7 +107,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(0.7);
+            armSubsystem.setGoal(Constants.ARM.POSITION.SECONDLEVEL);
             armSubsystem.enable();
           }
         )
@@ -116,7 +117,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(.85);
+            armSubsystem.setGoal(1.4);
             armSubsystem.enable();
           }
         )
@@ -134,18 +135,12 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.resetEncoder();
+            //armSubsystem.resetEncoder(robot.commands.Intake.ShootCube);
           }
         )
       );
       new JoystickButton(driver, Button.kRightBumper.value)
-      .onTrue(
-        Commands.runOnce(
-          () -> {
-            armSubsystem.setGoal(1.5);
-          }
-        )
-      );
+      .onTrue(new ShootCube())
 
   }
 

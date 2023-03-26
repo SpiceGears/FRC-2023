@@ -93,14 +93,17 @@ public final class Constants {
         public class POSITION{
             public static final double INTAKE = -0.3;
             public static final double HORIZONTAL = 0.0;
+            public static final double SECONDLEVEL = 0.7;
+            public static final int VERTICAL = 1;
+
 
         }
         
     }
 
     public class INTAKE {
-        public static final double SPEED_IN = .99;
-        public static final double SPEED_OUT = .4;
+        public static final double SPEED_OUT = .99;
+        public static final double SPEED_IN = .4;
     }
 
 }
