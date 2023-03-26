@@ -43,6 +43,15 @@ public final class Constants {
         public static final double PID_RIGHT_KI = .2;
         public static final double PID_RIGHT_KD = 0;  
 
+        public class DRIVE_TO_PLATFORM {
+            public static final double DRIVE_TO_PLATFORM_TURN_KP = 0.2;
+            public static final double ROLL_ANGLE_1st_STATE = 8.0; // do zmiany przy testach
+            public static final double FALL_ERROR_TO_2nd_STATE = 5.0; // do zmiany przy testach
+            public static final double FALL_TIME = 2.0;
+            public static final double ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE = 2.0;
+            public static final double DRIVE_TO_BALANCE_MIN_SPEED = 0.5;
+        }
+
     }
 
     public class GYRO {
