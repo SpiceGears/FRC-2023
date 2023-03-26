@@ -140,7 +140,7 @@ public class RobotContainer {
         )
       );
       new JoystickButton(driver, Button.kRightBumper.value)
-      .onTrue(new ShootCube())
+      .onTrue(new ShootCube());
 
   }
 

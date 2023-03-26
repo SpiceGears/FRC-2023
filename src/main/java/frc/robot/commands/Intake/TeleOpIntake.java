@@ -36,10 +36,10 @@ public class TeleOpIntake extends CommandBase {
 
     if(RobotContainer.driver.getRightTriggerAxis() > Constants.JOYSTICK.DEADBAND || RobotContainer.driver.getLeftTriggerAxis() > Constants.JOYSTICK.DEADBAND) {
       
-      if((RobotContainer.driver.getRightTriggerAxis()) > (RobotContainer.driver.getLeftTriggerAxis())) {
-        intakeSubsystem.setIntake(-Constants.INTAKE.SPEED_IN * RobotContainer.driver.getRightTriggerAxis());
+      if((RobotContainer.driver.getLeftTriggerAxis()) > (RobotContainer.driver.getRightTriggerAxis())) {
+        intakeSubsystem.setIntake(-Constants.INTAKE.SPEED_IN * RobotContainer.driver.getLeftTriggerAxis());
       } else {
-        intakeSubsystem.setIntake(Constants.INTAKE.SPEED_OUT * RobotContainer.driver.getLeftTriggerAxis());
+        intakeSubsystem.setIntake(Constants.INTAKE.SPEED_OUT * RobotContainer.driver.getRightTriggerAxis());
       }
 
     } else {

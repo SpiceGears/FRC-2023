@@ -25,6 +25,7 @@ public class TeleOpDrive extends CommandBase {
   @Override
   public void initialize() {
 
+    
     driveTrainSubsystem.stopDriving();
 
   }
@@ -33,8 +34,8 @@ public class TeleOpDrive extends CommandBase {
   @Override
   public void execute() {
 
-    driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
-
+    // driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
   }
 
   // Called once the command ends or is interrupted.
