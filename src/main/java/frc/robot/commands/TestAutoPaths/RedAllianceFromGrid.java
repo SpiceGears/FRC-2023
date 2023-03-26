@@ -5,11 +5,13 @@
 package frc.robot.commands.TestAutoPaths;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.SetArm;
 import frc.robot.commands.Drive.DriveBackwardByGyro;
 import frc.robot.commands.Drive.DriveForwardByGyro;
+import frc.robot.commands.Drive.RotateByAngle;
+import frc.robot.commands.Drive.RotateByAngle;
+import frc.robot.commands.Intake.ShootCube;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -23,19 +25,11 @@ public class RedAllianceFromGrid extends SequentialCommandGroup {
     System.out.println("> Starting RedAllianceFromGrid AutoPath");
     
     addCommands(
-      new SetArm(Constants.ARM.POSITION.HORIZONTAL),
-      new WaitCommand(0.5),
-      new SetArm(Constants.ARM.POSITION.HORIZONTAL),
-      new WaitCommand(2),
-      new SetArm(1),
-      new WaitCommand(2),
-      new SetArm(1.5),
-      new WaitCommand(2),
-      new SetArm(0),
-      new WaitCommand(2),
-      new DriveForwardByGyro(2, .5),
-      new WaitCommand(2),
-      new DriveBackwardByGyro(2, .5)
+      // new SetArm(Constants.ARM.POSITION.VERTICAL),
+      new ShootCube(),
+      new DriveBackwardByGyro(3.6, 0.8),
+      new RotateByAngle(-90, 0.8),
+      new DriveForwardByGyro(1.2, 0.7)
     );
 
     System.out.println("> Ended RedAllianceFromGrid AutoPath");
