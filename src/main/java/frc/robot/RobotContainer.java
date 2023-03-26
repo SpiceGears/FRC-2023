@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Drive.DriveToPlatform;
 import frc.robot.commands.Drive.TeleOpDrive;
 import frc.robot.commands.Intake.ShootCube;
 import frc.robot.commands.Intake.TeleOpIntake;
@@ -52,6 +53,7 @@ public class RobotContainer {
   public static TestArmAndDriveByGyro testArmAndDriveByGyro = new TestArmAndDriveByGyro();
   public static TestStartFromTop testStartFromTop = new TestStartFromTop();
   public static TestNewCommands testNewCommands = new TestNewCommands();
+  public static DriveToPlatform driveToPlatform = new DriveToPlatform(5, .5, 0);
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -168,6 +170,8 @@ public class RobotContainer {
     m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", testStartFromTop);
 
     m_chooser.addOption("RESETARM -> SETARM(0) -> INTAKETEST -> GO BACKWARD, ROTATETEST, GO FORWARD", testNewCommands);
+    m_chooser.addOption("TEST AUTOBALANCE", driveToPlatform);
+
 
     SmartDashboard.putData(m_chooser);
 
