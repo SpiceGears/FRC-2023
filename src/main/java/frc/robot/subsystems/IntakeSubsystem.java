@@ -34,6 +34,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
+  /** Rotates intake using separate speed for each motor in intake.  */
+  public void setIntakeSeparateSpeeds(double speed1, double speed2) {
+
+    intakeMotor1.set(speed1);
+    intakeMotor2.set(speed2);
+
+  }
+
   /** Sets intake power to 0 */
   public void stopIntake() {
 

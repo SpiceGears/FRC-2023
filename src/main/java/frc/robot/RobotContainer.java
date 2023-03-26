@@ -20,6 +20,7 @@ import frc.robot.commands.TestAutoPaths.TestArmAndDrive;
 import frc.robot.commands.TestAutoPaths.TestArmAndDriveByGyro;
 import frc.robot.commands.TestAutoPaths.TestDriveByGyro;
 import frc.robot.commands.TestAutoPaths.TestDriveOnly;
+import frc.robot.commands.TestAutoPaths.TestNewCommands;
 import frc.robot.commands.TestAutoPaths.TestStartFromTop;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -42,12 +43,14 @@ public class RobotContainer {
   public static TeleOpDrive driveCommand = new TeleOpDrive();
   public static TeleOpIntake rollIntakeCommand = new TeleOpIntake();
 
+  // add autopaths here
   public static TestArm testArm = new TestArm();
   public static TestDriveOnly testDriveOnly = new TestDriveOnly();
   public static TestArmAndDrive testArmAndDrive = new TestArmAndDrive();
   public static TestDriveByGyro testDriveByGyro = new TestDriveByGyro();
   public static TestArmAndDriveByGyro testArmAndDriveByGyro = new TestArmAndDriveByGyro();
   public static TestStartFromTop testStartFromTop = new TestStartFromTop();
+  public static TestNewCommands testNewCommands = new TestNewCommands();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -168,6 +171,8 @@ public class RobotContainer {
     m_chooser.addOption("TEST DRIVE BY GYRO", testDriveByGyro);
     m_chooser.addOption("TEST ARM AND DRIVE BY GYRO", testArmAndDriveByGyro);
     m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", testStartFromTop);
+
+    m_chooser.addOption("RESETARM -> SETARM(0) -> INTAKETEST -> GO BACKWARD, ROTATETEST, GO FORWARD", testNewCommands);
 
     SmartDashboard.putData(m_chooser);
 
