@@ -18,8 +18,7 @@ public class TestDriveOnly extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new DriveForward(1, .5),
-      new DriveBackward(1, .5)
+
     );
 
   }

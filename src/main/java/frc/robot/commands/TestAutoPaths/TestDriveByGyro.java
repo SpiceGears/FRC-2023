@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Drive.DriveBackwardByGyro;
 import frc.robot.commands.Drive.DriveForwardByGyro;
+import frc.robot.commands.Drive.DriveWithGyro;
+import frc.robot.commands.Drive.ResetGyro;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -21,9 +24,10 @@ public class TestDriveByGyro extends SequentialCommandGroup {
     System.out.println("> Starting TestDriveByGyro AutoPath");
     
     addCommands(
-      new DriveForwardByGyro(2, .6),
+      new ResetGyro() ,
+      new DriveWithGyro(0, 0.6, 2.0, 1),
       new WaitCommand(2),
-      new DriveBackwardByGyro(2, .6)
+      new DriveWithGyro(0, 0.6, -2.0, 1)
     );
 
     System.out.println("> Ended TestDriveByGyro AutoPath");

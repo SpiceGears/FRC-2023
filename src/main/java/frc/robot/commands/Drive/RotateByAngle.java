@@ -5,20 +5,22 @@
 package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.Constants.DRIVETRAIN;
 
 public class RotateByAngle extends CommandBase {
   /** Creates a new RotateByAngle. */
 
   private DriveTrainSubsystem driveTrainSubsystem;
-  private final double angle;
+  private final double goalAngle;
   private final double speed;
 
 
-  public RotateByAngle(double angle, double speed) {
+  public RotateByAngle(double goalAngle, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.angle = angle;
+    this.goalAngle = goalAngle;
     this.speed = speed;
     driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
     addRequirements(driveTrainSubsystem);
@@ -35,15 +37,16 @@ public class RotateByAngle extends CommandBase {
   public void execute() {
 
     // angle > getAngle()   => turn right
-    if (angle > driveTrainSubsystem.gyro.getAngle()) {
-      driveTrainSubsystem.tankDrive(speed, -speed);
+    double error = goalAngle -  driveTrainSubsystem.gyro.getAngle();
+    double motorOutput = error * Constants.DRIVETRAIN.TURN_IN_PLACE.TURN_TO_ANGLE;
+    if(0.0 < motorOutput && motorOutput < Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT) {
+      motorOutput = Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT;
+    } else if(0.0 > motorOutput && motorOutput > -Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT) {
+      motorOutput = -Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT;
     }
 
-    // angle < getAngle()  => turn left
-    else {
-      driveTrainSubsystem.tankDrive(-speed, speed);
-    }
-
+    driveTrainSubsystem.tankDrive(-motorOutput, motorOutput);
+  
   }
 
   // Called once the command ends or is interrupted.
@@ -55,7 +58,8 @@ public class RotateByAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(driveTrainSubsystem.gyro.getAngle()) > Math.abs(angle)) {
+    double error = goalAngle -  driveTrainSubsystem.gyro.getAngle();
+    if(Math.abs(error) < Constants.DRIVETRAIN.TURN_IN_PLACE.ACCEPTED_ERROR) {
       return true;
     } else {
       return false;

@@ -30,6 +30,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private final VictorSP rightArmMaster = new VictorSP(PortMap.ARM.RIGHT_MASTER_PORT);
   private final VictorSP leftArmSlave = new VictorSP(PortMap.ARM.LEFT_SLAVE_PORT);
   private final VictorSP rightArmSlave = new VictorSP(PortMap.ARM.RIGHT_SLAVE_PORT);
+  private boolean wasArmReseted;
 
   public MotorControllerGroup armGroup = new MotorControllerGroup(
     leftArmMaster, rightArmMaster,
@@ -51,19 +52,22 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           Constants.ARM.kMaxVelocityRadPerSecond,
           Constants.ARM.kMaxAccelerationRadPerSecSquared)),
           0);
-          armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
-          // armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
-          armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
-          armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
-          armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);
+        wasArmReseted = false;
+        armEncoder = new Encoder(PortMap.ARM.ENCODER_PORT_A, PortMap.ARM.ENCODER_PORT_B);
+        // armEncoder.setMaxPeriod(Constants.ARM.ENCODER_MIN_RATE); //TODO check if it works without it
+        armEncoder.setReverseDirection(Constants.ARM.ENCODER_REVERSE);
+        armEncoder.setSamplesToAverage(Constants.ARM.ENCODER_SAMPLES_TO_AVERAGE);
+        armEncoder.setDistancePerPulse(Constants.ARM.kEncoderDistancePerPulse);
 
-          // Start arm at rest in neutral position
-          // setGoal(Constants.ARM.kArmOffsetRads);
+        // Start arm at rest in neutral position
+        // setGoal(Constants.ARM.kArmOffsetRads);
 
-          System.out.println("> ArmSubsystem()");
-          SmartDashboard.putNumber("ARM/finalOutput", 0);
-          SmartDashboard.putNumber("ARM/feedforward", 0);
-          SmartDashboard.putNumber("ARM/output", 0);
+        System.out.println("> ArmSubsystem()");
+        SmartDashboard.putNumber("ARM/finalOutput", 0);
+        SmartDashboard.putNumber("ARM/feedforward", 0);
+        SmartDashboard.putNumber("ARM/output", 0);
+
+        enable();
         }
         
   @Override
@@ -105,11 +109,18 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   // Executes periodically, use instead of periodic() because of @Override problems
   public double getMeasurement() {
 
-
     if(frontLimitSwitch.get()) {
       resetEncoder();
+      wasArmReseted = true;
     }
-    double measurement = armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
+    double measurement;
+
+    if(wasArmReseted){
+      measurement = armEncoder.getDistance() + Constants.ARM.kArmOffsetRads;
+    } else {
+      measurement = armEncoder.getDistance() + Constants.ARM.POSITION.VERTICAL;
+    }
+
     SmartDashboard.putNumber("ARM/getMeasurement()", measurement);
     logArm();
 

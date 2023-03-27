@@ -297,7 +297,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   
   /** Return right distance in meters */
   public double getAverageDistance(){
-    return getLeftDistance() + getRightDistance() / 2;
+    return (getLeftDistance() + getRightDistance()) / 2;
   }
 
   /** Return left encoder speed in meters per second */
