@@ -88,7 +88,7 @@ public class RobotContainer {
     // SET POSITION IN RADIANS FROM HORIZONTAL
     // 3.14 radians = 180 degrees
 
-      
+      // DRIVER
       new JoystickButton(driver, Button.kA.value)
       .onTrue(
         Commands.runOnce(
@@ -127,25 +127,62 @@ public class RobotContainer {
         )
       );
 
-      // new JoystickButton(driver, Button.kX.value)
-      // .onTrue(
-      //   Commands.runOnce(
-      //     () -> {
-      //       armSubsystem.disable();
-      //     }
-      //   )
-      // );
-      new JoystickButton(driver, Button.kLeftBumper.value)
-      .onTrue(
-        Commands.runOnce(
-          () -> {
-            //armSubsystem.resetEncoder(robot.commands.Intake.ShootCube);
-          }
-        )
-      );
       new JoystickButton(driver, Button.kRightBumper.value)
       .onTrue(new ShootCube());
 
+
+      //OPERATOR
+      new JoystickButton(operator, Button.kA.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(Constants.ARM.POSITION.INTAKE);
+            armSubsystem.enable();
+          }
+        )
+      );
+      new JoystickButton(operator, Button.kB.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(Constants.ARM.POSITION.HORIZONTAL);
+            armSubsystem.enable();
+          }
+        )
+      );
+      new JoystickButton(operator, Button.kY.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(Constants.ARM.POSITION.SECONDLEVEL);
+            armSubsystem.enable();
+          }
+        )
+      );
+
+      new JoystickButton(operator, Button.kX.value)
+      .onTrue(
+        Commands.runOnce(
+          () -> {
+            armSubsystem.setGoal(1.4);
+            armSubsystem.enable();
+          }
+        )
+      );
+
+      new JoystickButton(operator, Button.kRightBumper.value)
+      .onTrue(new ShootCube());
+      
+
+
+      // new JoystickButton(driver, Button.kLeftBumper.value)
+      // .onTrue(
+      //   Commands.runOnce(
+      //     () -> {
+      //       armSubsystem.resetEncoder(robot.commands.Intake.ShootCube);
+      //     }
+      //   )
+      // );
   }
 
   /**
