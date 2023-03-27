@@ -10,6 +10,8 @@ import frc.robot.commands.Drive.DriveBackwardByGyro;
 import frc.robot.commands.Drive.DriveForwardByGyro;
 import frc.robot.commands.Drive.DriveWithGyro;
 import frc.robot.commands.Drive.ResetGyro;
+import frc.robot.commands.Drive.RotateByAngle;
+import frc.robot.commands.Drive.TurnToAngle;
 
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -24,10 +26,11 @@ public class TestDriveByGyro extends SequentialCommandGroup {
     System.out.println("> Starting TestDriveByGyro AutoPath");
     
     addCommands(
-      new ResetGyro() ,
-      new DriveWithGyro(0, 0.6, 2.0, 1),
-      new WaitCommand(2),
-      new DriveWithGyro(0, 0.6, -2.0, 1)
+      new ResetGyro(),
+      new RotateByAngle(-180, 0.6)
+      // new DriveWithGyro(0, 0.6, 2.0, 1),
+      // new WaitCommand(2),
+      // new DriveWithGyro(0, 0.6, -2.0, 1)
     );
 
     System.out.println("> Ended TestDriveByGyro AutoPath");

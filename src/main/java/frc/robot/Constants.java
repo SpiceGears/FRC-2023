@@ -42,15 +42,18 @@ public final class Constants {
         public static final double PID_RIGHT_KP = .3;
         public static final double PID_RIGHT_KI = .2;
         public static final double PID_RIGHT_KD = 0; 
+
         public class TURN_IN_PLACE {
-            public static final int ACCEPTED_ERROR = 2; //accepted error when turning (in angles)
-            public static final double TURN_TO_ANGLE = 0.3; 
+            public static final double ACCEPTED_ERROR = 2.5; //accepted error when turning (in angles)
+            public static final double TURN_TO_ANGLE = 0.07; 
             public static final double MINIMAL_MOTOR_OUTPUT = 0.15; //minimal percentage of output in motors
+            public static final double MAX_MOTOR_OUTPUT = 0.50; //minimal percentage of output in motors
         }
+
         public class DRIVE_WITH_GYRO {
             public static final double TURN_kP = 0.07;
             public static final double ACCEPTED_ERROR_IN_METERS = 0.01; 
-            public static final double MINIMAL_SPEED = 0.4; //minimal speed when driving in auto
+            public static final double MINIMAL_SPEED = 0.45; //minimal speed when driving in auto
         }
 
         public class DRIVE_TO_PLATFORM {

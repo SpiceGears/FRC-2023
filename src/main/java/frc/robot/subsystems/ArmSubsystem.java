@@ -66,7 +66,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         SmartDashboard.putNumber("ARM/finalOutput", 0);
         SmartDashboard.putNumber("ARM/feedforward", 0);
         SmartDashboard.putNumber("ARM/output", 0);
-
+        setGoal(Constants.ARM.POSITION.VERTICAL);
         enable();
         }
         

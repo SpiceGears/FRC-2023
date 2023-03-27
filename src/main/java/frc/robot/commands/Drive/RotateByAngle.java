@@ -38,11 +38,17 @@ public class RotateByAngle extends CommandBase {
 
     // angle > getAngle()   => turn right
     double error = goalAngle -  driveTrainSubsystem.gyro.getAngle();
+    error = -error;
     double motorOutput = error * Constants.DRIVETRAIN.TURN_IN_PLACE.TURN_TO_ANGLE;
     if(0.0 < motorOutput && motorOutput < Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT) {
       motorOutput = Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT;
     } else if(0.0 > motorOutput && motorOutput > -Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT) {
       motorOutput = -Constants.DRIVETRAIN.TURN_IN_PLACE.MINIMAL_MOTOR_OUTPUT;
+    }
+    if(motorOutput > Constants.DRIVETRAIN.TURN_IN_PLACE.MAX_MOTOR_OUTPUT){
+      motorOutput = Constants.DRIVETRAIN.TURN_IN_PLACE.MAX_MOTOR_OUTPUT;
+    } else if (motorOutput < -Constants.DRIVETRAIN.TURN_IN_PLACE.MAX_MOTOR_OUTPUT){
+      motorOutput = -Constants.DRIVETRAIN.TURN_IN_PLACE.MAX_MOTOR_OUTPUT;
     }
 
     driveTrainSubsystem.tankDrive(-motorOutput, motorOutput);
