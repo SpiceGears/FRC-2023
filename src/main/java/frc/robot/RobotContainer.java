@@ -166,7 +166,7 @@ public class RobotContainer {
       .onTrue(
         Commands.runOnce(
           () -> {
-            armSubsystem.setGoal(1.4);
+            armSubsystem.setGoal(Constants.ARM.POSITION.VERTICAL);
             armSubsystem.enable();
           }
         )

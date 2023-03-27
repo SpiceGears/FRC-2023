@@ -116,7 +116,7 @@ public final class Constants {
             public static final double INTAKE = -0.3;
             public static final double HORIZONTAL = 0.0;
             public static final double SECONDLEVEL = 0.7;
-            public static final int VERTICAL = 1;
+            public static final double VERTICAL = 1.4;
 
 
         }
