@@ -60,19 +60,20 @@ public class DriveToPlatform extends CommandBase {
 
     if(state == 0) {
       // JEDZIE DO PRZODU NA PLATROFME jeśli roll angle jest większy niz stała ROLL_ANGLE_FOR_1st_STAGE to zmień na stage 1
-      speed = startSpeed;
-      if(rollAngle > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ROLL_ANGLE_1st_STATE) {
+      speed = 0.7;
+      if(Math.abs(maxRollAngle) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ROLL_ANGLE_1st_STATE) {
         state = 1;
       }
     } else if(state == 1) {
       // ZACZYNA WJEŻDZAĆ NA PLATFORMĘ 
       // sprawdzamy czy robot zaczął opadąć czyli czy max roll agle jest
       double rollAngleErrorWithMax = Math.abs(Math.abs(maxRollAngle) - Math.abs(rollAngle));
+      rollAngleErrorWithMax = Math.abs(rollAngleErrorWithMax);
       if(rollAngleErrorWithMax > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.FALL_ERROR_TO_2nd_STATE) {
         state = 2;
       }
       
-
+      speed = 0.65;
     } else if(state == 2) {
       // ZACZYNA OPADAĆ WIEC MUSIMY GO ZATRZYMAĆ 
       speed = 0;
@@ -99,7 +100,7 @@ public class DriveToPlatform extends CommandBase {
 
     } else if(state == 5) {
       // sprawdzamy w którą stronę ma jechać w zaleznosci od roll 
-      if(Math.abs(driveTrainSubsystem.gyro.getRoll()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE){
+      if(Math.abs(driveTrainSubsystem.gyro.getRoll()) < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE){
         speed = 0;
       } else if(driveTrainSubsystem.gyro.getRoll() < 0) {
         // jazda na + z minimalną prędkością 
@@ -114,8 +115,16 @@ public class DriveToPlatform extends CommandBase {
 
     SmartDashboard.putBoolean("AUTOBALANCE/is_balanced", is_balanced);
     SmartDashboard.putNumber("AUTOBALANCE/speed", speed);
-    SmartDashboard.putNumber("AUTOBALANCE/state", rollAngle);
-    // driveTrainSubsystem.arcadeDrive(speed, turnError); // TODO - turn it on ;) 
+    SmartDashboard.putNumber("AUTOBALANCE/state", state);
+    SmartDashboard.putNumber("AUTOBALANCE/turnError", turnError);
+    SmartDashboard.putNumber("AUTOBALANCE/rollAngle", rollAngle);
+    SmartDashboard.putNumber("AUTOBALANCE/maxRollAngle", maxRollAngle);
+
+    // if(speed == 0){
+    //   driveTrainSubsystem.pidDrive(0, 0);
+    // } else {
+      driveTrainSubsystem.arcadeDrive(speed, turnError); // TODO - turn it on ;) 
+    // }
   }
 
   // Called once the command ends or is interrupted.
