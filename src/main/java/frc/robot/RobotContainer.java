@@ -13,20 +13,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.Auto.BetweenCommunityAndLoading2Cube;
+import frc.robot.commands.Auto.CenterAutoShootAndDriveToPlatform;
+import frc.robot.commands.Auto.RedAllianceFromGrid;
+import frc.robot.commands.Auto.Test.TestArm;
+import frc.robot.commands.Auto.Test.TestArmAndDrive;
+import frc.robot.commands.Auto.Test.TestArmAndDriveByGyro;
+import frc.robot.commands.Auto.Test.TestDriveByGyro;
+import frc.robot.commands.Auto.Test.TestDriveOnly;
+import frc.robot.commands.Auto.Test.TestNewCommands;
+import frc.robot.commands.Auto.Test.TestStartFromTop;
 import frc.robot.commands.Drive.DriveForwardByGyro;
 import frc.robot.commands.Drive.DriveWithGyro;
 import frc.robot.commands.Drive.TeleOpDrive;
 import frc.robot.commands.Intake.ShootCube;
 import frc.robot.commands.Intake.TeleOpIntake;
-import frc.robot.commands.TestAutoPaths.CenterAutoShootAndDriveToPlatform;
-import frc.robot.commands.TestAutoPaths.RedAllianceFromGrid;
-import frc.robot.commands.TestAutoPaths.TestArm;
-import frc.robot.commands.TestAutoPaths.TestArmAndDrive;
-import frc.robot.commands.TestAutoPaths.TestArmAndDriveByGyro;
-import frc.robot.commands.TestAutoPaths.TestDriveByGyro;
-import frc.robot.commands.TestAutoPaths.TestDriveOnly;
-import frc.robot.commands.TestAutoPaths.TestNewCommands;
-import frc.robot.commands.TestAutoPaths.TestStartFromTop;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -56,14 +57,16 @@ public class RobotContainer {
   public static TestArmAndDriveByGyro testArmAndDriveByGyro = new TestArmAndDriveByGyro();
   public static TestStartFromTop testStartFromTop = new TestStartFromTop();
   public static TestNewCommands testNewCommands = new TestNewCommands();
+
   public static CenterAutoShootAndDriveToPlatform centerAutoShootAndDriveToPlatform = new CenterAutoShootAndDriveToPlatform();
+  public static BetweenCommunityAndLoading2Cube betweenCommunityAndLoading2Cube = new BetweenCommunityAndLoading2Cube();
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
   
   
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -71,8 +74,31 @@ public class RobotContainer {
     configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.tankDrive(0, 0);
-
+    
     configureAutoChooser(); // adds chooser to dashboard and adds auto options
+  }
+  
+  /** Add chooser to dashboard and add auto options. */
+  public void configureAutoChooser() {
+
+    // TEST
+    // m_chooser.setDefaultOption("do nothing", new WaitCommand(1));
+    // m_chooser.addOption("test arm then drive", testDriveOnly);
+    // m_chooser.addOption("test arm only", testArm);
+    // m_chooser.addOption("test drive only", testDriveOnly);
+    // m_chooser.addOption("TEST DRIVE BY GYRO", testDriveByGyro);
+    // m_chooser.addOption("TEST ARM AND DRIVE BY GYRO", testArmAndDriveByGyro);
+    // m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", testStartFromTop);
+
+    // COMPETITION
+    m_chooser.addOption("centerAutoShootAndDriveToPlatform", centerAutoShootAndDriveToPlatform);
+    m_chooser.addOption("betweenCommunityAndLoading2Cube", betweenCommunityAndLoading2Cube);
+    
+
+    // m_chooser.addOption("RESETARM -> SETARM(0) -> INTAKETEST -> GO BACKWARD, ROTATETEST, GO FORWARD", testNewCommands);
+
+    SmartDashboard.putData(m_chooser);
+
   }
 
   /**
@@ -199,24 +225,6 @@ public class RobotContainer {
 
   }
 
-  /** Add chooser to dashboard and add auto options. */
-  public void configureAutoChooser() {
-
-    m_chooser.setDefaultOption("do nothing", new WaitCommand(1));
-    m_chooser.addOption("test arm then drive", testDriveOnly);
-    m_chooser.addOption("test arm only", testArm);
-    m_chooser.addOption("test drive only", testDriveOnly);
-    m_chooser.addOption("TEST DRIVE BY GYRO", testDriveByGyro);
-    m_chooser.addOption("TEST ARM AND DRIVE BY GYRO", testArmAndDriveByGyro);
-    m_chooser.addOption("TeSt ArM FrOm ToP PoSiTiOn To LoW AnD InTaKe AuTo", testStartFromTop);
-    m_chooser.addOption("centerAutoShootAndDriveToPlatform", centerAutoShootAndDriveToPlatform);
-    
-
-    m_chooser.addOption("RESETARM -> SETARM(0) -> INTAKETEST -> GO BACKWARD, ROTATETEST, GO FORWARD", testNewCommands);
-
-    SmartDashboard.putData(m_chooser);
-
-  }
 
   public void disablePIDSubsystems() {
     armSubsystem.disable();
