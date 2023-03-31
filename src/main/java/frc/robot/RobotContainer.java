@@ -65,7 +65,7 @@ public class RobotContainer {
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
   
   
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  public static SendableChooser<Command> m_chooser = new SendableChooser<>();
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -61,6 +62,17 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     // OtherLogs.logOther();
+
+    // radio chEEEck !!!!!!
+    // loud and clEEEar !!!!
+    if(RobotContainer.m_chooser.getSelected() == null) {
+      SmartDashboard.putBoolean("CHECK/isAutoSelected", false);
+    } else {
+      SmartDashboard.putBoolean("CHECK/isAutoSelected", true);
+    }
+    
+
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

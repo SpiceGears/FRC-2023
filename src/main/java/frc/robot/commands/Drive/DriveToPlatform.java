@@ -108,8 +108,9 @@ public class DriveToPlatform extends CommandBase {
     } else if(state == 5) {
       // sprawdzamy w którą stronę ma jechać w zaleznosci od roll 
       double errorCorrection = .005;
-      boolean isRobotMoving = Math.abs(driveTrainSubsystem.leftEncoder.getRate()) > .02;
+      boolean isRobotMoving = Math.abs(driveTrainSubsystem.leftEncoder.getRate()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.AUTO_DRIVE_SPEED_CM_PER_SEC_TRESHOLD_SETPOINT;
       boolean is_balanced_local = Math.abs(driveTrainSubsystem.gyro.getRoll()) < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
+
       
       if( ! is_balanced_local) {
         if(isRobotMoving) {

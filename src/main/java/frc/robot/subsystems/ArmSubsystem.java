@@ -122,6 +122,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     SmartDashboard.putNumber("ARM/getMeasurement()", measurement);
+    SmartDashboard.putBoolean("CHECK/armNotReseted", !wasArmReseted);
     logArm();
 
     return measurement;
@@ -151,7 +152,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public void logArm() {
 
     SmartDashboard.putNumber("ARM/armEncoder.getDistance()", armEncoder.getDistance());
-    SmartDashboard.putBoolean("isFrontLimitSwitchHit", isFrontLimitSwitchHit());
+    // SmartDashboard.putBoolean("isFrontLimitSwitchHit", isFrontLimitSwitchHit());
     // SmartDashboard.putNumber("ARM/set_position");
 
   }
