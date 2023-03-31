@@ -61,8 +61,8 @@ public final class Constants {
             public static final double ROLL_ANGLE_1st_STATE = 14.0; // do zmiany przy testach
             public static final double FALL_ERROR_TO_2nd_STATE = 6; // do zmiany przy testach
             public static final double FALL_TIME = 0;
-            public static final double ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE = 3.0;
-            public static final double DRIVE_TO_BALANCE_MIN_SPEED = 0.52;
+            public static final double ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE = 4.5;
+            public static final double DRIVE_TO_BALANCE_MIN_SPEED = 0.5;
         }
 
     }
