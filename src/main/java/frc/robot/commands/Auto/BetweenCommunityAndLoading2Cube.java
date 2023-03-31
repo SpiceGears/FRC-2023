@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.SetArm;
 import frc.robot.commands.Drive.DriveBackward;
+import frc.robot.commands.Drive.DriveBackwardByGyro;
 import frc.robot.commands.Drive.DriveForward;
+import frc.robot.commands.Drive.DriveForwardByGyro;
 import frc.robot.commands.Drive.ResetGyro;
 import frc.robot.commands.Drive.RotateByAngle;
 import frc.robot.commands.Intake.RollIntakeFor;
@@ -28,17 +30,17 @@ public class BetweenCommunityAndLoading2Cube extends SequentialCommandGroup {
     addCommands(
       new ResetGyro(),
       new ShootCube(),
-      new DriveBackward(Units.inchesToMeters(150), 0.7),
+      new DriveBackwardByGyro(Units.inchesToMeters(150), 0.6),
       // new WaitCommand(.5),
       new SetArm(Constants.ARM.POSITION.INTAKE),
-      new RotateByAngle(180, .7),
+      new RotateByAngle(180, .5),
       // new WaitCommand(.2),
-      new DriveForward(Units.inchesToMeters(30), .7),
+      new DriveForwardByGyro(Units.inchesToMeters(30), .7),
       new ParallelRaceGroup(new DriveForward(Units.inchesToMeters(50), .5), 
                             new RollIntakeFor(-0.5, 10)),
-      new RotateByAngle(180, .7),
+      new RotateByAngle(180, .5),
       new SetArm(Constants.ARM.POSITION.VERTICAL),
-      new DriveForward(Units.inchesToMeters(230), .8),
+      new DriveForwardByGyro(Units.inchesToMeters(230), .7),
       new ShootCube()
 
     );

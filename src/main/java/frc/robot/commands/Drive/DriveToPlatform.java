@@ -24,6 +24,8 @@ public class DriveToPlatform extends CommandBase {
   private double encoderSetpoint;
   private double maxRollAngle;
   private double startTimeFor3thState;
+  private double lastSpeed;
+  private double errorSum;
   
   public DriveToPlatform(double maxDistance, double startSpeed, double angleSetpoint) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -31,6 +33,7 @@ public class DriveToPlatform extends CommandBase {
     this.startSpeed = startSpeed;
     this.state = 0;
     this.maxRollAngle = 0;
+    this.lastSpeed = 0;
     this.angleSetpoint = angleSetpoint;
     driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
     addRequirements(driveTrainSubsystem);
@@ -58,6 +61,8 @@ public class DriveToPlatform extends CommandBase {
       maxRollAngle = rollAngle;
     }
 
+    
+    
     if(state == 0) {
       // JEDZIE DO PRZODU NA PLATROFME jeśli roll angle jest większy niz stała ROLL_ANGLE_FOR_1st_STAGE to zmień na stage 1
       speed = 0.73;
@@ -73,7 +78,7 @@ public class DriveToPlatform extends CommandBase {
         state = 2;
       }
       
-      speed = 0.65;
+      speed = 0.77;
     } else if(state == 2) {
       // ZACZYNA OPADAĆ WIEC MUSIMY GO ZATRZYMAĆ 
       speed = 0;
@@ -92,23 +97,45 @@ public class DriveToPlatform extends CommandBase {
       //su po zatrzmymaniu sprawdzamy czy jest na kącie 0 (+/ ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE stopnień) stopnii roll 
       //jeśli nie to jedziemy albo do przodu albo do tyłu (w zaleznosci od roll) i wrzucamy stage 4
       // jezeli rowno to nic jezeli nie rowno to 5 i autobalans
-
+      
       // JEZELI NIE POZIOMO TO 5 i AUTOBALANS
       if(Math.abs(driveTrainSubsystem.gyro.getRoll()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE) {
         state = 5;
       }
-
+      
+      
+      
     } else if(state == 5) {
       // sprawdzamy w którą stronę ma jechać w zaleznosci od roll 
-      if(Math.abs(driveTrainSubsystem.gyro.getRoll()) < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE){
+      double errorCorrection = .005;
+      boolean isRobotMoving = Math.abs(driveTrainSubsystem.leftEncoder.getRate()) > .02;
+      boolean is_balanced_local = Math.abs(driveTrainSubsystem.gyro.getRoll()) < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
+      
+      if( ! is_balanced_local) {
+        if(isRobotMoving) {
+          errorSum = errorSum - errorCorrection;
+        } else {
+          errorSum = errorSum + errorCorrection;
+        }
+      }
+      
+      if(is_balanced_local){
         speed = 0;
+        errorSum = errorSum - errorCorrection;
+        if(errorSum < 0) {
+          errorSum = 0;
+        }
+
       } else if(driveTrainSubsystem.gyro.getRoll() < 0) {
         // jazda na + z minimalną prędkością 
-        speed = Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED;
+        speed = Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED + errorSum;
+        
       } else {
         // jazda na - z minimalną prędkością 
-        speed = -Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED;
+        speed = -Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED - errorSum;
       } 
+
+
     }
     boolean is_balanced = Math.abs(driveTrainSubsystem.gyro.getRoll()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
     
@@ -124,6 +151,7 @@ public class DriveToPlatform extends CommandBase {
     //   driveTrainSubsystem.pidDrive(0, 0);
     // } else {
       driveTrainSubsystem.arcadeDrive(speed, turnError); // TODO - turn it on ;) 
+      lastSpeed = speed;
     // }
   }
 

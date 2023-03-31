@@ -59,10 +59,11 @@ public final class Constants {
         public class DRIVE_TO_PLATFORM {
             public static final double DRIVE_TO_PLATFORM_TURN_KP = 0.07;
             public static final double ROLL_ANGLE_1st_STATE = 14.0; // do zmiany przy testach
-            public static final double FALL_ERROR_TO_2nd_STATE = 6; // do zmiany przy testach
+            public static final double FALL_ERROR_TO_2nd_STATE = 4.8; // do zmiany przy testach
             public static final double FALL_TIME = 0;
-            public static final double ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE = 4.5;
+            public static final double ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE = 6;
             public static final double DRIVE_TO_BALANCE_MIN_SPEED = 0.5;
+            public static final double AUTO_DRIVE_SPEED_CM_PER_SEC_TRESHOLD_SETPOINT = 2 / 100;
         }
 
     }

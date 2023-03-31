@@ -63,10 +63,10 @@
               "_showGlyph": false
             }
           },
-          "3,0": {
+          "1,0": {
             "size": [
-              4,
-              4
+              6,
+              5
             ],
             "content": {
               "_type": "Camera Stream",
@@ -84,7 +84,7 @@
               "imageHeight": -1
             }
           },
-          "6,4": {
+          "7,4": {
             "size": [
               2,
               1
@@ -97,7 +97,7 @@
               "_showGlyph": false
             }
           },
-          "8,4": {
+          "9,4": {
             "size": [
               1,
               1
