@@ -60,7 +60,7 @@ public class DriveToPlatform extends CommandBase {
 
     if(state == 0) {
       // JEDZIE DO PRZODU NA PLATROFME jeśli roll angle jest większy niz stała ROLL_ANGLE_FOR_1st_STAGE to zmień na stage 1
-      speed = 0.7;
+      speed = 0.73;
       if(Math.abs(maxRollAngle) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ROLL_ANGLE_1st_STATE) {
         state = 1;
       }

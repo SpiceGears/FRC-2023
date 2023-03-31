@@ -46,8 +46,8 @@ public final class Constants {
         public class TURN_IN_PLACE {
             public static final double ACCEPTED_ERROR = 2.5; //accepted error when turning (in angles)
             public static final double TURN_TO_ANGLE = 0.09; 
-            public static final double MINIMAL_MOTOR_OUTPUT = 0.25; //minimal percentage of output in motors
-            public static final double MAX_MOTOR_OUTPUT = 0.50; //minimal percentage of output in motors
+            public static final double MINIMAL_MOTOR_OUTPUT = 0.5; //minimal percentage of output in motors
+            public static final double MAX_MOTOR_OUTPUT = 0.80; //minimal percentage of output in motors
         }
 
         public class DRIVE_WITH_GYRO {
@@ -58,11 +58,11 @@ public final class Constants {
 
         public class DRIVE_TO_PLATFORM {
             public static final double DRIVE_TO_PLATFORM_TURN_KP = 0.07;
-            public static final double ROLL_ANGLE_1st_STATE = 10.0; // do zmiany przy testach
-            public static final double FALL_ERROR_TO_2nd_STATE = 4; // do zmiany przy testach
-            public static final double FALL_TIME = 0.5;
+            public static final double ROLL_ANGLE_1st_STATE = 14.0; // do zmiany przy testach
+            public static final double FALL_ERROR_TO_2nd_STATE = 6; // do zmiany przy testach
+            public static final double FALL_TIME = 0;
             public static final double ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE = 3.0;
-            public static final double DRIVE_TO_BALANCE_MIN_SPEED = 0.55;
+            public static final double DRIVE_TO_BALANCE_MIN_SPEED = 0.52;
         }
 
     }
