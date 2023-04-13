@@ -64,30 +64,30 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
         System.out.println("> ArmSubsystem()");
         SmartDashboard.putNumber("ARM/finalOutput", 0);
-        SmartDashboard.putNumber("ARM/feedforward", 0);
-        SmartDashboard.putNumber("ARM/output", 0);
+        SmartDashboard.putNumber("ARM/feedforwardOutput", 0);
+        SmartDashboard.putNumber("ARM/pidOutput", 0);
         setGoal(Constants.ARM.POSITION.VERTICAL);
         enable();
         }
         
   @Override
-  public void useOutput(double output, TrapezoidProfile.State setpoint) {
+  public void useOutput(double pidOutput, TrapezoidProfile.State setpoint) {
 
     // Calculate the feedforward from the sepoint
-    double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
+    double feedforwardOutput = m_feedforward.calculate(setpoint.position, setpoint.velocity);
 
     // Limit output voltage
     double maxVoltage = Constants.ARM.MAX_VOLTAGE_OUTPUT_UP;
 
     // Add the feedforward to the PID output to get the motor output
-    double finalOutput = MathUtil.clamp(output + feedforward, -maxVoltage, maxVoltage);
+    double finalOutput = MathUtil.clamp(pidOutput + feedforwardOutput, -maxVoltage, maxVoltage);
     SmartDashboard.putNumber("ARM/finalOutput", finalOutput);
-    SmartDashboard.putNumber("ARM/feedforward", feedforward);
-    SmartDashboard.putNumber("ARM/output", output);
+    SmartDashboard.putNumber("ARM/feedforwardOutput", feedforwardOutput);
+    SmartDashboard.putNumber("ARM/pidOutput", pidOutput);
     
     if(setpoint.position == Constants.ARM.POSITION.INTAKE)
     { 
-      if(isFrontLimitSwitchHit()){
+      if(isFrontLimitSwitchHit()) {
         finalOutput = 0;
       } else if (setpoint.position > Constants.ARM.POSITION.HORIZONTAL) {
         finalOutput = finalOutput;
@@ -151,7 +151,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public void logArm() {
 
-    SmartDashboard.putNumber("ARM/armEncoder.getDistance()", armEncoder.getDistance());
+    SmartDashboard.putNumber("ARM/getDistance()", armEncoder.getDistance());
     // SmartDashboard.putBoolean("isFrontLimitSwitchHit", isFrontLimitSwitchHit());
     // SmartDashboard.putNumber("ARM/set_position");
 

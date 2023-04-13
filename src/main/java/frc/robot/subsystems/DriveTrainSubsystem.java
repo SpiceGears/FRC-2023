@@ -348,6 +348,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("GYRO/getRawGyroY()", gyro.getRawGyroY());
     SmartDashboard.putNumber("GYRO/getRawGyroZ()", gyro.getRawGyroZ());
     
+    SmartDashboard.putNumber("GYRO/getAccelFullScaleRangeG()", gyro.getAccelFullScaleRangeG());
   }
 
   /** Log values from PDP */

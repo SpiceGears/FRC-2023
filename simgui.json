@@ -55,9 +55,12 @@
       "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/AnalogGyro[1]": "Gyro",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[6]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[7]": "Digital Input",
       "/LiveWindow/Ungrouped/MotorControllerGroup[3]": "Motor Controller",
       "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
       "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon SRX [2]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [3]": "Motor Controller",
@@ -129,6 +132,9 @@
     },
     "serverTimestamp": true,
     "transitory": {
+      "FMSInfo": {
+        "open": true
+      },
       "LiveWindow": {
         "Ungrouped": {
           "DifferentialDrive[1]": {
@@ -143,6 +149,9 @@
         "ARM": {
           "open": true
         },
+        "CHECK": {
+          "open": true
+        },
         "DRIVE": {
           "open": true
         },
@@ -152,7 +161,7 @@
         "INTAKE": {
           "open": true
         },
-        "SendableChooser[0]": {
+        "PDP": {
           "open": true
         },
         "leftSpeed in m": {
@@ -276,7 +285,7 @@
     "Plot <2>": {
       "plots": [
         {
-          "height": 0,
+          "height": 338,
           "series": [
             {
               "color": [
