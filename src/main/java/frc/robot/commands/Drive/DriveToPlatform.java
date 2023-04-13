@@ -64,14 +64,14 @@ public class DriveToPlatform extends CommandBase {
     
     
     if(state == 0) {
-      // JEDZIE DO PRZODU NA PLATROFME jeśli roll angle jest większy niz stała ROLL_ANGLE_FOR_1st_STAGE to zmień na stage 1
+      // JEDZIE DO PRZODU NA PLATROFME jesli roll angle jest wiekszy niz stala ROLL_ANGLE_FOR_1st_STAGE to zmien na stage 1
       speed = 0.73;
       if(Math.abs(maxRollAngle) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ROLL_ANGLE_1st_STATE) {
         state = 1;
       }
     } else if(state == 1) {
-      // ZACZYNA WJEŻDZAĆ NA PLATFORMĘ 
-      // sprawdzamy czy robot zaczął opadąć czyli czy max roll agle jest
+      // ZACZYNA WJEZDZAC NA PLATFORME
+      // sprawdzamy czy robot zaczal opadac czyli czy max roll agle jest
       double rollAngleErrorWithMax = Math.abs(Math.abs(maxRollAngle) - Math.abs(rollAngle));
       rollAngleErrorWithMax = Math.abs(rollAngleErrorWithMax);
       if(rollAngleErrorWithMax > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.FALL_ERROR_TO_2nd_STATE) {
@@ -80,9 +80,9 @@ public class DriveToPlatform extends CommandBase {
       
       speed = 0.77;
     } else if(state == 2) {
-      // ZACZYNA OPADAĆ WIEC MUSIMY GO ZATRZYMAĆ 
+      // ZACZYNA OPADAC WIEC MUSIMY GO ZATRZYMAC
       speed = 0;
-      // Odpalamy timer od kiedy zaczeliśmy zatrzymywać robota. 
+      // Odpalamy timer od kiedy zaczelismy zatrzymywac robota. 
       startTimeFor3thState = Timer.getFPGATimestamp();
       state = 3;
     } else if(state == 3) {
@@ -94,8 +94,8 @@ public class DriveToPlatform extends CommandBase {
         speed = 0;
       }
     } else if(state == 4) {
-      //su po zatrzmymaniu sprawdzamy czy jest na kącie 0 (+/ ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE stopnień) stopnii roll 
-      //jeśli nie to jedziemy albo do przodu albo do tyłu (w zaleznosci od roll) i wrzucamy stage 4
+      //su po zatrzmymaniu sprawdzamy czy jest na kącie 0 (+/ ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE stopnien) stopnii roll 
+      //jesli nie to jedziemy albo do przodu albo do tylu (w zaleznosci od roll) i wrzucamy stage 4
       // jezeli rowno to nic jezeli nie rowno to 5 i autobalans
       
       // JEZELI NIE POZIOMO TO 5 i AUTOBALANS
@@ -106,7 +106,7 @@ public class DriveToPlatform extends CommandBase {
       
       
     } else if(state == 5) {
-      // sprawdzamy w którą stronę ma jechać w zaleznosci od roll 
+      // sprawdzamy w ktora strone ma jechac w zaleznosci od roll 
       double errorCorrection = .005;
       boolean isRobotMoving = Math.abs(driveTrainSubsystem.leftEncoder.getRate()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.AUTO_DRIVE_SPEED_CM_PER_SEC_TRESHOLD_SETPOINT;
       boolean is_balanced_local = Math.abs(driveTrainSubsystem.gyro.getRoll()) < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
@@ -128,11 +128,11 @@ public class DriveToPlatform extends CommandBase {
         }
 
       } else if(driveTrainSubsystem.gyro.getRoll() < 0) {
-        // jazda na + z minimalną prędkością 
+        // jazda na + z minimalna prędkościa 
         speed = Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED + errorSum;
         
       } else {
-        // jazda na - z minimalną prędkością 
+        // jazda na - z minimalna prędkościa 
         speed = -Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED - errorSum;
       } 
 

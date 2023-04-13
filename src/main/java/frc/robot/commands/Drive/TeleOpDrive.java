@@ -5,6 +5,7 @@
 package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -35,7 +36,15 @@ public class TeleOpDrive extends CommandBase {
   public void execute() {
 
     // driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
-    driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+
+    // REDUCE DRIVE SPEED WHEN LEFTBUMPER PRESSED
+    if(RobotContainer.driver.getLeftBumper()) {
+      driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1) * Constants.DRIVETRAIN.SPEED_REDUCTION ,
+                                      RobotContainer.driver.getRawAxis(4) * Constants.DRIVETRAIN.SPEED_REDUCTION );
+    } else {
+      driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+    }
+
   }
 
   // Called once the command ends or is interrupted.
