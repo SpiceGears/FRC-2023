@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -51,6 +52,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry;
 
   private Pose2d pose;
+
+  public static PowerDistribution pdp = new PowerDistribution();
 
 
   // SIMULATION
@@ -120,6 +123,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     logDriveTrain();
+    logPDP();
 
     odometry.update(gyro.getRotation2d(),
     leftEncoder.getDistance(),
@@ -343,6 +347,21 @@ public class DriveTrainSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("GYRO/getRawGyroX()", gyro.getRawGyroX());
     SmartDashboard.putNumber("GYRO/getRawGyroY()", gyro.getRawGyroY());
     SmartDashboard.putNumber("GYRO/getRawGyroZ()", gyro.getRawGyroZ());
+    
+  }
+
+  /** Log values from PDP */
+  public void logPDP() {
+
+    SmartDashboard.putNumber("PDP/Voltage (V)", pdp.getVoltage());
+    SmartDashboard.putNumber("PDP/Temperature", pdp.getTemperature());
+    SmartDashboard.putNumber("PDP/TotalCurrent (A)", pdp.getTotalCurrent());
+    SmartDashboard.putNumber("PDP/TotalPower (W)", pdp.getTotalPower());
+    SmartDashboard.putNumber("PDP/TotalEnergy (J)", pdp.getTotalEnergy());
+
+    for (int i = 0; i <= 15; i++) {
+      SmartDashboard.putNumber("PDP/PORTCURRENT/" + i, pdp.getCurrent(i));
+    }
     
   }
   
