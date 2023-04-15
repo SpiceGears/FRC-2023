@@ -4,12 +4,17 @@
 
 package frc.robot.subsystems;
 
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.PortMap;
+import frc.robot.RobotContainer;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new Intake. */
@@ -24,6 +29,9 @@ public class IntakeSubsystem extends SubsystemBase {
   double voltageCurrent;
   double currentDistanceCentimeters;
   boolean isDetected;
+  boolean lastIsDetected;
+  double rumbleStartTime;
+  double currentTime;
 
   public IntakeSubsystem() {
 
@@ -77,11 +85,37 @@ public class IntakeSubsystem extends SubsystemBase {
     voltageScaleFactor = 5 / voltageCurrent;
     currentDistanceCentimeters = ultrasonicRawValue * voltageScaleFactor * 0.125; // returns distance in centimeters
 
+    lastIsDetected = isDetected; // set to last loop's value
 
+    // if current distance < range => isDetected = true
     if(currentDistanceCentimeters < 50) {
       isDetected = true;
     } else {
       isDetected = false;
+    }
+
+    // watch if detection changed from false to true
+    // and schedule rumbleGamepad()
+    if (lastIsDetected == false && isDetected == true) {
+      rumbleGamepad();
+    }
+
+    rumbleGamepadPeriodic(RobotContainer.driver, 0.5);
+
+  }
+
+  public void rumbleGamepad() {
+    rumbleStartTime = Timer.getFPGATimestamp();
+  }
+
+  // rumble gamepad if rumbleGamepad() ran in last rumbleDuration seconds
+  public void rumbleGamepadPeriodic(XboxController gamepad, double rumbleDuration) {
+    
+    double rumbleStrength = 0.5;
+    currentTime = Timer.getFPGATimestamp();
+
+    if (currentTime - rumbleStartTime < rumbleDuration) {
+      RobotContainer.driver.setRumble(RumbleType.kBothRumble, rumbleStrength );
     }
 
   }
