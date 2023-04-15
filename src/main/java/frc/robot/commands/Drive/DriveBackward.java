@@ -41,7 +41,7 @@ public class DriveBackward extends CommandBase {
   public void execute() {
 
     driveTrainSubsystem.tankDrive(-speed, -speed);
-    // System.out.println("> Drivebackward setpoint = " + encoderSetpoint + "getleftdistance() = " + driveTrainSubsystem.getLeftDistance());
+
   }
 
   // Called once the command ends or is interrupted.

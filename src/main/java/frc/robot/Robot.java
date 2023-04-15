@@ -78,9 +78,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-
-    RobotContainer.setAllOutputsToZero();
-
+    RobotContainer.armSubsystem.setGoal(RobotContainer.armSubsystem.getMeasurement()); // sets goal to actual position
   }
 
   @Override
@@ -110,9 +108,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
-    RobotContainer.setAllOutputsToZero();
-    
   }
   
   /** This function is called periodically during operator control. */
@@ -138,6 +133,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
 
 
 }

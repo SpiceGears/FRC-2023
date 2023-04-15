@@ -41,7 +41,6 @@ public class DriveForward extends CommandBase {
   public void execute() {
 
     driveTrainSubsystem.tankDrive(speed, speed);
-    // System.out.println("> Driveforward setpoint = " + encoderSetpoint + "getleftdistance() = " + driveTrainSubsystem.getLeftDistance());
 
   }
 

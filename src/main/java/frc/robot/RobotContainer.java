@@ -22,6 +22,9 @@ import frc.robot.commands.Auto.Test.TestArm;
 import frc.robot.commands.Auto.Test.TestArmAndDrive;
 import frc.robot.commands.Auto.Test.TestArmAndDriveByGyro;
 import frc.robot.commands.Auto.Test.TestDriveByGyro;
+import frc.robot.commands.Auto.Test.TestDriveOnly;
+import frc.robot.commands.Auto.Test.TestNewCommands;
+import frc.robot.commands.Auto.Test.TestStartFromTop;
 import frc.robot.commands.Drive.DriveForwardByGyro;
 import frc.robot.commands.Drive.DriveWithGyro;
 import frc.robot.commands.Drive.TeleOpDrive;
@@ -50,9 +53,12 @@ public class RobotContainer {
 
   // add autopaths here
   public static TestArm testArm = new TestArm();
+  public static TestDriveOnly testDriveOnly = new TestDriveOnly();
   public static TestArmAndDrive testArmAndDrive = new TestArmAndDrive();
   public static TestDriveByGyro testDriveByGyro = new TestDriveByGyro();
   public static TestArmAndDriveByGyro testArmAndDriveByGyro = new TestArmAndDriveByGyro();
+  public static TestStartFromTop testStartFromTop = new TestStartFromTop();
+  public static TestNewCommands testNewCommands = new TestNewCommands();
 
   public static CenterAutoShootAndDriveToPlatform centerAutoShootAndDriveToPlatform = new CenterAutoShootAndDriveToPlatform();
   public static BetweenCommunityAndLoading2Cube betweenCommunityAndLoading2Cube = new BetweenCommunityAndLoading2Cube();
@@ -73,8 +79,7 @@ public class RobotContainer {
     configureButtonBindings();
     driveTrainSubsystem.resetEncoders();
     driveTrainSubsystem.tankDrive(0, 0);
-    armSubsystem.setArmToZeroOutput();
-
+    
     configureAutoChooser(); // adds chooser to dashboard and adds auto options
   }
   
@@ -221,17 +226,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    System.out.println("> getAutonomousCommand()");
+    System.out.println("> getAutonomous() ran");
     return m_chooser.getSelected();
 
   }
 
 
-  /** Set all subsystems outputs to zero. */
-  public static void setAllOutputsToZero() {
-    armSubsystem.setArmToZeroOutput();
-    driveTrainSubsystem.stopDriving();
-    intakeSubsystem.stopIntake();
+  public void disablePIDSubsystems() {
+    armSubsystem.disable();
   }
 
 }
