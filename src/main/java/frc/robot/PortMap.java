@@ -46,8 +46,9 @@ public final class PortMap {
 
     public class INTAKE {
 
-        public static final int MOTOR_1_PORT = 8;
-        public static final int MOTOR_2_PORT = 9;
+        public static final int MOTOR_1 = 8;
+        public static final int MOTOR_2 = 9;
+        public static final int ULTRASONIC = 0;
 
     }
 

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,13 +18,22 @@ public class IntakeSubsystem extends SubsystemBase {
   public VictorSP intakeMotor1;
   public VictorSP intakeMotor2;
 
+  private final AnalogInput ultrasonic = new AnalogInput(PortMap.INTAKE.ULTRASONIC);
+  double ultrasonicRawValue;
+  double voltageScaleFactor;
+  double voltageCurrent;
+  double currentDistanceCentimeters;
+  boolean isDetected;
+
   public IntakeSubsystem() {
 
-    intakeMotor1 = new VictorSP(PortMap.INTAKE.MOTOR_1_PORT);
-    intakeMotor2 = new VictorSP(PortMap.INTAKE.MOTOR_2_PORT); 
+    intakeMotor1 = new VictorSP(PortMap.INTAKE.MOTOR_1);
+    intakeMotor2 = new VictorSP(PortMap.INTAKE.MOTOR_2); 
 
     intakeMotor1.setInverted(true);
     intakeMotor2.setInverted(false);
+
+    isDetected = false;
 
   }
 
@@ -54,7 +65,24 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
+    ultrasonicLoop();
     logIntake();
+
+  }
+
+  public void ultrasonicLoop() {
+
+    ultrasonicRawValue = ultrasonic.getValue(); // returns 0-4095 for 0V-5V
+    voltageCurrent = RobotController.getVoltage5V(); // returns RoboRIO 5V rail voltage
+    voltageScaleFactor = 5 / voltageCurrent;
+    currentDistanceCentimeters = ultrasonicRawValue * voltageScaleFactor * 0.125; // returns distance in centimeters
+
+
+    if(currentDistanceCentimeters < 50) {
+      isDetected = true;
+    } else {
+      isDetected = false;
+    }
 
   }
 
@@ -63,6 +91,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("INTAKE/motor1 speed", intakeMotor1.get());
     SmartDashboard.putNumber("INTAKE/motor2 speed", intakeMotor2.get());
+    SmartDashboard.putNumber("INTAKE/ultrasonic (cm)", currentDistanceCentimeters);
+    SmartDashboard.putBoolean("INTAKE/ultrasonic detected", isDetected);
 
   }
 
