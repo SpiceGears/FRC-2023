@@ -167,6 +167,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     // SPEED = 0 and TURN != 0
     else if(Math.abs(speed) <= Constants.JOYSTICK.DEADBAND && Math.abs(turn) >= Constants.JOYSTICK.DEADBAND) {
 
+
       leftSpeed = MathUtil.clamp(speed + turn, -1, 1);
       rightSpeed = MathUtil.clamp(speed - turn, -1, 1);
 
@@ -181,6 +182,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
       stopDriving();
       leftPIDController.setSetpoint(0);
       rightPIDController.setSetpoint(0);
+      leftPIDController.reset();
+      rightPIDController.reset();
     }
     
 

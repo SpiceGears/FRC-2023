@@ -23,7 +23,7 @@ public final class Constants {
 
     public class DRIVETRAIN {
 
-        public static final double MAX_SPEED = 3; // m/s, used for PID setpoint in teleop
+        public static final double MAX_SPEED = 5; // m/s, used for PID setpoint in teleop
 
         public static final double SPEED_MULTIPLIER = 1.00;
         public static final double SPEED_REDUCTION = 0.6;
@@ -38,12 +38,12 @@ public final class Constants {
         public static final boolean ENCODER_RIGHT_REVERSE = true;
         public static final boolean ENCODER_LEFT_REVERSE = false;
 
-        public static final double PID_LEFT_KP = .25;
+        public static final double PID_LEFT_KP = .22;
         public static final double PID_LEFT_KI = 0;
         public static final double PID_LEFT_KD = 0;
-        public static final double PID_RIGHT_KP = .25;
-        public static final double PID_RIGHT_KI = 0;
-        public static final double PID_RIGHT_KD = 0; 
+        public static final double PID_RIGHT_KP = PID_LEFT_KP;
+        public static final double PID_RIGHT_KI = PID_LEFT_KI;
+        public static final double PID_RIGHT_KD = PID_LEFT_KD; 
 
         public class TURN_IN_PLACE {
             public static final double ACCEPTED_ERROR = 2.5; //accepted error when turning (in angles)

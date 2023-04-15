@@ -47,7 +47,7 @@ public class PidDrive extends CommandBase {
 
     // REDUCE DRIVE SPEED WHEN LEFTBUMPER PRESSED
     if(RobotContainer.driver.getLeftBumper()) {
-      driveTrainSubsystem.pidDrive(speed * speed_reduction ,
+      driveTrainSubsystem.arcadeDrive(speed * speed_reduction ,
                                       rotation * speed_reduction );
     } else {
       driveTrainSubsystem.pidDrive(speed, rotation);
