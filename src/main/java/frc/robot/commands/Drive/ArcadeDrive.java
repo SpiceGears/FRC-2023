@@ -9,12 +9,17 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class TeleOpDrive extends CommandBase {
+
+public class ArcadeDrive extends CommandBase {
   /** Creates a new ArcadeDriveCommand. */
+
+  double speed;
+  double rotation;
+  final double speed_reduction = Constants.DRIVETRAIN.SPEED_REDUCTION;
 
   private final DriveTrainSubsystem driveTrainSubsystem;
 
-  public TeleOpDrive() {
+  public ArcadeDrive() {
 
     // Use addRequirements() here to declare subsystem dependencies.
     driveTrainSubsystem = RobotContainer.driveTrainSubsystem;
@@ -35,14 +40,17 @@ public class TeleOpDrive extends CommandBase {
   @Override
   public void execute() {
 
+    speed = -RobotContainer.driver.getRawAxis(1);
+    rotation = RobotContainer.driver.getRawAxis(4);
+
     // driveTrainSubsystem.pidDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
 
     // REDUCE DRIVE SPEED WHEN LEFTBUMPER PRESSED
     if(RobotContainer.driver.getLeftBumper()) {
-      driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1) * Constants.DRIVETRAIN.SPEED_REDUCTION ,
-                                      RobotContainer.driver.getRawAxis(4) * Constants.DRIVETRAIN.SPEED_REDUCTION );
+      driveTrainSubsystem.arcadeDrive(speed * speed_reduction ,
+                                      rotation * speed_reduction );
     } else {
-      driveTrainSubsystem.arcadeDrive(-RobotContainer.driver.getRawAxis(1), RobotContainer.driver.getRawAxis(4));
+      driveTrainSubsystem.arcadeDrive(speed, rotation);
     }
 
   }

@@ -27,7 +27,8 @@ import frc.robot.commands.Auto.Test.TestNewCommands;
 import frc.robot.commands.Auto.Test.TestStartFromTop;
 import frc.robot.commands.Drive.DriveForwardByGyro;
 import frc.robot.commands.Drive.DriveWithGyro;
-import frc.robot.commands.Drive.TeleOpDrive;
+import frc.robot.commands.Drive.PidDrive;
+import frc.robot.commands.Drive.ArcadeDrive;
 import frc.robot.commands.Intake.ShootCube;
 import frc.robot.commands.Intake.TeleOpIntake;
 import frc.robot.subsystems.ArmSubsystem;
@@ -48,7 +49,7 @@ public class RobotContainer {
   public static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static OtherLogs otherLogs = new OtherLogs();
 
-  public static TeleOpDrive driveCommand = new TeleOpDrive();
+  public static ArcadeDrive driveCommand = new ArcadeDrive();
   public static TeleOpIntake rollIntakeCommand = new TeleOpIntake();
 
   // add autopaths here
@@ -115,7 +116,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    driveTrainSubsystem.setDefaultCommand(new TeleOpDrive());
+    // driveTrainSubsystem.setDefaultCommand(new ArcadeDrive());
+    driveTrainSubsystem.setDefaultCommand(new PidDrive());
     intakeSubsystem.setDefaultCommand(new TeleOpIntake());
 
 

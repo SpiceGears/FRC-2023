@@ -168,7 +168,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     else if(Math.abs(speed) <= Constants.JOYSTICK.DEADBAND && Math.abs(turn) >= Constants.JOYSTICK.DEADBAND) {
 
       leftSpeed = MathUtil.clamp(speed + turn, -1, 1);
-      rightSpeed = MathUtil.clamp(speed - turn, -.95, .95);
+      rightSpeed = MathUtil.clamp(speed - turn, -1, 1);
 
       //                                      read speed (m/s)              setpoint (1 * x m/s)
       tankDrive(leftPIDController.calculate(getLeftMetersPerSecond(), leftSpeed * Constants.DRIVETRAIN.MAX_SPEED),
