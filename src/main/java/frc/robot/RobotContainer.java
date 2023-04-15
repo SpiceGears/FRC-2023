@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Auto.BetweenCommunityAndLoading2Cube;
 import frc.robot.commands.Auto.CenterAutoShootAndDriveToPlatform;
+import frc.robot.commands.Auto.OnlyCube;
 import frc.robot.commands.Auto.RedAllianceFromGrid;
+import frc.robot.commands.Auto.new204;
 import frc.robot.commands.Auto.Test.TestArm;
 import frc.robot.commands.Auto.Test.TestArmAndDrive;
 import frc.robot.commands.Auto.Test.TestArmAndDriveByGyro;
@@ -60,6 +62,9 @@ public class RobotContainer {
 
   public static CenterAutoShootAndDriveToPlatform centerAutoShootAndDriveToPlatform = new CenterAutoShootAndDriveToPlatform();
   public static BetweenCommunityAndLoading2Cube betweenCommunityAndLoading2Cube = new BetweenCommunityAndLoading2Cube();
+  public static new204 new204 = new new204();
+  public static OnlyCube onlyCube = new OnlyCube();
+
 
   public static XboxController driver = new XboxController(PortMap.JOYSTICK.DRIVER_JOYSTICK);
   public static XboxController operator = new XboxController(PortMap.JOYSTICK.OPERATOR_JOYSTICK);
@@ -93,7 +98,8 @@ public class RobotContainer {
     // COMPETITION
     m_chooser.addOption("centerAutoShootAndDriveToPlatform", centerAutoShootAndDriveToPlatform);
     m_chooser.addOption("betweenCommunityAndLoading2Cube", betweenCommunityAndLoading2Cube);
-    
+    m_chooser.addOption("cubeAndMovement", new204);
+    m_chooser.addOption("OnlyCube", onlyCube);
 
     // m_chooser.addOption("RESETARM -> SETARM(0) -> INTAKETEST -> GO BACKWARD, ROTATETEST, GO FORWARD", testNewCommands);
 

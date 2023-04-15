@@ -26,7 +26,7 @@ public final class Constants {
         public static final double MAX_SPEED = 5; // m/s, used for PID setpoint in teleop
 
         public static final double SPEED_MULTIPLIER = 1.00;
-        public static final double SPEED_REDUCTION = 0.5;
+        public static final double SPEED_REDUCTION = 0.6;
 
         public static final double ROTATION_MULTIPLIER = .9;
 

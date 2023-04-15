@@ -106,11 +106,21 @@ public class DriveToPlatform extends CommandBase {
       
       
     } else if(state == 5) {
-      // sprawdzamy w ktora strone ma jechac w zaleznosci od roll 
-      double errorCorrection = .005;
-      boolean isRobotMoving = Math.abs(driveTrainSubsystem.leftEncoder.getRate()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.AUTO_DRIVE_SPEED_CM_PER_SEC_TRESHOLD_SETPOINT;
-      boolean is_balanced_local = Math.abs(driveTrainSubsystem.gyro.getRoll()) < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
-
+      // sprawdzamy w którą stronę ma jechać w zaleznosci od roll 
+      double errorCorrection = .01;
+      double robotSpeed = Math.abs(driveTrainSubsystem.leftEncoder.getRate());
+      double robotMovingTresholdSetpoint =  0.04;
+      double robotBalanceAngle = Math.abs(driveTrainSubsystem.gyro.getRoll());
+      
+      SmartDashboard.putNumber("AUTOBALANCE/robotBalanceAngle", robotBalanceAngle);
+      
+      if(robotBalanceAngle > 6) {
+        robotMovingTresholdSetpoint = 0.175;
+      }
+      
+      boolean isRobotMoving = robotSpeed > robotMovingTresholdSetpoint;
+      boolean is_balanced_local = robotBalanceAngle < Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
+      
       
       if( ! is_balanced_local) {
         if(isRobotMoving) {
@@ -136,7 +146,7 @@ public class DriveToPlatform extends CommandBase {
         speed = -Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.DRIVE_TO_BALANCE_MIN_SPEED - errorSum;
       } 
 
-
+      
     }
     boolean is_balanced = Math.abs(driveTrainSubsystem.gyro.getRoll()) > Constants.DRIVETRAIN.DRIVE_TO_PLATFORM.ACCEPTED_ERROR_FOR_LEVEL_IN_DEGREE;
     
@@ -147,6 +157,8 @@ public class DriveToPlatform extends CommandBase {
     SmartDashboard.putNumber("AUTOBALANCE/turnError", turnError);
     SmartDashboard.putNumber("AUTOBALANCE/rollAngle", rollAngle);
     SmartDashboard.putNumber("AUTOBALANCE/maxRollAngle", maxRollAngle);
+    SmartDashboard.putNumber("AUTOBALANCE/errorSum", errorSum);
+    System.out.println(errorSum);
 
     // if(speed == 0){
     //   driveTrainSubsystem.pidDrive(0, 0);
