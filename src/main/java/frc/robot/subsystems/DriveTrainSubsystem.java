@@ -366,7 +366,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     for (int i = 0; i <= 15; i++) {
       SmartDashboard.putNumber("PDP/PORTCURRENT/" + i, pdp.getCurrent(i));
     }
-    
+    double armCurrentUsage = pdp.getCurrent(0) + pdp.getCurrent(1) + pdp.getCurrent(4) + pdp.getCurrent(5);
+    SmartDashboard.putNumber("PDP/ArmCurrent", armCurrentUsage);
   }
   
   

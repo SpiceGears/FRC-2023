@@ -83,8 +83,8 @@ public final class Constants {
     public class ARM {
 
         public static final double KP = 8;
-        public static final double kD = 0;
-        public static final double kI = 0.6;
+        public static final double kD = 2;
+        public static final double kI = 0;
 
 
         public static final double REDUCTION_CHAIN = 2.3125; // 32t -> 74t = 2.3125:1

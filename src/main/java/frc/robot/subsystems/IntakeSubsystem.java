@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
@@ -22,6 +24,8 @@ public class IntakeSubsystem extends SubsystemBase {
   //TODO change this to top/bottom names
   public VictorSP intakeMotor1;
   public VictorSP intakeMotor2;
+  public DigitalInput touchSensor1;
+  public DigitalInput touchSensor2;
 
   private final AnalogInput ultrasonic = new AnalogInput(PortMap.INTAKE.ULTRASONIC);
   double ultrasonicRawValue;
@@ -31,7 +35,6 @@ public class IntakeSubsystem extends SubsystemBase {
   boolean isDetected;
   boolean lastIsDetected;
   double rumbleStartTime;
-  double currentTime;
 
   public IntakeSubsystem() {
 
@@ -42,6 +45,9 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor2.setInverted(false);
 
     isDetected = false;
+
+    touchSensor1 = new DigitalInput(8);
+    touchSensor2 = new DigitalInput(9);
 
   }
 
@@ -72,9 +78,11 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
 
     ultrasonicLoop();
     logIntake();
+
 
   }
 
@@ -88,7 +96,7 @@ public class IntakeSubsystem extends SubsystemBase {
     lastIsDetected = isDetected; // set to last loop's value
 
     // if current distance < range => isDetected = true
-    if(currentDistanceCentimeters < 50) {
+    if(currentDistanceCentimeters < 35) {
       isDetected = true;
     } else {
       isDetected = false;
@@ -100,7 +108,13 @@ public class IntakeSubsystem extends SubsystemBase {
       rumbleGamepad();
     }
 
-    rumbleGamepadPeriodic(RobotContainer.driver, 0.5);
+    // if touch sensors in intake are on
+    // schedule rumbleGamepad()
+    if(touchSensor1.get() == false || touchSensor2.get() == false) {
+      rumbleGamepad();
+    }
+
+    rumbleGamepadPeriodic(RobotContainer.driver, 0.3);
 
   }
 
@@ -111,12 +125,22 @@ public class IntakeSubsystem extends SubsystemBase {
   // rumble gamepad if rumbleGamepad() ran in last rumbleDuration seconds
   public void rumbleGamepadPeriodic(XboxController gamepad, double rumbleDuration) {
     
-    double rumbleStrength = 0.5;
-    currentTime = Timer.getFPGATimestamp();
+    double rumbleStrength = 0.8;
+    double currentTime = Timer.getFPGATimestamp();
+    double timeDifference = currentTime - rumbleStartTime;
+    
 
-    if (currentTime - rumbleStartTime < rumbleDuration) {
+    if (timeDifference < rumbleDuration) {
       RobotContainer.driver.setRumble(RumbleType.kBothRumble, rumbleStrength );
+    } else {
+      RobotContainer.driver.setRumble(RumbleType.kBothRumble, 0);
     }
+
+    SmartDashboard.putNumber("INTAKE/time current", currentTime);
+    SmartDashboard.putNumber("INTAKE/time init", rumbleStartTime);
+    SmartDashboard.putNumber("INTAKE/time difference", timeDifference);
+    SmartDashboard.putBoolean("INTAKE/1", touchSensor1.get());
+    SmartDashboard.putBoolean("INTAKE/2", touchSensor2.get());
 
   }
 
