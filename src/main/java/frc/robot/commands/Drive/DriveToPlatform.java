@@ -115,7 +115,7 @@ public class DriveToPlatform extends CommandBase {
       SmartDashboard.putNumber("AUTOBALANCE/robotBalanceAngle", robotBalanceAngle);
       
       if(robotBalanceAngle > 6) {
-        robotMovingTresholdSetpoint = 0.175;
+        robotMovingTresholdSetpoint = 0.13;
       }
       
       boolean isRobotMoving = robotSpeed > robotMovingTresholdSetpoint;
