@@ -41,8 +41,10 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor1 = new VictorSP(PortMap.INTAKE.MOTOR_1);
     intakeMotor2 = new VictorSP(PortMap.INTAKE.MOTOR_2); 
 
-    intakeMotor1.setInverted(true);
-    intakeMotor2.setInverted(false);
+
+    // na poczatku bylo true false
+    intakeMotor1.setInverted(false);
+    intakeMotor2.setInverted(true);
 
     isDetected = false;
 

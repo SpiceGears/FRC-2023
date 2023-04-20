@@ -117,7 +117,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // driveTrainSubsystem.setDefaultCommand(new ArcadeDrive());
-    driveTrainSubsystem.setDefaultCommand(new PidDrive());
+    driveTrainSubsystem.setDefaultCommand(new ArcadeDrive());
     intakeSubsystem.setDefaultCommand(new TeleOpIntake());
 
 
